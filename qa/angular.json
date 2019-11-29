@@ -21,8 +21,15 @@
               "apps/regression-poc/src/favicon.ico",
               "apps/regression-poc/src/assets"
             ],
-            "styles": ["apps/regression-poc/src/styles.css"],
-            "scripts": []
+            "styles": [
+              "node_modules/@clr/icons/clr-icons.min.css",
+              "node_modules/@clr/ui/clr-ui.min.css",
+              "apps/regression-poc/src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/@webcomponents/custom-elements/custom-elements.min.js",
+              "node_modules/@clr/icons/clr-icons.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -81,7 +88,10 @@
               "apps/regression-poc/tsconfig.app.json",
               "apps/regression-poc/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/regression-poc/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/regression-poc/**"
+            ]
           }
         },
         "test": {
@@ -115,8 +125,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/regression-poc-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/regression-poc-e2e/**"]
+            "tsConfig": [
+              "apps/regression-poc-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/regression-poc-e2e/**"
+            ]
           }
         }
       }
@@ -134,7 +149,9 @@
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets"]
+            "assets": [
+              "apps/api/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -163,7 +180,10 @@
               "apps/api/tsconfig.app.json",
               "apps/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/api/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/api/**"
+            ]
           }
         },
         "test": {
@@ -188,7 +208,10 @@
               "libs/api-interfaces/tsconfig.lib.json",
               "libs/api-interfaces/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/api-interfaces/**"
+            ]
           }
         },
         "test": {
