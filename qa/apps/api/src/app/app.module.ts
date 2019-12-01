@@ -3,6 +3,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule} from '@nestjs/typeorm';
+import { RegressionModule } from '../regression/regression.module';
+import { Regression } from '@qa/api-interfaces';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -12,9 +14,9 @@ import { TypeOrmModule} from '@nestjs/typeorm';
     username: 'admin',
     password: 'admin1',
     database: 'regression',
-    entities: [],
+    entities: [Regression],
     synchronize: true,
-  })],
+  }), RegressionModule],
   controllers: [AppController],
   providers: [AppService]
 })
