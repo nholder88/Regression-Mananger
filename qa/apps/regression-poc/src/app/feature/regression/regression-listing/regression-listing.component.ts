@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {RegressionService} from "../regression.service";
 
 @Component({
   selector: 'qa-regression-listing',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegressionListingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: RegressionService) { }
 
   ngOnInit() {
   }
+
+  regression$= this.service.regressions$()
 
 }
