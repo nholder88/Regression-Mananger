@@ -10,8 +10,9 @@
         </a>
     </div>
     <div class="header-nav">
-      <a href="..." class="active nav-link"><span class="nav-text">Dashboard</span></a>
-      <a href="..." class="nav-link"><span class="nav-text">Regressions</span></a>
+      <a href="..." class="nav-link"><span class="nav-text">Dashboard</span></a>
+      <a [routerLink]="['/regression']" routerLinkActive="active" class="nav-link"><span class="nav-text">Regressions</span></a>
+
       <a href="..." class="nav-link"><span class="nav-text">Administration</span></a>
   </div>
     <div class="header-actions">
@@ -24,10 +25,10 @@
 <nav class="subnav">
   <ul class="nav">
       <li class="nav-item">
-          <a class="nav-link active" href="#">Dashboard</a>
+          <a class="nav-link " href="#">Dashboard</a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="#">Regressions</a>
+          <a class="nav-link" [routerLink]="['/regression']" routerLinkActive="active">Regressions</a>
       </li>
       <li class="nav-item">
           <a class="nav-link" href="#">Results</a>
