@@ -8,9 +8,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { RegressionModule } from './feature/regression/regression.module';
 import { WelcomeComponent } from './home/welcome/welcome.component';
+import {PageNotFoundComponent} from "./page-not-found.component";
 
 @NgModule({
-  declarations: [AppComponent, WelcomeComponent],
+  declarations: [AppComponent, WelcomeComponent, PageNotFoundComponent],
   imports: [BrowserModule, HttpClientModule, ClarityModule, BrowserAnimationsModule, AppRoutingModule, RegressionModule],
   providers: [],
   bootstrap: [AppComponent]
