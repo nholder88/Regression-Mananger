@@ -9,10 +9,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { RegressionModule } from './feature/regression/regression.module';
 import { WelcomeComponent } from './home/welcome/welcome.component';
 import {PageNotFoundComponent} from "./page-not-found.component";
+import {AdminModule} from "./feature/admin/admin.module";
 
 @NgModule({
   declarations: [AppComponent, WelcomeComponent, PageNotFoundComponent],
-  imports: [BrowserModule, HttpClientModule, ClarityModule, BrowserAnimationsModule, AppRoutingModule, RegressionModule],
+  imports: [BrowserModule, HttpClientModule, ClarityModule, BrowserAnimationsModule, AppRoutingModule, RegressionModule, AdminModule],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RegressionListingComponent } from './regression-listing/regression-listing.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RegressionListingComponent} from './regression-listing/regression-listing.component';
 import {RouterModule} from "@angular/router";
 import {ClarityModule} from "@clr/angular";
-
 
 
 @NgModule({
@@ -13,6 +12,7 @@ import {ClarityModule} from "@clr/angular";
       path: '', component: RegressionListingComponent
     }]), ClarityModule
   ],
-  exports:[RegressionListingComponent]
+  exports: [RegressionListingComponent]
 })
-export class RegressionModule { }
+export class RegressionModule {
+}
