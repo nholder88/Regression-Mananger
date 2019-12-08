@@ -1,56 +1,55 @@
 <div class="clr-row">
-  <div class="clr-col-lg-5 clr-col-md-8 clr-col-12">
+  <div class="clr-col-12">
     <div class="card">
-      <div class="card-header"> Header </div>
+      <div class="card-header"> Users </div>
       <div class="card-block">
-        <div class="card-title"> Block </div>
-        <div class="card-text">
+        <div class="card-title">
           <div class="clr-row">
-            <div class="clr-col-md-9">
-              <table class="table table-compact">
-                <thead>
-                  <tr>
-                    <th class="left">Monster</th>
-                    <th>Home</th>
-                    <th>Likes Cookies</th>
-                    <th class="left">Fun to Play With</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="left">Wolfman</td>
-                    <td>Nondisclosed countryside</td>
-                    <td>Sometimes</td>
-                    <td class="left">Not really</td>
-                  </tr>
-                  <tr>
-                    <td class="left">Mothra</td>
-                    <td>Tropical island</td>
-                    <td>No</td>
-                    <td class="left">Only if you have a flashlight</td>
-                  </tr>
-                  <tr>
-                    <td class="left">Oscar the Grouch</td>
-                    <td>Sesame Street</td>
-                    <td>No</td>
-                    <td class="left">No</td>
-                  </tr>
-                  <tr>
-                    <td class="left">Cookie Monster</td>
-                    <td>Sesame Street</td>
-                    <td>Definitely yes</td>
-                    <td class="left">Only if you have no cookies</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="clr-col">Listing</div>
+            <div class="clr-col"><button class="btn btn-primary btn-sm">Add</button></div>
+          </div>
+          <div class="card-text">
+            <div class="clr-row">
+              <div class="clr-col-md-9">
+                <table class="table table-compact">
+                  <thead>
+                    <tr>
+                      <th class="left">User</th>
+                      <th>Roles</th>
+                      <th>Last Login</th>
+                      <th>Teams</th>
+                      <th class="left"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of users$|async">
+                      <td class="left">{{user.name}}</td>
+                      <td>{{user.roles}}</td>
+                      <td>{{user.lastLogin | date}}</td>
+                      <td>{{user.team}}</td>
+                      <td class="left">
+                        <div class="btn-group btn-icon btn-outline btn-sm">
+                          <button class="btn">
+                            <clr-icon
+                              shape="pencil"
+                              title="edit"
+                            ></clr-icon>
+                          </button>
+                          <button class="btn btn-danger">
+                            <clr-icon
+                              shape="trash"
+                              title="trash"
+                            ></clr-icon>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="card-footer">
-        <button class="btn btn-sm btn-link">Footer Action 1</button>
-        <button class="btn btn-sm btn-link">Footer Action 2</button>
-      </div>
     </div>
   </div>
-</div>

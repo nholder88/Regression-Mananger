@@ -1,7 +1,5 @@
 import { Entity, Column, ObjectIdColumn } from 'typeorm';
 
-
-
 @Entity()
 export class Issue {
   @ObjectIdColumn()
@@ -28,7 +26,10 @@ export class User {
   team: string;
   @Column()
   name: string;
-
+  @Column()
+  roles: string[];
+  @Column()
+  lastLogin: Date;
 }
 @Entity()
 export class Test {
@@ -97,4 +98,3 @@ export class Regression {
   @Column()
   isComplete: boolean;
 }
-
