@@ -1,3 +1,7 @@
+<span class="spinner" *ngIf="!(vm$| async)">
+    Loading...
+</span>
+
 <div class="card" *ngIf="vm$| async as vm">
   <div class="card-header">
     History

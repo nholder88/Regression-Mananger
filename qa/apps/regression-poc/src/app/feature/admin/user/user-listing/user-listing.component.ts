@@ -1,6 +1,7 @@
-import { User } from './../../../../../../../../libs/api-interfaces/src/lib/regression/Regression.entity';
+import { User } from '@qa/api-interfaces';
 import { Observable, of } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'qa-user-listing',
@@ -8,10 +9,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-listing.component.css']
 })
 export class UserListingComponent implements OnInit {
-  constructor() {}
+  constructor(private userService:UserService) {}
 
-  users$: Observable<any> = of([
-    { name: 'Duke', roles: ['admin', 'qa'], lastLogin: new Date(), team: 'All' }
-  ]);
+  users$: Observable<User[]> = this.userService.users$;
   ngOnInit() {}
 }
