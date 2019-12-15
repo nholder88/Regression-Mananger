@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RegressionService } from './regression.service';
 import {Repository} from "typeorm";
-import {Regression} from "@qa/api-interfaces";
+import {RegressionEntity} from "@qa/api-interfaces";
 
 describe('RegressionService', () => {
   let service: RegressionService;
@@ -11,7 +11,7 @@ describe('RegressionService', () => {
       providers: [RegressionService ],
     }).compile();
 
-    const repo= new Repository<Regression>();
+    const repo= new Repository<RegressionEntity>();
     service = new RegressionService(repo)
   });
 

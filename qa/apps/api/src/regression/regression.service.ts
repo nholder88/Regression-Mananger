@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {Regression} from '@qa/api-interfaces';
+import {RegressionEntity} from '@qa/api-interfaces';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {from, Observable, of} from 'rxjs';
@@ -7,21 +7,21 @@ import {from, Observable, of} from 'rxjs';
 @Injectable()
 export class RegressionService {
   constructor(
-    @InjectRepository(Regression)
-    private readonly regressionRepository: Repository<Regression>,
+    @InjectRepository(RegressionEntity)
+    private readonly regressionRepository: Repository<RegressionEntity>,
   ) {
   }
 
-  findAll(): Observable<Regression[]> {
+  findAll(): Observable<RegressionEntity[]> {
     return from(this.regressionRepository.find());
 
   }
 
-  getOneById(id): Observable<Regression> {
+  getOneById(id): Observable<RegressionEntity> {
     return from(this.regressionRepository.findOne(id))
   }
 
-  save(regression: Regression):Observable<Regression> {
+  save(regression: RegressionEntity):Observable<RegressionEntity> {
       return from(this.regressionRepository.save(regression));
      }
 

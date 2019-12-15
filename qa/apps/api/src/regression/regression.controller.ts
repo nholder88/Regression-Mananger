@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {Observable} from "rxjs";
-import {Regression} from "@qa/api-interfaces";
+import {RegressionEntity} from "@qa/api-interfaces";
 import {RegressionService} from "./regression.service";
 
 @Controller('regression')
@@ -9,15 +9,15 @@ export class RegressionController {
   }
 
   @Get()
-  findAll():Observable<Regression[]>{
+  findAll():Observable<RegressionEntity[]>{
     return this.regressionService.findAll();
   }
   @Get(':id')
-  find(@Param() params):Observable<Regression>{
+  find(@Param() params):Observable<RegressionEntity>{
     return this.regressionService.getOneById(params.id);
   }
   @Post()
-  save(@Body() saveInput:Regression):Observable<Regression>{
+  save(@Body() saveInput:RegressionEntity):Observable<RegressionEntity>{
     return this.regressionService.save(saveInput);
   }
 }
