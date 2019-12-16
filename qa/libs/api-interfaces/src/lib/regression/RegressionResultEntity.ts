@@ -1,12 +1,12 @@
 ﻿import {Column, Entity, ObjectIdColumn} from "typeorm";
 import {User, UserEntity} from "./User";
-import {TestEntity} from "./TestEntity";
+import {Test, TestEntity} from "./TestEntity";
 
 export interface RegressionResult {
   id: number;
   tester: User;
   isComplete: boolean;
-  tests: TestEntity[];
+  tests: Test[];
 }
 
 @Entity()
@@ -17,5 +17,5 @@ export class RegressionResultEntity implements RegressionResult {
 
     @Column() isComplete: boolean;
 
-    @Column(type => TestEnt) tests: TestEntity[];
+    @Column(type => TestEntity) tests: TestEntity[];
 }

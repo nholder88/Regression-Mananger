@@ -1,5 +1,5 @@
 
-    <div class="card">
+    <div class="card" *ngIf="vm$| async as vm">
       <div class="card-header">
         User
       </div>
@@ -19,14 +19,14 @@
               <label>Team</label>
               <select clrInput type="text" formControlName="team" >
                 <option value="-1">No Squad</option>
-              <option *ngFor="let team of teamOptions$|async" value="team.id">{{team.name}}</option>
+              <option *ngFor="let team of vm.teams" value="team.id">{{team.name}}</option>
               </select>
               <clr-control-helper>Please select a team </clr-control-helper>
               <clr-control-error>A team must be selected, you have to know where people belong.</clr-control-error>
             </clr-input-container>
             <clr-checkbox-container clrInline>
               <label>Roles</label>
-              <clr-checkbox-wrapper *ngFor="let role of roleOptions$|async">
+              <clr-checkbox-wrapper *ngFor="let role of vm.roles">
                 <input type="checkbox" clrCheckbox formControlName="roles" required value="role.id"  />
                 <label>{{role.name}}</label>
               </clr-checkbox-wrapper>
