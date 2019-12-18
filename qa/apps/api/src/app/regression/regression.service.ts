@@ -1,8 +1,9 @@
 import {Injectable} from '@nestjs/common';
-import {RegressionEntity} from '@qa/api-interfaces';
+
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {from, Observable, of} from 'rxjs';
+import {RegressionEntity} from "../Models/orm-entities";
 
 @Injectable()
 export class RegressionService {

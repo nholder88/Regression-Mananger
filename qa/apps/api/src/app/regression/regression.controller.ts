@@ -1,7 +1,8 @@
 import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {Observable} from "rxjs";
-import {RegressionEntity} from "@qa/api-interfaces";
+
 import {RegressionService} from "./regression.service";
+import {RegressionEntity} from "../Models/orm-entities";
 
 @Controller('regression')
 export class RegressionController {

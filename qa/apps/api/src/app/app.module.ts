@@ -3,8 +3,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule} from '@nestjs/typeorm';
-import { RegressionModule } from '../regression/regression.module';
-import { RegressionEntity } from '@qa/api-interfaces';
+import {RegressionEntity} from "./Models/orm-entities";
+import {RegressionModule} from "./regression/regression.module";
+
 
 @Module({
   imports: [TypeOrmModule.forRoot({
