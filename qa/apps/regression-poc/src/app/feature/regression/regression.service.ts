@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
-import {RegressionEntity} from "@qa/api-interfaces";
+import {Regression} from "@qa/api-interfaces";
 import {throwError} from 'rxjs';
 import {catchError, tap} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
@@ -15,7 +15,7 @@ export class RegressionService {
 
   private regressionURL = 'api/regression';
 
-  regressions$= this.http.get<RegressionEntity[]>(this.regressionURL)
+  regressions$= this.http.get<Regression[]>(this.regressionURL)
       .pipe(
       tap(data => console.log("regresssion service", JSON.stringify(data))),
       catchError(this.handleError));
