@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule} from '@nestjs/typeorm';
-import {RegressionEntity} from "./Models/orm-entities";
+import {RegressionEntity, UserEntity} from "./Models/orm-entities";
 import {RegressionModule} from "./regression/regression.module";
 
 
@@ -15,7 +15,7 @@ import {RegressionModule} from "./regression/regression.module";
     username: 'admin',
     password: 'admin1',
     database: 'regression',
-    entities: [RegressionEntity],
+    entities: [RegressionEntity,UserEntity],
     synchronize: true,
   }), RegressionModule],
   controllers: [AppController],
