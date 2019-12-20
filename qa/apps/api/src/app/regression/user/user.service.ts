@@ -1,30 +1,16 @@
 ﻿﻿import {Injectable} from '@nestjs/common';
-
 import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
-import {from, Observable} from 'rxjs';
-import { UserEntity } from '../../Models/orm-entities';
+import {UserEntity} from '../../Models/orm-entities';
+import {TypeOrmCrudService} from '@nestjsx/crud-typeorm';
 
 
 @Injectable()
-export class UserService {
+export class UserService extends TypeOrmCrudService<UserEntity> {
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly repository: Repository<UserEntity>,
+    @InjectRepository(UserEntity)   repository
   ) {
+    super(repository);
   }
 
-  findAll(): Observable<UserEntity[]> {
-    return from(this.repository.find());
-
-  }
-
-  getOneById(id): Observable<UserEntity> {
-    return from(this.repository.findOne(id))
-  }
-
-  save(regression: UserEntity): Observable<UserEntity> {
-    return from(this.repository.save(regression));
-  }
 }
 

@@ -1,24 +1,19 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
-import {Observable} from "rxjs";
-
+import { Controller, } from '@nestjs/common';
 import {RegressionService} from "./regression.service";
 import {RegressionEntity} from "../Models/orm-entities";
+import { Crud } from '@nestjsx/crud';
+import { ApiTags } from '@nestjs/swagger';
 
+@Crud({
+  model:{
+    type: RegressionEntity
+  }
+})
+@ApiTags('regression')
 @Controller('regression')
 export class RegressionController {
-  constructor(private regressionService:RegressionService) {
+  constructor(public service:RegressionService) {
   }
 
-  @Get()
-  findAll():Observable<RegressionEntity[]>{
-    return this.regressionService.findAll();
-  }
-  @Get(':id')
-  find(@Param() params):Observable<RegressionEntity>{
-    return this.regressionService.getOneById(params.id);
-  }
-  @Post()
-  save(@Body() saveInput:RegressionEntity):Observable<RegressionEntity>{
-    return this.regressionService.save(saveInput);
-  }
+
 }
