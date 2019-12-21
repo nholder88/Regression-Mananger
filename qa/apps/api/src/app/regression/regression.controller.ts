@@ -1,8 +1,9 @@
 import { Controller, } from '@nestjs/common';
 import {RegressionService} from "./regression.service";
-import {RegressionEntity} from "../Models/orm-entities";
 import { Crud } from '@nestjsx/crud';
 import { ApiTags } from '@nestjs/swagger';
+import {RegressionEntity} from "../Models/orm-entities";
+
 
 @Crud({
   model:{

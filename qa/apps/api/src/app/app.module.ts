@@ -3,19 +3,26 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule} from '@nestjs/typeorm';
-import {RegressionEntity, UserEntity} from "./Models/orm-entities";
 import {RegressionModule} from "./regression/regression.module";
+import {
+  IssueEntity,
+  RegressionEntity, RegressionResultEntity,
+  RolesEntity,
+  TestCaseEntity,
+  TestEntity,
+  UserEntity
+} from "./Models/orm-entities";
 
 
 @Module({
   imports: [TypeOrmModule.forRoot({
-    type: 'mongodb',
-    host: 'ds139037.mlab.com',
-    port: 39037,
-    username: 'admin',
-    password: 'admin1',
-    database: 'regression',
-    entities: [RegressionEntity,UserEntity],
+    type: 'mysql',
+    host: 'localhost',
+    port: 3306,
+    username: 'root',
+    password: 'root',
+    database: 'test',
+    entities: [RegressionEntity,UserEntity,RolesEntity,TestEntity,IssueEntity,TestCaseEntity,RegressionResultEntity],
     synchronize: true,
   }), RegressionModule],
   controllers: [AppController],

@@ -1,4 +1,4 @@
-import {Status} from "./regression/Status";
+
 
 
 export interface Message {
@@ -17,7 +17,7 @@ export interface Regression {
   actualEndDate: Date;
   plannedStartDate: Date;
   plannedEndDate: Date;
-  results: RegressionResult[];
+ results: RegressionResult[];
   isComplete: boolean;
 }
 
@@ -26,6 +26,7 @@ export interface RegressionResult {
   tester: User;
   isComplete: boolean;
   tests: Test[];
+
 }
 export interface Test {
   id: number;
@@ -40,7 +41,7 @@ export interface Test {
 
 export interface TestCase {
   id: number;
-  caseStatus: Status;
+  caseStatus: string;
   caseOrder: number;
   description: string;
 }
@@ -48,6 +49,13 @@ export interface User {
   id: number;
   team: string;
   name: string;
-  roles: string[];
+  roles: Roles[];
   lastLogin: Date;
+}
+
+export interface Roles{
+
+  id:number;
+  name:string;
+  users: User[];
 }
