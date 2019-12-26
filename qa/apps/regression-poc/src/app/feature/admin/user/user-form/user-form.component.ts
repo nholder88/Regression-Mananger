@@ -45,20 +45,20 @@ export class UserFormComponent implements OnInit {
   selectedRoles = new Array<Roles>();
 
   onRoleSelected(role) {
-    console.log(role);
+  
     var index = this.selectedRoles.findIndex(x => x.id == role.id);
     if (index === -1) {
-      console.log("pushing", index)
+
       this.selectedRoles.push(role)
     } else {
-      console.log("removeing", index)
+
       this.selectedRoles.splice(index, 1)
     }
     console.log(this.selectedRoles)
   }
 
   onSubmit(user?) {
-    console.log("Forms current value", sthis.userForm.value);
+    console.log("Forms current value", this.userForm.value);
     this.userService.saveUser({
       id: null, lastLogin: undefined,
       name: this.userForm.get("name").value,
@@ -66,5 +66,6 @@ export class UserFormComponent implements OnInit {
       team: this.userForm.get("team").value
     });
     this.selectedRoles = [];
+    this.userForm.reset()
   }
 }
