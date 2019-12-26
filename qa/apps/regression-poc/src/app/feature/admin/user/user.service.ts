@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, merge, Observable, of, Subject} from 'rxjs';
 
-import {catchError, shareReplay, tap} from "rxjs/operators";
+import {catchError, scan, shareReplay, tap} from "rxjs/operators";
 import {Regression, User} from "@qa/api-interfaces";
 import {HttpClient} from "@angular/common/http";
 import {ErrorHandlingService} from "../../../../Shared/error-handling.service";
@@ -39,11 +39,32 @@ export class UserService {
     tap(data => console.log("User Service", JSON.stringify(data))),
     catchError(this.errorHandler.handleError)
   );
-  saveUserAction: Action<User>;
+  saveUserSubject= new  Subject<User>();
+  userSavedAction$= this.saveUserSubject.asObservable();
 
-  saveUser(user: User) {
+  saveUser(user?: User) {
+    if(user===null || user === undefined){
+      user={id: 0, lastLogin: new Date(), name: "Genned", roles: [], team: ""} ;
+    }
+
+    if(user.id){
+      this.http.put(this.rootUrl,user).pipe(
+        tap(next=> console.log(user))
+      )
+    }
+    else{
     this.http.post(this.rootUrl, user).pipe(
       tap(user => console.log(user))
-    )
+    )}
+    this.saveUserSubject.next(user)
   }
+
+  usersWithAdd$= merge(
+    this.users$,
+    this.userSavedAction$
+  ).pipe(
+    tap(data=> console.log(data)),
+    scan((acc:User[], value:User)=> [...acc,value]),
+    catchError(err => this.errorHandler.handleError(err))
+  )
 }

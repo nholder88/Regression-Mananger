@@ -45,7 +45,7 @@
     "@nestjs/platform-express": "^6.8.3",
     "@nestjs/swagger": "^4.0.9",
     "@nestjs/typeorm": "^6.2.0",
-    "@nestjsx/crud": "next",
+    "@nestjsx/crud": "^4.3.0",
     "@nestjsx/crud-typeorm": "^4.2.0",
     "@nrwl/angular": "8.8.3",
     "@webcomponents/custom-elements": "^1.0.0",

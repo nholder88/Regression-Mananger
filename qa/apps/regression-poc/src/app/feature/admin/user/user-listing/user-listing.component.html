@@ -25,7 +25,7 @@
                   <tbody>
                     <tr *ngFor="let user of users$|async">
                       <td class="left">{{user.name}}</td>
-                      <td>{{user.roles}}</td>
+                      <td> <div *ngFor="let role of user.roles">{{role.name}}</div></td>
                       <td>{{user.lastLogin | date}}</td>
                       <td>{{user.team}}</td>
                       <td class="left">

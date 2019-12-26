@@ -11,6 +11,6 @@ import {UserService} from "../user.service";
 export class UserListingComponent implements OnInit {
   constructor(private userService:UserService) {}
 
-  users$: Observable<User[]> = this.userService.users$;
+  users$: Observable<User[]> = this.userService.usersWithAdd$;
   ngOnInit() {}
 }

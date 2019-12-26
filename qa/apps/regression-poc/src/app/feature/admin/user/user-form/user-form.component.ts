@@ -1,8 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {UserService} from "../user.service";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, Validators} from "@angular/forms";
 import {map, tap} from "rxjs/operators";
 import {combineLatest} from "rxjs";
+import {Roles} from "@qa/api-interfaces";
 
 @Component({
   selector: 'qa-user-form',
@@ -12,28 +13,58 @@ import {combineLatest} from "rxjs";
 })
 export class UserFormComponent implements OnInit {
 
-  constructor(private userService: UserService, private formBuilder:FormBuilder) { }
-  userForm= this.formBuilder.group(
+  constructor(private userService: UserService, private formBuilder: FormBuilder) {
+  }
+
+  userForm = this.formBuilder.group(
     {
-      name:["",Validators.required],
-      team:[-1,Validators.required],
-      roles:[""],
-      password:["",Validators.required],
+      name: ["", Validators.required],
+      team: [-1, Validators.required],
+      roles: [false],
+      password: ["", Validators.required],
 
     }
   );
-  user$= this.userService.selectedUser$.pipe(
-    tap( x=> {console.log(x);}
+  user$ = this.userService.selectedUser$.pipe(
+    tap(x => {
+        console.log(x);
+      }
+    ));
+  teamOptions$ = this.userService.teams$;
+  roleOptions$ = this.userService.userRoles$;
 
-  ));
-  teamOptions$=this.userService.teams$;
-  roleOptions$= this.userService.userRoles$ ;
+  vm$ = combineLatest([this.user$, this.teamOptions$, this.roleOptions$]).pipe(
+    map(([user, teams, roles]) => ({user, teams, roles}))
+  );
 
-vm$= combineLatest([this.user$, this.teamOptions$, this.roleOptions$]).pipe(
-map(([user, teams,roles])=> ({user,teams,roles}))
-);
 
   ngOnInit() {
+
   }
 
+  selectedRoles = new Array<Roles>();
+
+  onRoleSelected(role) {
+    console.log(role);
+    var index = this.selectedRoles.findIndex(x => x.id == role.id);
+    if (index === -1) {
+      console.log("pushing", index)
+      this.selectedRoles.push(role)
+    } else {
+      console.log("removeing", index)
+      this.selectedRoles.splice(index, 1)
+    }
+    console.log(this.selectedRoles)
+  }
+
+  onSubmit(user?) {
+    console.log("Forms current value", sthis.userForm.value);
+    this.userService.saveUser({
+      id: null, lastLogin: undefined,
+      name: this.userForm.get("name").value,
+      roles: [...this.selectedRoles],
+      team: this.userForm.get("team").value
+    });
+    this.selectedRoles = [];
+  }
 }
