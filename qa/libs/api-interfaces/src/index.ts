@@ -1,3 +1,3 @@
 export * from './lib/api-interfaces';
-export * from './lib/regression/Regression.entity';
+export * from './lib/regression/Status';
 

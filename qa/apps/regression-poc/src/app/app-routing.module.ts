@@ -6,13 +6,17 @@ import {WelcomeComponent} from "./home/welcome/welcome.component";
 import {PageNotFoundComponent} from "./page-not-found.component";
 
 const routes: Routes = [
-  {path: 'Welcome', component: WelcomeComponent},
+  {path: 'welcome', component: WelcomeComponent},
   {
     path: "regression",
     loadChildren: () =>
       import('./feature/regression/regression.module').then(m => m.RegressionModule)
   },
-  {path: '', redirectTo: "welcome", pathMatch: "full"},
+  {
+    path: "admin",
+    loadChildren: () => import ('./feature/admin/admin.module').then(a => a.AdminModule)
+  },
+  {path: '', redirectTo: "welcome", pathMatch: "full",},
   {path: '**', component: PageNotFoundComponent}
 ];
 
