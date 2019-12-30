@@ -3,14 +3,16 @@ import {CommonModule} from '@angular/common';
 import {RegressionListingComponent} from './regression-listing/regression-listing.component';
 import {RouterModule} from "@angular/router";
 import {ClarityModule} from "@clr/angular";
-
+import { RegressionCreateComponent } from './regression-create/regression-create.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
-  declarations: [RegressionListingComponent],
+  declarations: [RegressionListingComponent, RegressionCreateComponent],
   imports: [
-    CommonModule, RouterModule.forChild([{
-      path: '', component: RegressionListingComponent
-    }]), ClarityModule
+    CommonModule, ReactiveFormsModule,RouterModule.forChild([{
+      path: 'history', component: RegressionListingComponent
+    },
+      {path:'plan', component: RegressionCreateComponent}]), ClarityModule
   ],
   exports: [RegressionListingComponent]
 })

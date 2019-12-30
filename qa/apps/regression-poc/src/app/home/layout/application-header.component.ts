@@ -27,7 +27,7 @@ import {AppLink} from "../../appLink";
               <li class="nav-item" *ngFor="let subArea of routes">
                   <a    [routerLink]="subArea.link" routerLinkActive="active" class="nav-link" ><span class="nav-text">{{subArea.title}}</span></a>
               </li>
-        
+
           </ul>
       </nav>
   `,
@@ -57,7 +57,7 @@ export class ApplicationHeaderComponent implements OnInit {
         subRoutes: [
           {
             title: "Create New Regression Plan",
-            link: "regression-plan",
+            link: "regression/plan",
             summary: "",
             rolesAllowed: ["admin", "tester", "qa"],
             subRoutes: null
@@ -77,7 +77,7 @@ export class ApplicationHeaderComponent implements OnInit {
             subRoutes: null
           },{
           title: "History",
-          link: "regression",
+          link: "regression/history",
           summary: "",
           rolesAllowed: ["admin", "tester", "qa"],
           subRoutes: null

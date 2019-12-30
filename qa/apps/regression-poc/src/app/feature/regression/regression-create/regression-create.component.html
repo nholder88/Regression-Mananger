@@ -1,0 +1,29 @@
+
+<div class="clr-row">
+  <div class="clr-col-lg-5 clr-col-md-8 clr-col-12">
+    <div class="card">
+      <div class="card-header">
+        Start New Regression Cycle
+      </div>
+      <div class="card-block">
+        <div class="card-title">
+          Block
+        </div>
+        <div class="card-text">
+          <form clrForm [formGroup]="exampleForm"  clrLayout="horizontal">
+            <clr-input-container>
+              <label>Field 1 label</label>
+              <input clrInput type="text" formControlName="sample" />
+              <clr-control-helper>Helper text that shows while it is pristine and valid</clr-control-helper>
+              <clr-control-error>Error message that appears after focus is lost and control is invalid</clr-control-error>
+            </clr-input-container>
+          </form>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-sm btn-link">Footer Action 1</button>
+        <button class="btn btn-sm btn-link">Footer Action 2</button>
+      </div>
+    </div>
+  </div>
+</div>
