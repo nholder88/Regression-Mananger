@@ -1,29 +1,99 @@
+<button style="align-self: end" class="btn btn-primary" (click)="xlOpen=!xlOpen">Add Regression</button>
 
-<div class="clr-row">
-  <div class="clr-col-lg-5 clr-col-md-8 clr-col-12">
-    <div class="card">
-      <div class="card-header">
-        Start New Regression Cycle
-      </div>
-      <div class="card-block">
-        <div class="card-title">
-          Block
-        </div>
-        <div class="card-text">
-          <form clrForm [formGroup]="exampleForm"  clrLayout="horizontal">
-            <clr-input-container>
-              <label>Field 1 label</label>
-              <input clrInput type="text" formControlName="sample" />
-              <clr-control-helper>Helper text that shows while it is pristine and valid</clr-control-helper>
-              <clr-control-error>Error message that appears after focus is lost and control is invalid</clr-control-error>
-            </clr-input-container>
-          </form>
-        </div>
-      </div>
-      <div class="card-footer">
-        <button class="btn btn-sm btn-link">Footer Action 1</button>
-        <button class="btn btn-sm btn-link">Footer Action 2</button>
-      </div>
-    </div>
-  </div>
-</div>
+
+
+<clr-wizard #wizardxl [(clrWizardOpen)]="xlOpen">
+  <clr-wizard-title>Create New Regression</clr-wizard-title>
+
+  <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+  <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+  <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+  <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Basic Information</ng-template>
+
+
+        <form clrForm [formGroup]="regressionForm" (ngSubmit)="onSubmit()">
+          <div formGroupName="regression">
+            <div class="clr-row">
+              <div class="clr-col">
+                <clr-input-container>
+                  <label>Name</label>
+                  <input clrInput type="text" formControlName="name"/>
+                </clr-input-container>
+              </div>
+              <div class="clr-col">
+                <clr-input-container>
+                  <label>Release Name</label>
+                  <input clrInput type="text" formControlName="releaseName"/>
+                </clr-input-container>
+              </div>
+
+            </div>
+            <div class="clr-row">   <div class="clr-col">
+              <clr-date-container>
+                <label>Planned Start Date</label>
+                <input clrDate type="date" formControlName="plannedStartDate"/>
+              </clr-date-container>
+            </div>
+              <div class="clr-col">
+                <clr-date-container>
+                  <label>Planned End Date</label>
+                  <input clrDate type="date" formControlName="plannedEndDate"/>
+                </clr-date-container>
+              </div></div>
+
+            <div class="clr-row">
+
+              <div class="clr-col">
+                <clr-date-container>
+                  <label>Actual Start Date</label>
+                  <input clrDate type="date" formControlName="actualStartDate"/>
+                </clr-date-container>
+              </div>
+              <div class="clr-col">
+                <clr-date-container>
+                  <label>Actual End Date</label>
+                  <input clrDate type="date" formControlName="actualEndDate"/>
+                </clr-date-container>
+              </div>
+            </div>
+
+          <!--  <div class="clr-row">
+              <div class="clr-col">
+                <clr-checkbox-wrapper>
+                  <label>Started?</label>
+                  <input clrCheckbox type="checkbox" formControlName="isStarted" disabled/>
+                </clr-checkbox-wrapper>
+              </div>
+              <div class="clr-col">
+                <clr-checkbox-wrapper>
+                  <label>Complete? </label>
+                  <input clrCheckbox type="checkbox" formControlName="isComplete" disabled/>
+                </clr-checkbox-wrapper>
+              </div>
+            </div>-->
+
+
+          </div>
+
+        </form>
+
+  </clr-wizard-page>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Test Areas</ng-template>
+    ...
+  </clr-wizard-page>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Other</ng-template>
+    ...
+  </clr-wizard-page>
+</clr-wizard>
+
+
+
+
+

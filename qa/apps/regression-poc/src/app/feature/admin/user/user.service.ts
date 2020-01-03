@@ -19,7 +19,7 @@ export class UserService {
     name: "Fury Squad"
   }]);
 
-  private selectedUserSubject = new BehaviorSubject<User>({id: 0, lastLogin: undefined, name: "", roles: [], team: ""});
+  private selectedUserSubject = new BehaviorSubject<User>({id: 0, lastLogin: undefined, name: "", roles: [], team: {id:0, name:"",Owner:null}});
   userSelectedAction$ = this.selectedUserSubject.asObservable();
 
   constructor(private http: HttpClient, private errorHandler: ErrorHandlingService) {
@@ -44,7 +44,7 @@ export class UserService {
 
   saveUser(user?: User) {
     if(user===null || user === undefined){
-      user={id: 0, lastLogin: new Date(), name: "Genned", roles: [], team: ""} ;
+      user={id: 0, lastLogin: new Date(), name: "Genned", roles: [], team: null} ;
     }
 
     if(user.id){
