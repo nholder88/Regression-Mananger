@@ -5,14 +5,14 @@ import {RouterModule} from "@angular/router";
 import {ClarityModule} from "@clr/angular";
 import { RegressionCreateComponent } from './regression-create/regression-create.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { RegressionTestPassFormComponent } from './regression-test-pass-form/regression-test-pass-form.component';
 
 @NgModule({
-  declarations: [RegressionListingComponent, RegressionCreateComponent],
+  declarations: [RegressionListingComponent, RegressionCreateComponent, RegressionTestPassFormComponent],
   imports: [
     CommonModule, ReactiveFormsModule,RouterModule.forChild([{
       path: 'history', component: RegressionListingComponent
-    },
-      {path:'plan', component: RegressionCreateComponent}]), ClarityModule
+    }]), ClarityModule
   ],
   exports: [RegressionListingComponent]
 })

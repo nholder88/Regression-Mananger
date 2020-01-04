@@ -1,97 +1,68 @@
 <button style="align-self: end" class="btn btn-primary" (click)="xlOpen=!xlOpen">Add Regression</button>
 
-
-
-<clr-wizard #wizardxl [(clrWizardOpen)]="xlOpen">
-  <clr-wizard-title>Create New Regression</clr-wizard-title>
-
-  <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
-  <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
-  <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
-  <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
-
-  <clr-wizard-page>
-    <ng-template clrPageTitle>Basic Information</ng-template>
-
-
-        <form clrForm [formGroup]="regressionForm" (ngSubmit)="onSubmit()">
-          <div formGroupName="regression">
-            <div class="clr-row">
-              <div class="clr-col">
-                <clr-input-container>
-                  <label>Name</label>
-                  <input clrInput type="text" formControlName="name"/>
-                </clr-input-container>
-              </div>
-              <div class="clr-col">
-                <clr-input-container>
-                  <label>Release Name</label>
-                  <input clrInput type="text" formControlName="releaseName"/>
-                </clr-input-container>
-              </div>
-
-            </div>
-            <div class="clr-row">   <div class="clr-col">
-              <clr-date-container>
-                <label>Planned Start Date</label>
-                <input clrDate type="date" formControlName="plannedStartDate"/>
-              </clr-date-container>
-            </div>
-              <div class="clr-col">
-                <clr-date-container>
-                  <label>Planned End Date</label>
-                  <input clrDate type="date" formControlName="plannedEndDate"/>
-                </clr-date-container>
-              </div></div>
-
-            <div class="clr-row">
-
-              <div class="clr-col">
-                <clr-date-container>
-                  <label>Actual Start Date</label>
-                  <input clrDate type="date" formControlName="actualStartDate"/>
-                </clr-date-container>
-              </div>
-              <div class="clr-col">
-                <clr-date-container>
-                  <label>Actual End Date</label>
-                  <input clrDate type="date" formControlName="actualEndDate"/>
-                </clr-date-container>
-              </div>
-            </div>
-
-          <!--  <div class="clr-row">
-              <div class="clr-col">
-                <clr-checkbox-wrapper>
-                  <label>Started?</label>
-                  <input clrCheckbox type="checkbox" formControlName="isStarted" disabled/>
-                </clr-checkbox-wrapper>
-              </div>
-              <div class="clr-col">
-                <clr-checkbox-wrapper>
-                  <label>Complete? </label>
-                  <input clrCheckbox type="checkbox" formControlName="isComplete" disabled/>
-                </clr-checkbox-wrapper>
-              </div>
-            </div>-->
-
-
+<clr-modal [(clrModalOpen)]="xlOpen" [clrModalSize]="'lg'">
+  <h3 class="modal-title">Add New Regression</h3>
+  <div class="modal-body">
+    <form clrForm [formGroup]="regressionForm" (ngSubmit)="onSubmit()">
+      <div formGroupName="regression">
+        <div class="clr-row">
+          <div class="clr-col">
+            <clr-input-container>
+              <label>Name</label>
+              <input clrInput type="text" formControlName="name"/>
+            </clr-input-container>
+          </div>
+          <div class="clr-col">
+            <clr-input-container>
+              <label>Release Name</label>
+              <input clrInput type="text" formControlName="releaseName"/>
+            </clr-input-container>
+          </div>
+          <div class="clr-col">
+            <clr-input-container>
+              <label>Testing Practice Short Name</label>
+              <input clrInput type="text" formControlName="practiceName"/>
+            </clr-input-container>
           </div>
 
-        </form>
+        </div>
+        <div class="clr-row">   <div class="clr-col">
+          <clr-date-container>
+            <label>Planned Start Date</label>
+            <input clrDate type="date" formControlName="plannedStartDate"/>
+          </clr-date-container>
+        </div>
+          <div class="clr-col">
+            <clr-date-container>
+              <label>Planned End Date</label>
+              <input clrDate type="date" formControlName="plannedEndDate"/>
+            </clr-date-container>
+          </div></div>
 
-  </clr-wizard-page>
+        <div class="clr-row">
 
-  <clr-wizard-page>
-    <ng-template clrPageTitle>Test Areas</ng-template>
-    ...
-  </clr-wizard-page>
+          <div class="clr-col">
+            <clr-date-container>
+              <label>Actual Start Date</label>
+              <input clrDate type="date" formControlName="actualStartDate"/>
+            </clr-date-container>
+          </div>
+          <div class="clr-col">
+            <clr-date-container>
+              <label>Actual End Date</label>
+              <input clrDate type="date" formControlName="actualEndDate"/>
+            </clr-date-container>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="xlOpen = false">Cancel</button>
+        <button type="submit" class="btn btn-primary" >Ok</button>
+      </div>
+    </form>
+  </div>
 
-  <clr-wizard-page>
-    <ng-template clrPageTitle>Other</ng-template>
-    ...
-  </clr-wizard-page>
-</clr-wizard>
+</clr-modal>
 
 
 

@@ -53,25 +53,19 @@ export class ApplicationHeaderComponent implements OnInit {
       },
       {
         title: "Regressions",
-        link: "regression",
+        link: "regression/history",
         subRoutes: [
+
           {
-            title: "Create New Regression Plan",
-            link: "regression/plan",
-            summary: "",
-            rolesAllowed: ["admin", "tester", "qa"],
-            subRoutes: null
-          },
-          {
-            title: "Continue Regression Plan",
-            link: "regression-continue",
+            title: "Continue Regression Testing",
+            link: "regression/continue",
             summary: "",
             rolesAllowed: ["admin", "tester", "qa"],
             subRoutes: null
           },
           {
             title: "Manage",
-            link: "regression-manage",
+            link: "regression/manage",
             summary: "",
             rolesAllowed: ["admin", "tester", "qa"],
             subRoutes: null

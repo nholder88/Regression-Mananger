@@ -18,6 +18,7 @@ export interface Regression {
   results: RegressionResult[];
   isComplete: boolean;
   isStarted: boolean;
+  practiceName: string;
 }
 
 export interface RegressionResult {
@@ -47,19 +48,19 @@ export interface Feature {
   id: number;
   name: string;
   teams: Team[]
+  subFeatures: Feature[]
 }
 
 export interface Team {
   id: number;
   name: string;
-  Owner: User;
+//  Owner: User;
 
 }
 
 export interface TestCase {
   id: number;
   feature: Feature;
-  area: Area;
   caseOrder: number;
   description: string;
 }

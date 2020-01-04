@@ -19,7 +19,7 @@ export class RegressionListingComponent implements OnInit {
   }
 
 
-  regression$ = this.service.regressions$;
+  regression$ = this.service.regressionWithAdd$;
   selected;
 
   vm$ = combineLatest([
