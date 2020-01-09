@@ -49,6 +49,7 @@ export interface Feature {
   name: string;
   teams: Team[]
   subFeatures: Feature[]
+  enable:boolean
 }
 
 export interface Team {
