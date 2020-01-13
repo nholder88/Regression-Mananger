@@ -8,79 +8,44 @@
   <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
   <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
   <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
-  <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+  <clr-wizard-button [type]="'finish'" (click)="onFinish()">Finish</clr-wizard-button>
 
   <clr-wizard-page>
     <ng-template clrPageTitle>Select Active Regresssion</ng-template>
 
 
-    <form clrForm [formGroup]="regressionForm" (ngSubmit)="onSubmit()">
-      <div formGroupName="regression">
-        <div class="clr-row">
-          <div class="clr-col">
-            <clr-input-container>
-              <label>Name</label>
-              <input clrInput type="text" formControlName="name"/>
-            </clr-input-container>
-          </div>
-          <div class="clr-col">
-            <clr-input-container>
-              <label>Release Name</label>
-              <input clrInput type="text" formControlName="releaseName"/>
-            </clr-input-container>
-          </div>
+    <form clrForm [formGroup]="regressionForm">
 
-        </div>
-        <div class="clr-row">   <div class="clr-col">
-          <clr-date-container>
-            <label>Planned Start Date</label>
-            <input clrDate type="date" formControlName="plannedStartDate"/>
-          </clr-date-container>
-        </div>
-          <div class="clr-col">
-            <clr-date-container>
-              <label>Planned End Date</label>
-              <input clrDate type="date" formControlName="plannedEndDate"/>
-            </clr-date-container>
-          </div></div>
+      <clr-select-container>
+        <label>Please select a Regression</label>
+        <select clrSelect name="options" formControlName="regression" >
+          <option value="one">One</option>
+          <option value="two">Two</option>
+          <option value="three">Three</option>
+        </select>
+      </clr-select-container>
 
-        <div class="clr-row">
-
-          <div class="clr-col">
-            <clr-date-container>
-              <label>Actual Start Date</label>
-              <input clrDate type="date" formControlName="actualStartDate"/>
-            </clr-date-container>
-          </div>
-          <div class="clr-col">
-            <clr-date-container>
-              <label>Actual End Date</label>
-              <input clrDate type="date" formControlName="actualEndDate"/>
-            </clr-date-container>
-          </div>
-        </div>
-      </div>
     </form>
 
   </clr-wizard-page>
 
   <clr-wizard-page>
     <ng-template clrPageTitle>Test Areas</ng-template>
-    <form clrForm [formGroup]="regressionForm" (ngSubmit)="onSubmit()">
+    <form clrForm [formGroup]="regressionForm">
 
 
       <clr-tree-node [clrExpanded]="true">
         Areas to Test
-        <clr-tree-node *ngFor="let area of availableAreas" [clrExpanded]="false">
+        <clr-tree-node *ngFor="let area of availableAreas |async" [clrExpanded]="false" (clrSelectedChange)="onCheckboxToggled('area',area,!!$event)">
           {{area.name}}
           <clr-tree-node *ngFor="let feature of area.features"
-                         [clrSelected]="feature.enable" (clrSelectedChange)="feature.enable = !!$event">
+                         [clrSelected]="feature.enable" (clrSelectedChange)="feature.enable = !!$event;onCheckboxToggled('feature',feature,!!$event)">
             {{feature.name}} ({{feature.teams[0].name}})
             <clr-tree-node *ngFor="let subFeature of feature.subFeatures"
-                           [clrSelected]="subFeature.enable" (clrSelectedChange)="subFeature.enable = !!$event">
+                           [clrSelected]="subFeature.enable" (clrSelectedChange)="subFeature.enable = !!$event;onCheckboxToggled('feature',feature,!!$event)">
               {{subFeature.name}} ({{subFeature.teams[0].name}})
               <clr-tree-node *ngFor="let subFeaturen of subFeature.subFeatures"
-                             [clrSelected]="subFeaturen.enable" (clrSelectedChange)="subFeaturen.enable = !!$event">
+                             [clrSelected]="subFeaturen.enable" (clrSelectedChange)="subFeaturen.enable = !!$event;onCheckboxToggled('feature',feature,!!$event)">
                 {{subFeaturen.name}} ({{subFeaturen.teams[0].name}})
               </clr-tree-node>
             </clr-tree-node>
@@ -95,16 +60,18 @@
 
   <clr-wizard-page>
     <ng-template clrPageTitle>Roles to Test</ng-template>
+    <form clrForm [formGroup]="regressionForm">
     <clr-checkbox-container >
       <label>Roles</label>
       <clr-checkbox-wrapper *ngFor="let role of userRoles$|async" >
-        <input type="checkbox" clrCheckbox formControlName="roles" required [value]="role.id"  (click)="onRoleSelected(role)" />
+        <input type="checkbox" clrCheckbox formControlName="IncludedRoles" required [value]="role.id"  (click)="onCheckboxToggled('role',role,$event.returnValue)" />
         <label>{{role.name}}</label>
       </clr-checkbox-wrapper>
 
-      <clr-control-helper>Select the roles this user will have</clr-control-helper>
+      <clr-control-helper>Select the roles to test with</clr-control-helper>
       <clr-control-error>This field is required!</clr-control-error>
     </clr-checkbox-container>
+    </form>
   </clr-wizard-page>
 </clr-wizard>
 
