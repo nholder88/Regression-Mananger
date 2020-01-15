@@ -16,7 +16,33 @@ export class RegressionService {
 
   private rootUrl = 'api/regression';
 
-  regressions$ = this.http.get<Regression[]>(this.rootUrl)
+  // regressions$ = this.http.get<Regression[]>(this.rootUrl)
+  regressions$ = of<Regression[]>([{
+    id: 0,
+    practiceName: "AMDDEMO",
+    isComplete: false,
+    name: "Default Test",
+    isStarted: true,
+    releaseName: "Alpha-2020",
+    actualEndDate: null,
+    actualStartDate: null,
+    plannedEndDate: null,
+    plannedStartDate: null,
+    results: []
+  },
+    {
+      id: -1,
+      practiceName: "QA",
+      isComplete: true,
+      name: "QA Test",
+      isStarted: true,
+      releaseName: "Alpha-2019",
+      actualEndDate: new Date(),
+      actualStartDate: new Date(2019,4,1),
+      plannedEndDate: new Date(2020,1,4),
+      plannedStartDate: new Date(2018,7,9),
+      results: []
+    }])
     .pipe(
       tap(data => console.log("regresssion service", JSON.stringify(data))),
       catchError(this.errorHandler.handleError));
@@ -60,39 +86,46 @@ export class RegressionService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
-  areas$:Observable<Area[]> =of<Area[]>(
+  areas$: Observable<Area[]> = of<Area[]>(
     [{
-      id:0, name:"Chart",
+      id: 0, name: "Chart",
       features:
         [{
           id: 0,
-          name: "Letters", enable:false,
+          name: "Letters", enable: false,
           teams: [{id: 0, name: "OU"}],
           subFeatures: [
-            {id: 0, name: "Faxing",  teams: [{id: 0, name: "OU"}],  enable:false,  subFeatures: [ {id: 0, name: "Re-faxing",  teams: [{id: 0, name: "OU"}],  enable:false,   subFeatures: null}]},
-            {id: 1, name: "Signing",  enable:false, teams: [{id: 0, name: "OU"}],subFeatures: null},
-            {id: 2, name: "Generation", enable:false,  teams: [{id: 0, name: "OU"}],subFeatures: null},
-            {id: 3, name: "Saving", enable:false,  teams: [{id: 0, name: "OU"}],subFeatures: null},
-            {id: 4, name: "Deleting",  enable:false, teams: [{id: 0, name: "OU"}],subFeatures: null},
-            {id: 5, name: "Re-signing", enable:false,  teams: [{id: 0, name: "OU"}],subFeatures: null}]
-        }]},
+            {
+              id: 0,
+              name: "Faxing",
+              teams: [{id: 0, name: "OU"}],
+              enable: false,
+              subFeatures: [{id: 0, name: "Re-faxing", teams: [{id: 0, name: "OU"}], enable: false, subFeatures: null}]
+            },
+            {id: 1, name: "Signing", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+            {id: 2, name: "Generation", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+            {id: 3, name: "Saving", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+            {id: 4, name: "Deleting", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+            {id: 5, name: "Re-signing", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null}]
+        }]
+    },
       {
         id: 0,
         name: "CQM",
         features: [
-          {id: 0, name: "Calculation",  enable:false, teams: [{id: 0, name: "OD"}],subFeatures: null},
-          {id: 0, name: "Medical Lookups",  enable:false, teams: [{id: 0, name: "OD"}],subFeatures: null},
-          {id: 0, name: "Presentation",  enable:false, teams: [{id: 0, name: "OD"}],subFeatures: null},
-          {id: 0, name: "Performance",  enable:false, teams: [{id: 0, name: "OD"}],subFeatures: null},
+          {id: 0, name: "Calculation", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
+          {id: 0, name: "Medical Lookups", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
+          {id: 0, name: "Presentation", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
+          {id: 0, name: "Performance", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
         ]
       },
       {
         id: 0,
         name: "Custom Integrations",
         features: [
-          {id: 0, name: "Northwell Tasking",  enable:false, teams: [{id: 0, name: "OU"}],subFeatures: null},
-          {id: 0, name: "HIE",  enable:false, teams: [{id: 0, name: "OU"}],subFeatures: null},
-          {id: 0, name: "Northwell HL7", enable:false,  teams: [{id: 0, name: "OD"}],subFeatures: null},
+          {id: 0, name: "Northwell Tasking", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+          {id: 0, name: "HIE", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+          {id: 0, name: "Northwell HL7", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
         ]
       }]);
 }

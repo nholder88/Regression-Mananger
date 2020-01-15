@@ -21,7 +21,7 @@ export class RegressionTestPassFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
+this.regressionForm=this.formBuilder.group(this.testPassModel);
   }
 
   isNew: boolean = true;
@@ -35,15 +35,17 @@ export class RegressionTestPassFormComponent implements OnInit {
 
 
   availableAreas = this.regressionService.areas$;
-  regressionForm: FormGroup=this.formBuilder.group(this.testPassModel);
+  regressionForm: FormGroup;
 
   userRoles$ = this.userService.userRoles$;
-
+  regressions$= this.regressionService.regressionWithAdd$;
 
   private onFinish() {
     alert("Submit Test Pass");
     console.log("Test pass form data", this.regressionForm)
-  }
+    this.regressionForm.reset();
+    this.wizardExtraLarge.reset()
+  };
 
 
 

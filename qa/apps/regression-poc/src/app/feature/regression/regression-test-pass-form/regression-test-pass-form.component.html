@@ -1,4 +1,4 @@
-<button style="align-self: end" class="btn btn-primary" (click)="xlOpen=!xlOpen">Add Regression Test Pass</button>
+<button style="align-self: end" class="btn btn-sm btn-outline" (click)="xlOpen=!xlOpen">Add Regression Test Pass</button>
 
 
 
@@ -19,9 +19,7 @@
       <clr-select-container>
         <label>Please select a Regression</label>
         <select clrSelect name="options" formControlName="regression" >
-          <option value="one">One</option>
-          <option value="two">Two</option>
-          <option value="three">Three</option>
+          <option *ngFor="let regression of regressions$|async" value="regression.id">{{regression.name}}</option>
         </select>
       </clr-select-container>
 
