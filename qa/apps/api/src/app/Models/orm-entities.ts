@@ -182,19 +182,19 @@ export class RegressionEntity implements Regression {
 
   @ApiProperty()
   @IsDate()
-  @Column() actualStartDate: Date;
+  @Column({default: "0001-01-01" }) actualStartDate: Date;
 
   @ApiProperty()
   @IsDate()
-  @Column() actualEndDate: Date;
+  @Column({default: "0001-01-01" }) actualEndDate: Date;
 
   @ApiProperty()
   @IsDate()
-  @Column() plannedStartDate: Date;
+  @Column({default: "0001-01-01" }) plannedStartDate: Date;
 
   @ApiProperty()
   @IsDate()
-  @Column() plannedEndDate: Date;
+  @Column({default: "0001-01-01" }) plannedEndDate: Date;
 
   @ApiProperty()
   @OneToMany(type => TestEntity, rr => rr.regression)

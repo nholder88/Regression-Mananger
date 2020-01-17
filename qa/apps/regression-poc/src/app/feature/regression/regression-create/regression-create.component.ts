@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Area, Regression, RegressionResult} from "@qa/api-interfaces";
+import {Area, Regression, Test,} from "@qa/api-interfaces";
 import {ClrWizard} from "@clr/angular";
 import {RegressionService} from "../regression.service";
 
@@ -54,7 +54,7 @@ onSubmit(){
     plannedStartDate: Date = null;
     releaseName: string = "";
     practiceName: string = "";
-    results: RegressionResult[] = new Array<RegressionResult>();
+    results: Test[] = new Array<Test>();
   };
 
   private createFormGroupWithBuilderAndModel(

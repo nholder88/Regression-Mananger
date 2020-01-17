@@ -65,14 +65,14 @@ export class RegressionService {
         results: []
       }
     }
-    if (regression.id) {
+    if (regression.id>0) {
       this.http.put(this.rootUrl, regression).pipe(
         tap(regression => console.log(regression))
-      )
+      ).subscribe()
     } else {
       this.http.post(this.rootUrl, regression).pipe(
         tap(regression => console.log(regression))
-      )
+      ).subscribe()
     }
     this.saveRegressionSubject.next(regression);
   }

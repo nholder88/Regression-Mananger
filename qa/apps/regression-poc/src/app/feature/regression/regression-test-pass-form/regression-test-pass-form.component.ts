@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Area, Regression, RegressionResult} from "@qa/api-interfaces";
+import {Area, Regression, } from "@qa/api-interfaces";
 import {ClrWizard} from "@clr/angular";
 import {UserService} from "../../admin/user/user.service";
 import {RegressionService} from "../regression.service";
