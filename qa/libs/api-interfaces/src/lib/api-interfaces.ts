@@ -15,27 +15,19 @@ export interface Regression {
   actualEndDate: Date;
   plannedStartDate: Date;
   plannedEndDate: Date;
-  results: RegressionResult[];
+  results: Test[];
   isComplete: boolean;
   isStarted: boolean;
   practiceName: string;
 }
 
-export interface RegressionResult {
-  id: number;
-  tester: User;
-  isComplete: boolean;
-  tests: Test[];
-
-}
 
 export interface Test {
   id: number;
   testCases: TestCaseResult[];
-  name: string;
-  teamOwner: string;
-  feature: string;
-  area: string;
+  tester: User;
+  isComplete: boolean;
+
 }
 
 export interface Area {
@@ -67,6 +59,7 @@ export interface TestCase {
 }
 
 export interface TestCaseResult {
+  id:number;
   testCase: TestCase
   caseStatus: string;
   testingRole: string;

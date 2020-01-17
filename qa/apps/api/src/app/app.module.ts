@@ -6,9 +6,9 @@ import { TypeOrmModule} from '@nestjs/typeorm';
 import {RegressionModule} from "./regression/regression.module";
 import {
   IssueEntity,
-  RegressionEntity, RegressionResultEntity,
+  RegressionEntity,
   RolesEntity,
-  TestCaseEntity,
+  TestCaseEntity, TestCaseResultEntity,
   TestEntity,
   UserEntity
 } from "./Models/orm-entities";
@@ -22,7 +22,7 @@ import {
     username: 'root',
     password: 'root',
     database: 'test',
-    entities: [RegressionEntity,UserEntity,RolesEntity,TestEntity,IssueEntity,TestCaseEntity,RegressionResultEntity],
+    entities: [RegressionEntity,UserEntity,RolesEntity,TestEntity,IssueEntity,TestCaseEntity,TestCaseResultEntity],
     synchronize: true,
   }), RegressionModule],
   controllers: [AppController],
