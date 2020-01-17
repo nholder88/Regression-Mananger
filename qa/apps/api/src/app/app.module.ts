@@ -4,14 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule} from '@nestjs/typeorm';
 import {RegressionModule} from "./regression/regression.module";
-import {
-  IssueEntity,
-  RegressionEntity,
-  RolesEntity,
-  TestCaseEntity, TestCaseResultEntity,
-  TestEntity,
-  UserEntity
-} from "./Models/orm-entities";
+
+import {getMetadataArgsStorage} from "typeorm";
 
 
 @Module({
@@ -22,7 +16,7 @@ import {
     username: 'root',
     password: 'root',
     database: 'test',
-    entities: [RegressionEntity,UserEntity,RolesEntity,TestEntity,IssueEntity,TestCaseEntity,TestCaseResultEntity],
+    entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
     synchronize: true,
   }), RegressionModule],
   controllers: [AppController],
