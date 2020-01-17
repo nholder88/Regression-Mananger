@@ -46,7 +46,7 @@ export class AreaEntity implements Area {
   @IsString()
   @Column() name: string;
   @OneToMany(type => FeatureEntity, featureEntity => featureEntity.area)
-  features: Feature[];
+  features: FeatureEntity[];
 }
 
 @Entity()
@@ -66,7 +66,7 @@ export class FeatureEntity implements Feature {
   subFeatures: FeatureEntity[];
 
   @ManyToMany(type => FeatureEntity, category => category.subFeatures, {
-    cascade: true
+    cascade: false
   })
   manyInverseFeatures: FeatureEntity[];
 
@@ -80,59 +80,6 @@ export class FeatureEntity implements Feature {
   cases: TestCaseEntity[];
 
 }
-
-export class TestCaseResultEntity implements TestCaseResult {
-  @PrimaryGeneratedColumn() id: number;
-  @Column() caseStatus: string;
-  @OneToMany(type => TestCaseEntity, testCase => testCase.tests)
-  testCase: TestCaseEntity;
-  @Column() testingLoginUserName: string;
-  @Column() testingRole: string;
-
-}
-
-@Entity()
-export class TestEntity implements Test {
-  @ApiProperty({type: 'number'})
-  @IsNumber()
-  @PrimaryGeneratedColumn() id: number;
-
-  @ApiProperty()
-  @OneToMany(type => TestCaseResultEntity, testCase => testCase.testCase)
-  testCases: TestCaseResultEntity[];
-
-  @ApiProperty({type: 'string'})
-  @IsString()
-  @Column() name: string;
-
-  @ApiProperty({type: 'string'})
-  @IsString()
-  @Column() teamOwner: string;
-
-  @ApiProperty({type: 'string'})
-  @IsString()
-  @Column() feature: string;
-
-  @ApiProperty({type: 'string'})
-  @IsString()
-  @Column() area: string;
-  @Column() isComplete: boolean;
-  @ManyToOne(type => UserEntity, author => author.tests)
-  tester: UserEntity;
-
-  @ManyToOne(type => RegressionEntity, author => author.results)
-  regression: RegressionEntity;
-
-
-}
-
-@Entity()
-export class IssueEntity implements Issue {
-  @ApiProperty({type: 'number'})
-  @IsNumber()
-  @PrimaryGeneratedColumn() id: number;
-}
-
 @Entity()
 export class TestCaseEntity implements TestCase {
   @ManyToOne(type => FeatureEntity, featureEntity => featureEntity.cases)
@@ -152,14 +99,22 @@ export class TestCaseEntity implements TestCase {
   tests: TestCaseResultEntity[];
 }
 
+@Entity()
+export class TestCaseResultEntity implements TestCaseResult {
+  @PrimaryGeneratedColumn() id: number;
+  @Column() caseStatus: string;
+  @ManyToOne(type => TestCaseEntity, testCase => testCase.tests)
+  testCase: TestCaseEntity;
+  @Column() testingLoginUserName: string;
+  @Column() testingRole: string;
 
+}
 @Entity()
 export class UserEntity implements User {
   @PrimaryGeneratedColumn() id: number;
 
-  @ApiProperty({type: 'string'})
-  @IsString()
-  @Column()
+
+
   @ManyToOne(type => TeamEntity, reg => reg.users)
   team: TeamEntity;
 
@@ -178,9 +133,22 @@ export class UserEntity implements User {
   @IsDate()
   @Column({type: "timestamp"}) lastLogin: Date;
 
-  @OneToMany(type => TestEntity, photo => photo.tester) // note: we will create author property in the Photo class below
+  @OneToMany(type => TestEntity, photo => photo.tester)
   tests: TestEntity[];
 }
+
+
+
+
+@Entity()
+export class IssueEntity implements Issue {
+  @ApiProperty({type: 'number'})
+  @IsNumber()
+  @PrimaryGeneratedColumn() id: number;
+}
+
+
+
 
 @Entity()
 export class RolesEntity implements Roles {
@@ -243,4 +211,38 @@ export class RegressionEntity implements Regression {
   @ApiProperty({type: 'string'})
   @IsString()
   @Column() practiceName: string;
+}
+@Entity()
+export class TestEntity implements Test {
+  @ApiProperty({type: 'number'})
+  @IsNumber()
+  @PrimaryGeneratedColumn() id: number;
+
+  @ApiProperty()
+  @OneToMany(type => TestCaseResultEntity, testCase => testCase.testCase)
+  testCases: TestCaseResultEntity[];
+
+  @ApiProperty({type: 'string'})
+  @IsString()
+  @Column() name: string;
+
+  @ApiProperty({type: 'string'})
+  @IsString()
+  @Column() teamOwner: string;
+
+  @ApiProperty({type: 'string'})
+  @IsString()
+  @Column() feature: string;
+
+  @ApiProperty({type: 'string'})
+  @IsString()
+  @Column() area: string;
+  @Column() isComplete: boolean;
+  @ManyToOne(type => UserEntity, author => author.tests)
+  tester: UserEntity;
+
+  @ManyToOne(type => RegressionEntity, author => author.results)
+  regression: RegressionEntity;
+
+
 }

@@ -28,7 +28,7 @@ import {TestCaseResultService} from "./user/test-case-result.service";
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RegressionEntity,UserEntity,RolesEntity,TestEntity,IssueEntity,TestCaseEntity,TestCaseResultController])],
+  imports: [TypeOrmModule.forFeature([RegressionEntity,UserEntity,RolesEntity,TestEntity,IssueEntity,TestCaseEntity,TestCaseResultEntity])],
   providers: [ RegressionService,UserService,RoleService,TestService,IssueService,TestCaseService,TestCaseResultService],
   controllers: [ RegressionController,UserController,RoleController,TestController,IssueController,TestCaseController,TestCaseResultController],
 })
