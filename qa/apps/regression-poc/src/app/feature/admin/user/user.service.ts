@@ -11,6 +11,10 @@ import {Action} from "rxjs/internal/scheduler/Action";
   providedIn: 'root'
 })
 export class UserService {
+    getLoggedInUser():User {
+      return {id: 0, lastLogin: undefined, name: "Purely", roles: [], team: {id:0, name:""}};
+        throw new Error("Method not implemented.");
+    }
 
 
   userRoles$ = of([{id: 1, name: "Admin"}, {id: 2, name: "QA"}, {id: 3, name: "Tester"}, {id: 4, name: "Executive"}]);
@@ -19,7 +23,7 @@ export class UserService {
     name: "Fury Squad"
   }]);
 
-  private selectedUserSubject = new BehaviorSubject<User>({id: 0, lastLogin: undefined, name: "", roles: [], team: ""});
+  private selectedUserSubject = new BehaviorSubject<User>({id: 0, lastLogin: undefined, name: "", roles: [], team: {id:0, name:""}});
   userSelectedAction$ = this.selectedUserSubject.asObservable();
 
   constructor(private http: HttpClient, private errorHandler: ErrorHandlingService) {
@@ -44,7 +48,7 @@ export class UserService {
 
   saveUser(user?: User) {
     if(user===null || user === undefined){
-      user={id: 0, lastLogin: new Date(), name: "Genned", roles: [], team: ""} ;
+      user={id: 0, lastLogin: new Date(), name: "Genned", roles: [], team: null} ;
     }
 
     if(user.id){

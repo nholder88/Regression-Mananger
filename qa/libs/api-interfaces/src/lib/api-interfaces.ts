@@ -1,6 +1,3 @@
-
-
-
 export interface Message {
   message: string;
 }
@@ -9,6 +6,7 @@ export interface Message {
 export interface Issue {
   id: number;
 }
+
 export interface Regression {
   id: number;
   name: string;
@@ -17,45 +15,69 @@ export interface Regression {
   actualEndDate: Date;
   plannedStartDate: Date;
   plannedEndDate: Date;
- results: RegressionResult[];
+  results: Test[];
   isComplete: boolean;
+  isStarted: boolean;
+  practiceName: string;
 }
 
-export interface RegressionResult {
-  id: number;
-  tester: User;
-  isComplete: boolean;
-  tests: Test[];
 
-}
 export interface Test {
   id: number;
-  testCases: TestCase[];
-  role: string;
-  loginUserName: string;
+  testCases: TestCaseResult[];
+  tester: User;
+  isComplete: boolean;
+
+}
+
+export interface Area {
+  id: number;
   name: string;
-  teamOwner: string;
-  feature: string;
-  area: string;
+  features: Feature[]
+}
+
+export interface Feature {
+  id: number;
+  name: string;
+  teams: Team[]
+  subFeatures: Feature[]
+  enable:boolean
+}
+
+export interface Team {
+  id: number;
+  name: string;
+//  Owner: User;
+
 }
 
 export interface TestCase {
   id: number;
-  caseStatus: string;
+  feature: Feature;
   caseOrder: number;
   description: string;
 }
+
+export interface TestCaseResult {
+  id:number;
+  testCase: TestCase
+  caseStatus: string;
+  testingRole: string;
+  testingLoginUserName: string;
+
+}
+
 export interface User {
   id: number;
-  team: string;
+  team: Team;
   name: string;
   roles: Roles[];
   lastLogin: Date;
 }
 
-export interface Roles{
+export interface Roles {
 
-  id:number;
-  name:string;
+  id: number;
+  name: string;
   users: User[];
 }

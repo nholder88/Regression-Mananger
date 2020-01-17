@@ -1,12 +1,12 @@
 ﻿import {Injectable} from "@nestjs/common";
 import {TypeOrmCrudService} from "@nestjsx/crud-typeorm";
-import {RegressionResultEntity} from "../../Models/orm-entities";
+import {TestCaseResultEntity} from "../../Models/orm-entities";
 import {InjectRepository} from "@nestjs/typeorm";
 
 @Injectable()
-export class RegressionResultService extends TypeOrmCrudService<RegressionResultEntity> {
+export class TestCaseResultService extends TypeOrmCrudService<TestCaseResultEntity> {
     constructor(
-        @InjectRepository(RegressionResultEntity)   repository
+        @InjectRepository(TestCaseResultEntity)   repository
     ) {
         super(repository);
     }

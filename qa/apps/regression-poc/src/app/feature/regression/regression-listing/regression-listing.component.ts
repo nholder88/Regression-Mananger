@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {RegressionService} from "../regression.service";
 import {combineLatest} from 'rxjs';
 import {map} from "rxjs/operators";
+import {ClrWizard} from "@clr/angular";
 
 @Component({
   selector: 'qa-regression-listing',
@@ -10,13 +11,15 @@ import {map} from "rxjs/operators";
 })
 export class RegressionListingComponent implements OnInit {
 
+
   constructor(private service: RegressionService) {
   }
 
   ngOnInit() {
   }
 
-  regression$ = this.service.regressions$;
+
+  regression$ = this.service.regressionWithAdd$;
   selected;
 
   vm$ = combineLatest([

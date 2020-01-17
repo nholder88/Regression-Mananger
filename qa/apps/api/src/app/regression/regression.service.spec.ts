@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RegressionService } from './regression.service';
 import {Repository} from "typeorm";
-import {RegressionEntity} from "@qa/api-interfaces";
+import {RegressionEntity} from "../Models/orm-entities";
+
 
 describe('RegressionService', () => {
   let service: RegressionService;
