@@ -88,44 +88,44 @@ export class RegressionService {
 
   areas$: Observable<Area[]> = of<Area[]>(
     [{
-      id: 0, name: "Chart",
+      id: 1, name: "Chart",
       features:
         [{
-          id: 0,
+          id: 2,
           name: "Letters", enable: false,
           teams: [{id: 0, name: "OU"}],
           subFeatures: [
             {
-              id: 0,
+              id: 3,
               name: "Faxing",
               teams: [{id: 0, name: "OU"}],
               enable: false,
-              subFeatures: [{id: 0, name: "Re-faxing", teams: [{id: 0, name: "OU"}], enable: false, subFeatures: null}]
+              subFeatures: [{id: 4, name: "Re-faxing", teams: [{id: 0, name: "OU"}], enable: false, subFeatures: null}]
             },
-            {id: 1, name: "Signing", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
-            {id: 2, name: "Generation", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
-            {id: 3, name: "Saving", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
-            {id: 4, name: "Deleting", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
-            {id: 5, name: "Re-signing", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null}]
+            {id: 11, name: "Signing", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+            {id: 12, name: "Generation", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+            {id: 13, name: "Saving", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+            {id: 14, name: "Deleting", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+            {id: 15, name: "Re-signing", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null}]
         }]
     },
       {
-        id: 0,
+        id: 22,
         name: "CQM",
         features: [
-          {id: 0, name: "Calculation", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
-          {id: 0, name: "Medical Lookups", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
-          {id: 0, name: "Presentation", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
-          {id: 0, name: "Performance", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
+          {id: 20, name: "Calculation", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
+          {id: 25, name: "Medical Lookups", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
+          {id: 16, name: "Presentation", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
+          {id: 17, name: "Performance", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
         ]
       },
       {
-        id: 0,
+        id: 33,
         name: "Custom Integrations",
         features: [
-          {id: 0, name: "Northwell Tasking", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
-          {id: 0, name: "HIE", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
-          {id: 0, name: "Northwell HL7", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
+          {id: 30, name: "Northwell Tasking", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+          {id: 31, name: "HIE", enable: false, teams: [{id: 0, name: "OU"}], subFeatures: null},
+          {id: 32, name: "Northwell HL7", enable: false, teams: [{id: 0, name: "OD"}], subFeatures: null},
         ]
       }]);
 }

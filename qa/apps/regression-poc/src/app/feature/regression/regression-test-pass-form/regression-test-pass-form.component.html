@@ -19,7 +19,7 @@
       <clr-select-container>
         <label>Please select a Regression</label>
         <select clrSelect name="options" formControlName="regression" >
-          <option *ngFor="let regression of regressions$|async" value="regression.id">{{regression.name}}</option>
+          <option *ngFor="let regression of regressions$|async" [value]="regression.id">{{regression.name}}</option>
         </select>
       </clr-select-container>
 
@@ -32,18 +32,18 @@
     <form clrForm [formGroup]="regressionForm">
 
 
-      <clr-tree-node [clrExpanded]="true">
+      <clr-tree-node [clrExpanded]="true" >
         Areas to Test
-        <clr-tree-node *ngFor="let area of availableAreas |async" [clrExpanded]="false" (clrSelectedChange)="onCheckboxToggled('area',area,!!$event)">
+        <clr-tree-node *ngFor="let area of availableAreas " [clrExpanded]="false" >
           {{area.name}}
           <clr-tree-node *ngFor="let feature of area.features"
-                         [clrSelected]="feature.enable" (clrSelectedChange)="feature.enable = !!$event;onCheckboxToggled('feature',feature,!!$event)">
+                         [clrSelected]="feature.enable" (clrSelectedChange)="feature.enable = !!$event;onFeatureSelected(feature)">
             {{feature.name}} ({{feature.teams[0].name}})
             <clr-tree-node *ngFor="let subFeature of feature.subFeatures"
-                           [clrSelected]="subFeature.enable" (clrSelectedChange)="subFeature.enable = !!$event;onCheckboxToggled('feature',feature,!!$event)">
+                        [clrSelected]="subFeature.enable" (clrSelectedChange)="subFeature.enable = !!$event;onFeatureSelected(subFeature)">
               {{subFeature.name}} ({{subFeature.teams[0].name}})
               <clr-tree-node *ngFor="let subFeaturen of subFeature.subFeatures"
-                             [clrSelected]="subFeaturen.enable" (clrSelectedChange)="subFeaturen.enable = !!$event;onCheckboxToggled('feature',feature,!!$event)">
+                             [clrSelected]="subFeaturen.enable" (clrSelectedChange)="subFeaturen.enable = !!$event;onFeatureSelected(subFeaturen)">
                 {{subFeaturen.name}} ({{subFeaturen.teams[0].name}})
               </clr-tree-node>
             </clr-tree-node>
@@ -62,7 +62,7 @@
     <clr-checkbox-container >
       <label>Roles</label>
       <clr-checkbox-wrapper *ngFor="let role of userRoles$|async" >
-        <input type="checkbox" clrCheckbox formControlName="IncludedRoles" required [value]="role.id"  (click)="onCheckboxToggled('role',role,$event.returnValue)" />
+        <input type="checkbox" clrCheckbox  required [value]="role.id" (click)="onRoleSelected(role)"    />
         <label>{{role.name}}</label>
       </clr-checkbox-wrapper>
 
