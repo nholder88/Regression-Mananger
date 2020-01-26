@@ -7,7 +7,7 @@ import { UserContainerComponent } from './user/user-container.component';
 import { LandingComponent } from './landing.component';
 import { UserFormComponent } from './user/user-form/user-form.component';
 import { UserListingComponent } from './user/user-listing/user-listing.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,15 +16,15 @@ import {ReactiveFormsModule} from "@angular/forms";
     UserListingComponent,
     UserFormComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild([
-            {path: '', component: LandingComponent},
-            {path: 'users', component: UserContainerComponent}
-        ]),
-        ClarityModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', component: LandingComponent },
+      { path: 'users', component: UserContainerComponent }
+    ]),
+    ClarityModule,
+    ReactiveFormsModule
+  ],
   exports: [UserContainerComponent]
 })
 export class AdminModule {}

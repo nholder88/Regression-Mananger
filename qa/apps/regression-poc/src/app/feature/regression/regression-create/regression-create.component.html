@@ -1,4 +1,10 @@
-<button style="align-self: end" class="btn btn-primary btn-sm" (click)="xlOpen=!xlOpen">Add Regression</button>
+<button
+  style="align-self: end"
+  class="btn btn-primary btn-sm"
+  (click)="xlOpen = !xlOpen"
+>
+  Add Regression
+</button>
 
 <clr-modal [(clrModalOpen)]="xlOpen" [clrModalSize]="'lg'">
   <h3 class="modal-title">Add New Regression</h3>
@@ -9,62 +15,58 @@
           <div class="clr-col">
             <clr-input-container>
               <label>Name</label>
-              <input clrInput type="text" formControlName="name"/>
+              <input clrInput type="text" formControlName="name" />
             </clr-input-container>
           </div>
           <div class="clr-col">
             <clr-input-container>
               <label>Release Name</label>
-              <input clrInput type="text" formControlName="releaseName"/>
+              <input clrInput type="text" formControlName="releaseName" />
             </clr-input-container>
           </div>
           <div class="clr-col">
             <clr-input-container>
               <label>Testing Practice Short Name</label>
-              <input clrInput type="text" formControlName="practiceName"/>
+              <input clrInput type="text" formControlName="practiceName" />
             </clr-input-container>
           </div>
-
         </div>
-        <div class="clr-row">   <div class="clr-col">
-          <clr-date-container>
-            <label>Planned Start Date</label>
-            <input clrDate type="date" formControlName="plannedStartDate"/>
-          </clr-date-container>
-        </div>
+        <div class="clr-row">
+          <div class="clr-col">
+            <clr-date-container>
+              <label>Planned Start Date</label>
+              <input clrDate type="date" formControlName="plannedStartDate" />
+            </clr-date-container>
+          </div>
           <div class="clr-col">
             <clr-date-container>
               <label>Planned End Date</label>
-              <input clrDate type="date" formControlName="plannedEndDate"/>
+              <input clrDate type="date" formControlName="plannedEndDate" />
             </clr-date-container>
-          </div></div>
+          </div>
+        </div>
 
         <div class="clr-row">
-
           <div class="clr-col">
             <clr-date-container>
               <label>Actual Start Date</label>
-              <input clrDate type="date" formControlName="actualStartDate"/>
+              <input clrDate type="date" formControlName="actualStartDate" />
             </clr-date-container>
           </div>
           <div class="clr-col">
             <clr-date-container>
               <label>Actual End Date</label>
-              <input clrDate type="date" formControlName="actualEndDate"/>
+              <input clrDate type="date" formControlName="actualEndDate" />
             </clr-date-container>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" (click)="xlOpen = false">Cancel</button>
-        <button type="submit" class="btn btn-primary" >Ok</button>
+        <button type="button" class="btn btn-outline" (click)="xlOpen = false">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Ok</button>
       </div>
     </form>
   </div>
-
 </clr-modal>
-
-
-
-
-

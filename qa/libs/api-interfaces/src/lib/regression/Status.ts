@@ -5,4 +5,3 @@ export enum Status {
   Blocked = 'Blocked',
   Skipped = 'Skipped'
 }
-

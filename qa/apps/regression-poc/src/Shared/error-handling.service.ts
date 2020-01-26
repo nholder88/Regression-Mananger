@@ -1,20 +1,14 @@
 import { Injectable } from '@angular/core';
-import {throwError} from "rxjs";
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorHandlingService {
-
-  constructor() {
-
-
-  }
+  constructor() {}
   public handleError(err: any) {
-
     let errorMessage: string;
     if (err.error instanceof ErrorEvent) {
-
       errorMessage = `An error occurred: ${err.error.message}`;
     } else {
       // The backend returned an unsuccessful response code.

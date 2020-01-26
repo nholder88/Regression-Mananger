@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {AppLink} from "../../appLink";
+import { Component, OnInit } from '@angular/core';
+import { AppLink } from '../../appLink';
 
 @Component({
   selector: 'qa-landing',
@@ -7,18 +7,34 @@ import {AppLink} from "../../appLink";
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
+  constructor() {}
 
-  constructor() {
-  }
-
-  adminAreas:AppLink[] ;
+  adminAreas: AppLink[];
 
   ngOnInit() {
-    console.log("landing load");
-    this.adminAreas=[{ title: "Users", link: "users", summary: "Manage Users and roles", rolesAllowed: ["admin"],subRoutes:null },
-      { title: "Logins", link: "logins", summary: "Manage Logins ", rolesAllowed: ["admin"],subRoutes:null },
-      { title: "Teams", link: "teams", summary: "Teams and Membership", rolesAllowed: ["admin"],subRoutes:null }]
-    ;
+    console.log('landing load');
+    this.adminAreas = [
+      {
+        title: 'Users',
+        link: 'users',
+        summary: 'Manage Users and roles',
+        rolesAllowed: ['admin'],
+        subRoutes: null
+      },
+      {
+        title: 'Logins',
+        link: 'logins',
+        summary: 'Manage Logins ',
+        rolesAllowed: ['admin'],
+        subRoutes: null
+      },
+      {
+        title: 'Teams',
+        link: 'teams',
+        summary: 'Teams and Membership',
+        rolesAllowed: ['admin'],
+        subRoutes: null
+      }
+    ];
   }
-
 }

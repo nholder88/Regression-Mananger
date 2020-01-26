@@ -1,6 +1,10 @@
-<button style="align-self: end" class="btn btn-sm btn-outline" (click)="xlOpen=!xlOpen">Add Regression Test Pass</button>
-
-
+<button
+  style="align-self: end"
+  class="btn btn-sm btn-outline"
+  (click)="xlOpen = !xlOpen"
+>
+  Add Regression Test Pass
+</button>
 
 <clr-wizard #wizardxl [(clrWizardOpen)]="xlOpen">
   <clr-wizard-title>Create New Regression</clr-wizard-title>
@@ -8,72 +12,88 @@
   <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
   <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
   <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
-  <clr-wizard-button [type]="'finish'" (click)="onFinish()">Finish</clr-wizard-button>
+  <clr-wizard-button [type]="'finish'" (click)="onFinish()"
+    >Finish</clr-wizard-button
+  >
 
   <clr-wizard-page>
     <ng-template clrPageTitle>Select Active Regresssion</ng-template>
 
-
     <form clrForm [formGroup]="regressionForm">
-
       <clr-select-container>
         <label>Please select a Regression</label>
-        <select clrSelect name="options" formControlName="regression" >
-          <option *ngFor="let regression of regressions$|async" [value]="regression.id">{{regression.name}}</option>
+        <select clrSelect name="options" formControlName="regression">
+          <option
+            *ngFor="let regression of regressions$ | async"
+            [value]="regression.id"
+            >{{ regression.name }}</option
+          >
         </select>
       </clr-select-container>
-
     </form>
-
   </clr-wizard-page>
 
   <clr-wizard-page>
     <ng-template clrPageTitle>Test Areas</ng-template>
     <form clrForm [formGroup]="regressionForm">
-
-
-      <clr-tree-node [clrExpanded]="true" >
+      <clr-tree-node [clrExpanded]="true">
         Areas to Test
-        <clr-tree-node *ngFor="let area of availableAreas " [clrExpanded]="false" >
-          {{area.name}}
-          <clr-tree-node *ngFor="let feature of area.features"
-                         [clrSelected]="feature.enable" (clrSelectedChange)="feature.enable = !!$event;onFeatureSelected(feature)">
-            {{feature.name}} ({{feature.teams[0].name}})
-            <clr-tree-node *ngFor="let subFeature of feature.subFeatures"
-                        [clrSelected]="subFeature.enable" (clrSelectedChange)="subFeature.enable = !!$event;onFeatureSelected(subFeature)">
-              {{subFeature.name}} ({{subFeature.teams[0].name}})
-              <clr-tree-node *ngFor="let subFeaturen of subFeature.subFeatures"
-                             [clrSelected]="subFeaturen.enable" (clrSelectedChange)="subFeaturen.enable = !!$event;onFeatureSelected(subFeaturen)">
-                {{subFeaturen.name}} ({{subFeaturen.teams[0].name}})
+        <clr-tree-node
+          *ngFor="let area of availableAreas"
+          [clrExpanded]="false"
+        >
+          {{ area.name }}
+          <clr-tree-node
+            *ngFor="let feature of area.features"
+            [clrSelected]="feature.enable"
+            (clrSelectedChange)="
+              feature.enable = !!$event; onFeatureSelected(feature)
+            "
+          >
+            {{ feature.name }} ({{ feature.teams[0].name }})
+            <clr-tree-node
+              *ngFor="let subFeature of feature.subFeatures"
+              [clrSelected]="subFeature.enable"
+              (clrSelectedChange)="
+                subFeature.enable = !!$event; onFeatureSelected(subFeature)
+              "
+            >
+              {{ subFeature.name }} ({{ subFeature.teams[0].name }})
+              <clr-tree-node
+                *ngFor="let subFeaturen of subFeature.subFeatures"
+                [clrSelected]="subFeaturen.enable"
+                (clrSelectedChange)="
+                  subFeaturen.enable = !!$event; onFeatureSelected(subFeaturen)
+                "
+              >
+                {{ subFeaturen.name }} ({{ subFeaturen.teams[0].name }})
               </clr-tree-node>
             </clr-tree-node>
           </clr-tree-node>
         </clr-tree-node>
       </clr-tree-node>
-
-
-
     </form>
   </clr-wizard-page>
 
   <clr-wizard-page>
     <ng-template clrPageTitle>Roles to Test</ng-template>
     <form clrForm [formGroup]="regressionForm">
-    <clr-checkbox-container >
-      <label>Roles</label>
-      <clr-checkbox-wrapper *ngFor="let role of userRoles$|async" >
-        <input type="checkbox" clrCheckbox  required [value]="role.id" (click)="onRoleSelected(role)"    />
-        <label>{{role.name}}</label>
-      </clr-checkbox-wrapper>
+      <clr-checkbox-container>
+        <label>Roles</label>
+        <clr-checkbox-wrapper *ngFor="let role of userRoles$ | async">
+          <input
+            type="checkbox"
+            clrCheckbox
+            required
+            [value]="role.id"
+            (click)="onRoleSelected(role)"
+          />
+          <label>{{ role.name }}</label>
+        </clr-checkbox-wrapper>
 
-      <clr-control-helper>Select the roles to test with</clr-control-helper>
-      <clr-control-error>This field is required!</clr-control-error>
-    </clr-checkbox-container>
+        <clr-control-helper>Select the roles to test with</clr-control-helper>
+        <clr-control-error>This field is required!</clr-control-error>
+      </clr-checkbox-container>
     </form>
   </clr-wizard-page>
 </clr-wizard>
-
-
-
-
-
