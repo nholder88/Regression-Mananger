@@ -1,86 +1,93 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Area, Regression, } from "@qa/api-interfaces";
-import {ClrWizard} from "@clr/angular";
-import {UserService} from "../../admin/user/user.service";
-import {RegressionService} from "../regression.service";
-
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
+import { Area, Regression } from '@qa/api-interfaces';
+import { ClrWizard } from '@clr/angular';
+import { UserService } from '../../admin/user/user.service';
+import { RegressionService } from '../regression.service';
 
 @Component({
   selector: 'qa-regression-test-pass-form',
   templateUrl: './regression-test-pass-form.component.html',
   styleUrls: ['./regression-test-pass-form.component.css']
 })
+export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
 
-export class RegressionTestPassFormComponent implements OnInit {
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private regressionService: RegressionService
+  ) {}
   // @ts-ignore
-  @ViewChild("wizardxl") wizardExtraLarge: ClrWizard;
-  xlOpen: boolean = false;
+  @ViewChild('wizardxl') wizardExtraLarge: ClrWizard;
+  xlOpen = false;
+  selectedFeatures = [];
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private regressionService:RegressionService) {
-  }
-
-  ngOnInit() {
-this.regressionForm=this.formBuilder.group(this.testPassModel);
-  }
-
-  isNew: boolean = true;
+  isNew = true;
   testPassModel = {
-    IncludedAreas: [],
-    IncludedFeatures: [],
-    IncludedRoles: [],
-    CreatedBy: "",
-    regression:null
+    CreatedBy: '',
+    regression: null
   };
 
-
-  availableAreas = this.regressionService.areas$;
+  availableAreas: Array<Area>;
   regressionForm: FormGroup;
 
   userRoles$ = this.userService.userRoles$;
-  regressions$= this.regressionService.regressionWithAdd$;
+  regressions$ = this.regressionService.regressionWithAdd$;
+  selectedRoles = [];
+
+  ngOnInit() {
+    this.regressionForm = this.formBuilder.group(this.testPassModel);
+    this.regressionService.areas$.subscribe(
+      areas => (this.availableAreas = areas)
+    );
+  }
 
   private onFinish() {
-    alert("Submit Test Pass");
-    console.log("Test pass form data", this.regressionForm)
+    /*For now build a save model of roles, regression Id and all features*/
+    const saveModel = {
+      regressionId: this.regressionForm.get('regression').value,
+      selectedFeatures: this.selectedFeatures,
+      selectedRoles: this.selectedRoles,
+      user: this.getCurrentUser()
+    };
+
+    this.regressionService.saveTestPass(saveModel);
+    console.log("Test Pass Saved", JSON.stringify(saveModel) );
     this.regressionForm.reset();
-    this.wizardExtraLarge.reset()
-  };
-
-
+    this.wizardExtraLarge.reset();
+  }
 
   private getCurrentUser() {
-    return this.userService.getLoggedInUser().name;
+    return this.userService.getLoggedInUser();
   }
 
-  onCheckboxToggled(type: string, model: any, value: boolean) {
-    switch (type) {
-      case 'area': {
-        this.findAndToggleStateFromArrayAndModel(this.testPassModel.IncludedAreas,model);
-      }
-        break;
-      case 'feature': {
-        this.findAndToggleStateFromArrayAndModel(this.testPassModel.IncludedFeatures,model)
-      }
-        break;
-      case 'role': {
-        this.findAndToggleStateFromArrayAndModel(this.testPassModel.IncludedRoles,model)
-      }
-        break;
-      default: {
-      }
-        break;
-
-
+  onFeatureSelected(feature) {
+    const index = this.selectedFeatures.findIndex(x => x.id === feature.id);
+    if (index === -1 && feature.enable) {
+      this.selectedFeatures.push(feature);
+    } else {
+      this.selectedFeatures.splice(index, 1);
     }
+
   }
 
-  findAndToggleStateFromArrayAndModel(array: Array<any>, model: any) {
-    var index = array.findIndex(x => x.id === model.id);
-    index > -1 ? array.splice(index, 1) : array.push(model);
+  onRoleSelected(role) {
+    const index = this.selectedRoles.findIndex(x => x.id === role.id);
+    if (index === -1) {
+      this.selectedRoles.push(role);
+    } else {
+      this.selectedRoles.splice(index, 1);
+    }
+
   }
 
-  onRoleSelected(role: { name: string; id: number }) {
-
+  ngOnDestroy(): void {
+ //   this.regressionService.areas$.unsubscribe();
   }
 }

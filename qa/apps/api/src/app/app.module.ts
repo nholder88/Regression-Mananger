@@ -2,23 +2,25 @@ import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule} from '@nestjs/typeorm';
-import {RegressionModule} from "./regression/regression.module";
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RegressionModule } from './regression/regression.module';
 
-import {getMetadataArgsStorage} from "typeorm";
-
+import { getMetadataArgsStorage } from 'typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: 'root',
-    database: 'test',
-    entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
-    synchronize: true,
-  }), RegressionModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'root',
+      database: 'test',
+      entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
+      synchronize: true
+    }),
+    RegressionModule
+  ],
   controllers: [AppController],
   providers: [AppService]
 })

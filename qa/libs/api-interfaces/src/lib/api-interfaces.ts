@@ -2,7 +2,6 @@ export interface Message {
   message: string;
 }
 
-
 export interface Issue {
   id: number;
 }
@@ -21,34 +20,31 @@ export interface Regression {
   practiceName: string;
 }
 
-
 export interface Test {
   id: number;
   testCases: TestCaseResult[];
   tester: User;
   isComplete: boolean;
-
 }
 
 export interface Area {
   id: number;
   name: string;
-  features: Feature[]
+  features: Feature[];
 }
 
 export interface Feature {
   id: number;
   name: string;
-  teams: Team[]
-  subFeatures: Feature[]
-  enable:boolean
+  teams: Team[];
+  subFeatures: Feature[];
+  enable: boolean;
 }
 
 export interface Team {
   id: number;
   name: string;
-//  Owner: User;
-
+  //  Owner: User;
 }
 
 export interface TestCase {
@@ -59,12 +55,11 @@ export interface TestCase {
 }
 
 export interface TestCaseResult {
-  id:number;
-  testCase: TestCase
+  id: number;
+  testCase: TestCase;
   caseStatus: string;
   testingRole: string;
   testingLoginUserName: string;
-
 }
 
 export interface User {
@@ -76,7 +71,6 @@ export interface User {
 }
 
 export interface Roles {
-
   id: number;
   name: string;
   users: User[];

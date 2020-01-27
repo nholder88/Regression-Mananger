@@ -8,9 +8,8 @@ describe('RegressionListingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegressionListingComponent ]
-    })
-    .compileComponents();
+      declarations: [RegressionListingComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
