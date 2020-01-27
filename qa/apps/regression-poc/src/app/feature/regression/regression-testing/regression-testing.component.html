@@ -40,46 +40,80 @@
       class="clr-row"
     >
       <div class="clr-col">
-        <h4>{{ testCase.testCase.feature.name }}</h4>
 
-        <div class="clr-row">
-          <div class="clr-col-9">
+            <div class="card">
+              <div class="card-header">
+                {{ testCase.testCase.feature.name }}
+              </div>
+              <div class="card-block">
+                <div class="card-title">
+                  {{ testCase.testCase.caseOrder }}-{{
+                  testCase.testCase.description
+                  }}
+                </div>
+                <div class="card-text">
+                  <clr-select-container>
+                    <label
+                    >{{ testCase.testCase.caseOrder }}-{{
+                      testCase.testCase.description
+                      }}</label
+                    >
+                    <select clrSelect name="options">
+                      <option value="one">Untested</option>
+                      <option value="two">Pass</option>
+                      <option value="three">Fail</option>
+                    </select>
+                  </clr-select-container>
 
-            <clr-select-container>
-              <label
-              >{{ testCase.testCase.caseOrder }}-{{
-                testCase.testCase.description
-                }}</label
-              >
-              <select clrSelect name="options">
-                <option value="one">Untested</option>
-                <option value="two">Pass</option>
-                <option value="three">Fail</option>
-              </select>
-            </clr-select-container>
-            <button
-              aria-label="Create a Bug"
-              class="btn btn-danger-outline btn-icon btn-sm"
-              title="Create a bug for this test"
-              type="button"
-            >
-              <clr-icon class="is-solid" shape="bug"></clr-icon>
-            </button>
+<!--                  <clr-input-container>-->
+<!--                    <input-->
+<!--                      clrInput-->
+<!--                      name="name"-->
+<!--                      placeholder="Provide Details for Failing tests"-->
+<!--                    />-->
+<!--                  </clr-input-container>-->
+                </div>
+              </div>
+              <div class="card-footer">
+
+                <div class="btn-group btn-sm">
+
+                  <div class="radio btn btn-outline-success">
+                    <input type="radio" name="btn-group-demo-radios_{{testCase.testCase.caseOrder}}}" id="btn-demo-radio-2_{{testCase.testCase.caseOrder}}}">
+                    <label for="btn-demo-radio-2_{{testCase.testCase.caseOrder}}}">Passed</label>
+                  </div>
+                  <div class="radio btn  btn-outline-danger">
+                    <input type="radio" name="btn-group-demo-radios_{{testCase.testCase.caseOrder}}}" id="btn-demo-radio-3_{{testCase.testCase.caseOrder}}}">
+                    <label for="btn-demo-radio-3_{{testCase.testCase.caseOrder}}}">Failed</label>
+                  </div>
+                  <div class="radio btn  btn-outline">
+                    <input type="radio" name="btn-group-demo-radios_{{testCase.testCase.caseOrder}}}" id="btn-demo-radio-1_{{testCase.testCase.caseOrder}}}">
+                    <label for="btn-demo-radio-1_{{testCase.testCase.caseOrder}}}">Skipped</label>
+                  </div>
+                  <div class="radio btn  btn-outline">
+                    <input type="radio" name="btn-group-demo-radios_{{testCase.testCase.caseOrder}}}" id="btn-demo-radio-4_{{testCase.testCase.caseOrder}}}" checked>
+                    <label for="btn-demo-radio-4_{{testCase.testCase.caseOrder}}}">Untested</label>
+                  </div>
+                </div>
+
+
+<!--                <button-->
+<!--                  aria-label="Create a Bug"-->
+<!--                  class="btn btn-danger-outline btn-icon btn-sm"-->
+<!--                  title="Create a bug for this test"-->
+<!--                  type="button"-->
+<!--                >-->
+<!--                  <clr-icon class="is-solid" shape="bug"></clr-icon>-->
+<!--                </button>-->
+
+              </div>
+            </div>
+
           </div>
 
-          <div class="clr-col-1">
-            <clr-input-container>
-              <input
-                clrInput
-                name="name"
-                placeholder="Provide Details for Failing tests"
-              />
-            </clr-input-container>
-          </div>
+
         </div>
       </div>
     </div>
 
 
-  </div>
-</div>
