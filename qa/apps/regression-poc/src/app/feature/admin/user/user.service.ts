@@ -18,16 +18,11 @@ import { Action } from 'rxjs/internal/scheduler/Action';
   providedIn: 'root'
 })
 export class UserService {
-  getLoggedInUser(): User {
-    return {
-      id: 0,
-      lastLogin: undefined,
-      name: 'Purely',
-      roles: [],
-      team: { id: 0, name: '' }
-    };
-    throw new Error('Method not implemented.');
-  }
+
+  constructor(
+    private http: HttpClient,
+    private errorHandler: ErrorHandlingService
+  ) {}
 
   userRoles$ = of([
     { id: 1, name: 'Admin' },
@@ -54,11 +49,6 @@ export class UserService {
   });
   userSelectedAction$ = this.selectedUserSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private errorHandler: ErrorHandlingService
-  ) {}
-
   private rootUrl = 'api/user';
 
   selectedUser$ = combineLatest([this.userSelectedAction$]).pipe(
@@ -74,6 +64,22 @@ export class UserService {
   saveUserSubject = new Subject<User>();
   userSavedAction$ = this.saveUserSubject.asObservable();
 
+  usersWithAdd$ = merge(this.users$, this.userSavedAction$).pipe(
+    tap(data => console.log(data)),
+    scan((acc: User[], value: User) => [...acc, value]),
+    catchError(err => this.errorHandler.handleError(err))
+  );
+  getLoggedInUser(): User {
+    return {
+      id: 1,
+      lastLogin: null,
+      name: 'Purely',
+      roles: [],
+      team: { id: 1, name: 'Demo' }
+    };
+
+  }
+
   saveUser(user?: User) {
     if (user === null || user === undefined) {
       user = {
@@ -88,14 +94,9 @@ export class UserService {
     if (user.id) {
       this.http.put(this.rootUrl, user).pipe(tap(next => console.log(user)));
     } else {
+      // tslint:disable-next-line:no-shadowed-variable
       this.http.post(this.rootUrl, user).pipe(tap(user => console.log(user)));
     }
     this.saveUserSubject.next(user);
   }
-
-  usersWithAdd$ = merge(this.users$, this.userSavedAction$).pipe(
-    tap(data => console.log(data)),
-    scan((acc: User[], value: User) => [...acc, value]),
-    catchError(err => this.errorHandler.handleError(err))
-  );
 }

@@ -17,25 +17,18 @@ import { RegressionService } from '../regression.service';
   styleUrls: ['./regression-test-pass-form.component.css']
 })
 export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
-  // @ts-ignore
-  @ViewChild('wizardxl') wizardExtraLarge: ClrWizard;
-  xlOpen: boolean = false;
-  selectedFeatures = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
     private regressionService: RegressionService
   ) {}
+  // @ts-ignore
+  @ViewChild('wizardxl') wizardExtraLarge: ClrWizard;
+  xlOpen = false;
+  selectedFeatures = [];
 
-  ngOnInit() {
-    this.regressionForm = this.formBuilder.group(this.testPassModel);
-    this.regressionService.areas$.subscribe(
-      areas => (this.availableAreas = areas)
-    );
-  }
-
-  isNew: boolean = true;
+  isNew = true;
   testPassModel = {
     CreatedBy: '',
     regression: null
@@ -48,59 +41,50 @@ export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
   regressions$ = this.regressionService.regressionWithAdd$;
   selectedRoles = [];
 
+  ngOnInit() {
+    this.regressionForm = this.formBuilder.group(this.testPassModel);
+    this.regressionService.areas$.subscribe(
+      areas => (this.availableAreas = areas)
+    );
+  }
+
   private onFinish() {
     /*For now build a save model of roles, regression Id and all features*/
-    var saveModel = {
+    const saveModel = {
       regressionId: this.regressionForm.get('regression').value,
       selectedFeatures: this.selectedFeatures,
-      selectedRoles: this.selectedRoles
+      selectedRoles: this.selectedRoles,
+      user: this.getCurrentUser()
     };
 
-    alert('Submit Test Pass' + JSON.stringify(this.userRoles$));
-    console.log('Test pass form data', JSON.stringify(saveModel));
-    // @ts-ignore
-    console.log('flattened array', this.availableAreas.flat(Infinity));
+    this.regressionService.saveTestPass(saveModel);
+    console.log("Test Pass Saved", JSON.stringify(saveModel) );
     this.regressionForm.reset();
     this.wizardExtraLarge.reset();
   }
 
   private getCurrentUser() {
-    return this.userService.getLoggedInUser().name;
-  }
-
-  findAndToggleStateFromArrayAndModel(
-    array: Array<any>,
-    model: any,
-    value: boolean
-  ) {
-    var index = array.findIndex(x => x.id === model.id);
-    index > -1 && !value
-      ? array.splice(index, 1)
-      : array.push({
-          id: model.id,
-          name: model.name,
-          subfeatures: model.subfeatures
-        });
+    return this.userService.getLoggedInUser();
   }
 
   onFeatureSelected(feature) {
-    var index = this.selectedFeatures.findIndex(x => x.id == feature.id);
+    const index = this.selectedFeatures.findIndex(x => x.id === feature.id);
     if (index === -1 && feature.enable) {
       this.selectedFeatures.push(feature);
     } else {
       this.selectedFeatures.splice(index, 1);
     }
-    console.log(this.selectedFeatures);
+
   }
 
   onRoleSelected(role) {
-    var index = this.selectedRoles.findIndex(x => x.id == role.id);
+    const index = this.selectedRoles.findIndex(x => x.id === role.id);
     if (index === -1) {
       this.selectedRoles.push(role);
     } else {
       this.selectedRoles.splice(index, 1);
     }
-    console.log(this.selectedRoles);
+
   }
 
   ngOnDestroy(): void {

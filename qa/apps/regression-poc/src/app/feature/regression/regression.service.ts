@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable, of, Subject } from 'rxjs';
-import { Area, Regression, User } from '@qa/api-interfaces';
+import { Area, Regression, User, Test } from '@qa/api-interfaces';
 import { throwError } from 'rxjs';
 import { catchError, scan, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -52,36 +52,6 @@ export class RegressionService {
   saveRegressionSubject = new Subject<Regression>();
   regressionSavedAction$ = this.saveRegressionSubject.asObservable();
 
-  saveRegression(regression?: Regression) {
-    if (regression === null || regression === undefined) {
-      regression = {
-        actualEndDate: null,
-        actualStartDate: null,
-        id: 0,
-        isComplete: false,
-        isStarted: false,
-        name: 'Blank_' + new Date().toUTCString(),
-        plannedEndDate: null,
-        plannedStartDate: null,
-        practiceName: 'REGRESSION',
-        releaseName: 'RL_' + new Date().toLocaleDateString(),
-        results: []
-      };
-    }
-    if (regression.id > 0) {
-      this.http
-        .put(this.rootUrl, regression)
-        .pipe(tap(regression => console.log(regression)))
-        .subscribe();
-    } else {
-      this.http
-        .post(this.rootUrl, regression)
-        .pipe(tap(regression => console.log(regression)))
-        .subscribe();
-    }
-    this.saveRegressionSubject.next(regression);
-  }
-
   regressionWithAdd$ = merge(
     this.regressions$,
     this.regressionSavedAction$
@@ -90,7 +60,6 @@ export class RegressionService {
     scan((acc: Regression[], value: Regression) => [...acc, value]),
     catchError(err => this.errorHandler.handleError(err))
   );
-
   areas$: Observable<Area[]> = of<Area[]>([
     {
       id: 1,
@@ -218,4 +187,44 @@ export class RegressionService {
       ]
     }
   ]);
+
+  saveRegression(regression?: Regression) {
+    if (regression === null || regression === undefined) {
+      regression = {
+        actualEndDate: null,
+        actualStartDate: null,
+        id: 0,
+        isComplete: false,
+        isStarted: false,
+        name: 'Blank_' + new Date().toUTCString(),
+        plannedEndDate: null,
+        plannedStartDate: null,
+        practiceName: 'REGRESSION',
+        releaseName: 'RL_' + new Date().toLocaleDateString(),
+        results: []
+      };
+    }
+    if (regression.id > 0) {
+      this.http
+        .put(this.rootUrl, regression)
+        // tslint:disable-next-line:no-shadowed-variable
+        .pipe(tap(regression => console.log(regression)))
+        .subscribe();
+    } else {
+      this.http
+        .post(this.rootUrl, regression)
+        // tslint:disable-next-line:no-shadowed-variable
+        .pipe(tap(regression => console.log(regression)))
+        .subscribe();
+    }
+    this.saveRegressionSubject.next(regression);
+  }
+  saveTestPass(saveModel: { selectedFeatures: any[]; regressionId: any; selectedRoles: any[], user: User }) {
+
+    const test:Test= {id:null, isComplete:false, tester:saveModel.user, testCases:
+    [{ }]}
+    //Create new Arrays for each set of roles and the tests therein
+
+    //http request to save to the api
+  }
 }

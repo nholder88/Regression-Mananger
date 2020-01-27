@@ -10,4 +10,6 @@ export class RegressionService extends TypeOrmCrudService<RegressionEntity> {
   constructor(@InjectRepository(RegressionEntity) repo) {
     super(repo);
   }
+
+
 }
