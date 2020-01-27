@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable, of, Subject } from 'rxjs';
-import { Area, Regression, User, Test } from '@qa/api-interfaces';
-import { throwError } from 'rxjs';
+import { Area, Regression, User } from '@qa/api-interfaces';
 import { catchError, scan, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../Shared/error-handling.service';
@@ -220,9 +219,7 @@ export class RegressionService {
     this.saveRegressionSubject.next(regression);
   }
   saveTestPass(saveModel: { selectedFeatures: any[]; regressionId: any; selectedRoles: any[], user: User }) {
-
-    const test:Test= {id:null, isComplete:false, tester:saveModel.user, testCases:
-    [{ }]}
+    alert('Save still needs to be implemented. ');
     //Create new Arrays for each set of roles and the tests therein
 
     //http request to save to the api

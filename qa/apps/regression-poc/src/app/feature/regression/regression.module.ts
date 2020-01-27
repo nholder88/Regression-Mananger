@@ -6,12 +6,14 @@ import { ClarityModule } from '@clr/angular';
 import { RegressionCreateComponent } from './regression-create/regression-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegressionTestPassFormComponent } from './regression-test-pass-form/regression-test-pass-form.component';
+import { RegressionTestingComponent } from './regression-testing/regression-testing.component';
 
 @NgModule({
   declarations: [
     RegressionListingComponent,
     RegressionCreateComponent,
-    RegressionTestPassFormComponent
+    RegressionTestPassFormComponent,
+    RegressionTestingComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { RegressionTestPassFormComponent } from './regression-test-pass-form/reg
       {
         path: 'history',
         component: RegressionListingComponent
-      }
+      },
+      { path: 'continue', component: RegressionTestingComponent }
     ]),
     ClarityModule
   ],
