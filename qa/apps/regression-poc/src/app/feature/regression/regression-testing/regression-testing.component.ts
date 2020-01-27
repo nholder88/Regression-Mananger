@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Regression, Test } from '@qa/api-interfaces';
+import { RegressionService } from '../regression.service';
 
 @Component({
   selector: 'qa-regression-testing',
@@ -127,8 +128,8 @@ export class RegressionTestingComponent implements OnInit {
     practiceName: 'Master',
     releaseName: 'Never'
   };
-
-  constructor() {
+  regression$ = this.service.regressionWithAdd$;
+  constructor(private service: RegressionService) {
   }
 
   ngOnInit() {

@@ -23,4 +23,9 @@ export class RegressionListingComponent implements OnInit {
       CompletedRegressions: regressions.filter(r => r.isComplete == true)
     }))
   );
+
+  onViewResultsClick(regression){
+    window.open("https://valor-software.com/ng2-charts/#/GeneralInfo", "_blank");
+
+  }
 }

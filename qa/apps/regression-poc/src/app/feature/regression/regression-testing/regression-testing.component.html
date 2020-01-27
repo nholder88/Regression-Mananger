@@ -12,7 +12,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
+      <tr *ngFor="let regression of regression$|async">
         <td>{{ regression.name }} -{{ regression.releaseName }}</td>
         <td>{{ regression.results.length }}</td>
       </tr>
