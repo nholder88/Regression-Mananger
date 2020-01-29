@@ -36,34 +36,25 @@
       </div>
     </div>
     <div
-      *ngFor="let testCase of regression.results[0].testCases"
+      *ngFor="let testCase of tests"
       class="clr-row"
     >
       <div class="clr-col">
 
             <div class="card">
               <div class="card-header">
-                {{ testCase.testCase.feature.name }}
+                {{ testCase.name}}
               </div>
               <div class="card-block">
                 <div class="card-title">
-                  {{ testCase.testCase.caseOrder }}-{{
-                  testCase.testCase.description
+                  {{ testCase.feature
                   }}
                 </div>
                 <div class="card-text">
-                  <clr-select-container>
-                    <label
-                    >{{ testCase.testCase.caseOrder }}-{{
-                      testCase.testCase.description
-                      }}</label
-                    >
-                    <select clrSelect name="options">
-                      <option value="one">Untested</option>
-                      <option value="two">Pass</option>
-                      <option value="three">Fail</option>
-                    </select>
-                  </clr-select-container>
+
+                    <p *ngFor="let step of testCase.steps">{{step.order}} {{step.name}}.</p>
+
+
 
 <!--                  <clr-input-container>-->
 <!--                    <input-->
@@ -79,20 +70,20 @@
                 <div class="btn-group btn-sm">
 
                   <div class="radio btn btn-outline-success">
-                    <input type="radio" name="btn-group-demo-radios_{{testCase.testCase.caseOrder}}}" id="btn-demo-radio-2_{{testCase.testCase.caseOrder}}}">
-                    <label for="btn-demo-radio-2_{{testCase.testCase.caseOrder}}}">Passed</label>
+                    <input type="radio" name="btn-group-demo-radios_{{testCase.name}}}" id="btn-demo-radio-2_{{testCase.testCase.caseOrder}}}">
+                    <label for="btn-demo-radio-2_{{testCase.name}}}">Passed</label>
                   </div>
                   <div class="radio btn  btn-outline-danger">
-                    <input type="radio" name="btn-group-demo-radios_{{testCase.testCase.caseOrder}}}" id="btn-demo-radio-3_{{testCase.testCase.caseOrder}}}">
-                    <label for="btn-demo-radio-3_{{testCase.testCase.caseOrder}}}">Failed</label>
+                    <input type="radio" name="btn-group-demo-radios_{{testCase.name}}}" id="btn-demo-radio-3_{{testCase.testCase.caseOrder}}}">
+                    <label for="btn-demo-radio-3_{{testCase.name}}}">Failed</label>
                   </div>
                   <div class="radio btn  btn-outline">
                     <input type="radio" name="btn-group-demo-radios_{{testCase.testCase.caseOrder}}}" id="btn-demo-radio-1_{{testCase.testCase.caseOrder}}}">
                     <label for="btn-demo-radio-1_{{testCase.testCase.caseOrder}}}">Skipped</label>
                   </div>
                   <div class="radio btn  btn-outline">
-                    <input type="radio" name="btn-group-demo-radios_{{testCase.testCase.caseOrder}}}" id="btn-demo-radio-4_{{testCase.testCase.caseOrder}}}" checked>
-                    <label for="btn-demo-radio-4_{{testCase.testCase.caseOrder}}}">Untested</label>
+                    <input type="radio" name="btn-group-demo-radios_{{testCase.name}}" id="btn-demo-radio-4_{{testCase.testCase.caseOrder}}}" checked>
+                    <label for="btn-demo-radio-4_{{testCase.name}}}">Untested</label>
                   </div>
                 </div>
 
