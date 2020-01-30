@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppLink } from '../../appLink';
-
+import * as faker from 'faker';
 @Component({
   selector: 'qa-application-header',
   template: `
@@ -24,7 +24,7 @@ import { AppLink } from '../../appLink';
       <div class="header-actions">
         <a href="javascript://" class="nav-link nav-icon-text">
           <clr-icon shape="user"></clr-icon>
-          <span class="nav-text">username</span>
+          <span class="nav-text">Welcome, {{user}}</span>
         </a>
       </div>
     </header>
@@ -49,7 +49,7 @@ export class ApplicationHeaderComponent implements OnInit {
   constructor() {}
 
   appAreas: AppLink[];
-
+user:string= faker.internet.userName()
   ngOnInit() {
     this.appAreas = [
       {
