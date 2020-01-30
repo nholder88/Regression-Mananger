@@ -1,21 +1,23 @@
 <div class="clr-row">
   <div class="clr-col-2">
     <h2>
-      Active Regressions
+      My Test Passes
       <qa-regression-test-pass-form></qa-regression-test-pass-form>
     </h2>
     <table class="table table-compact">
       <thead>
-      <tr>
-        <th class="left">Name</th>
-        <th>Number of Tests</th>
-      </tr>
+        <tr>
+          <th class="left">Name</th>
+          <th>Number of Tests</th>
+          <th></th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let regression of regression$|async">
-        <td>{{ regression.name }} -{{ regression.releaseName }}</td>
-        <td>{{ regression.results.length }}</td>
-      </tr>
+        <tr *ngFor="let regression of regression$ | async">
+          <td>{{ regression.name }} -{{ regression.releaseName }}</td>
+          <td>{{ regression.results.length }}</td>
+          <td><button class="btn btn-sm btn-secondary">Continue</button></td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -24,6 +26,14 @@
     <h2>Current Test</h2>
     <div class="clr-row">
       <div class="clr-col">
+           <div class="card">
+            <div class="card-header">
+              Scenario Configuration
+              </div>
+            <div class="card-block">
+
+              <div class="clr-row">
+                <div class="clr-col">
         <clr-select-container>
           <label>Role testing </label>
           <select clrSelect name="options">
@@ -33,78 +43,101 @@
             <option value="">Sys Admin</option>
           </select>
         </clr-select-container>
+        </div>
+        <div class="clr-col">  <clr-input-container>
+          <label>Testing Login</label>
+          <input clrInput placeholder="mdiadmin" name="name"  />
+        </clr-input-container></div>
+        <div class="clr-col">
+          <clr-input-container>
+            <label>Tester</label>
+            <input clrInput placeholder="Current Tester" name="name" />
+          </clr-input-container>
+        </div>
+        </div>
+      </div>
       </div>
     </div>
-    <div
-      *ngFor="let testCase of tests"
-      class="clr-row"
-    >
+    </div>
+    <div *ngFor="let scenario of tests" class="clr-row">
       <div class="clr-col">
+        <div class="card">
+          <div class="card-header">
+            {{ scenario.feature }} - {{scenario.name}}
+          </div>
+          <div class="card-block">
+            <div class="card-title">Steps to Test</div>
+            <div class="card-text">
 
-            <div class="card">
-              <div class="card-header">
-                {{ testCase.name}}
+              <ol class="list compact">
+                <li *ngFor="let step of scenario.steps">{{ step.name }}.</li>
+              </ol>
+
+              <clr-textarea-container>
+                <label>Scenario Notes</label>
+                <textarea
+                  clrTextarea
+                  name="note"
+                  style="width: 450px;"
+                  required
+                ></textarea>
+                <clr-control-helper
+                  >Provide Details for status</clr-control-helper
+                >
+                <clr-control-error
+                  >You must provide a description!</clr-control-error
+                >
+              </clr-textarea-container>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group btn-sm">
+              <div class="radio btn btn-outline-success">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-2_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-2_{{ scenario.order }}}"
+                  >Passed</label
+                >
               </div>
-              <div class="card-block">
-                <div class="card-title">
-                  {{ testCase.feature
-                  }}
-                </div>
-                <div class="card-text">
-
-                    <p *ngFor="let step of testCase.steps">{{step.order}} {{step.name}}.</p>
-
-
-
-<!--                  <clr-input-container>-->
-<!--                    <input-->
-<!--                      clrInput-->
-<!--                      name="name"-->
-<!--                      placeholder="Provide Details for Failing tests"-->
-<!--                    />-->
-<!--                  </clr-input-container>-->
-                </div>
+              <div class="radio btn  btn-outline-danger">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-3_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-3_{{ scenario.order }}}"
+                  >Failed</label
+                >
               </div>
-              <div class="card-footer">
-
-                <div class="btn-group btn-sm">
-
-                  <div class="radio btn btn-outline-success">
-                    <input type="radio" name="btn-group-demo-radios_{{testCase.name}}}" id="btn-demo-radio-2_{{testCase.testCase.caseOrder}}}">
-                    <label for="btn-demo-radio-2_{{testCase.name}}}">Passed</label>
-                  </div>
-                  <div class="radio btn  btn-outline-danger">
-                    <input type="radio" name="btn-group-demo-radios_{{testCase.name}}}" id="btn-demo-radio-3_{{testCase.testCase.caseOrder}}}">
-                    <label for="btn-demo-radio-3_{{testCase.name}}}">Failed</label>
-                  </div>
-                  <div class="radio btn  btn-outline">
-                    <input type="radio" name="btn-group-demo-radios_{{testCase.testCase.caseOrder}}}" id="btn-demo-radio-1_{{testCase.testCase.caseOrder}}}">
-                    <label for="btn-demo-radio-1_{{testCase.testCase.caseOrder}}}">Skipped</label>
-                  </div>
-                  <div class="radio btn  btn-outline">
-                    <input type="radio" name="btn-group-demo-radios_{{testCase.name}}" id="btn-demo-radio-4_{{testCase.testCase.caseOrder}}}" checked>
-                    <label for="btn-demo-radio-4_{{testCase.name}}}">Untested</label>
-                  </div>
-                </div>
-
-
-<!--                <button-->
-<!--                  aria-label="Create a Bug"-->
-<!--                  class="btn btn-danger-outline btn-icon btn-sm"-->
-<!--                  title="Create a bug for this test"-->
-<!--                  type="button"-->
-<!--                >-->
-<!--                  <clr-icon class="is-solid" shape="bug"></clr-icon>-->
-<!--                </button>-->
-
+              <div class="radio btn  btn-outline">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-1_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-1_{{ scenario.order }}}"
+                  >Skipped</label
+                >
+              </div>
+              <div class="radio btn  btn-outline">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}"
+                  id="btn-demo-radio-4_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-4_{{ scenario.order }}}"
+                  >Untested</label
+                >
               </div>
             </div>
 
+
           </div>
-
-
         </div>
       </div>
     </div>
-
-
+  </div>
+</div>

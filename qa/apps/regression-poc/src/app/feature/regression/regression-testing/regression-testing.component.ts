@@ -131,44 +131,47 @@ export class RegressionTestingComponent implements OnInit {
   };
   regression$ = this.service.regressionWithAdd$;
 
-  tests:Array<Scenario> = [new Scenario(faker.lorem.slug(faker.random.number(35)),
-    faker.name.jobArea(), null, [new Steps(faker.lorem.sentences(3), faker.random.number(25)),
-      new Steps(faker.lorem.sentences(3), faker.random.number(25)),
-      new Steps(faker.lorem.sentences(3), faker.random.number(25))], new Date(), ''),
-    new Scenario(faker.lorem.slug(faker.random.number(35)),
-      faker.name.jobArea(), null, [], new Date(), ''),
-    new Scenario(faker.lorem.slug(faker.random.number(35)),
-      faker.name.jobArea(), null, [], new Date(), ''),
-    new Scenario(faker.lorem.slug(faker.random.number(35)),
-      faker.name.jobArea(), null, [new Steps(faker.lorem.sentences(3), faker.random.number(25)), new Steps(faker.lorem.sentences(3), faker.random.number(25)), new Steps(faker.lorem.sentences(3), faker.random.number(25))], new Date(), ''),
-  ];
+  tests:Array<Scenario>;
 
   constructor(private service: RegressionService) {
   }
 
   ngOnInit() {
+
+    this.tests= [new Scenario(faker.lorem.slug(faker.random.number(35)),
+      faker.name.jobArea(), null, [new Steps(faker.lorem.sentences(3), faker.random.number(25)),
+        new Steps(faker.lorem.sentences(3), faker.random.number(25)),
+        new Steps(faker.lorem.sentences(3), faker.random.number(25))], new Date(), ''),
+      new Scenario(faker.lorem.slug(faker.random.number(35)),
+        faker.name.jobArea(), null, [], new Date(), ''),
+      new Scenario(faker.lorem.slug(faker.random.number(35)),
+        faker.name.jobArea(), null, [], new Date(), ''),
+      new Scenario(faker.lorem.slug(faker.random.number(35)),
+        faker.name.jobArea(), null, [new Steps(faker.lorem.sentences(3), faker.random.number(25)), new Steps(faker.lorem.sentences(3), faker.random.number(25)), new Steps(faker.lorem.sentences(3), faker.random.number(25))], new Date(), ''),
+    ];
+    console.log("testing component", this.tests, faker.lorem.slug(faker.random.number(35)))
   }
 }
 
 export class Scenario {
   constructor(
-    feature: string,
-    name: string,
-    result: boolean = false,
-    steps: Steps[] = [],
-    timestamp: Date = new Date(),
-    note: string = ''
+   public feature: string,
+   public name: string,
+   public result: boolean = false,
+   public steps: Steps[] = [],
+   public timestamp: Date = new Date(),
+   public note: string = '',
+   public order: number= faker.random.number(25),
+   public id:string= faker.internet.ip()
   ) {
   }
 
 }
 
 export class Steps {
-  constructor(name: string, order: number) {
+  constructor( public name: string,public order: number) {
 
   }
 
-  name: string;
-  order: number;
 
 }
