@@ -59,7 +59,10 @@
       </div>
     </div>
     </div>
-    <div *ngFor="let scenario of tests" class="clr-row">
+    <span class="spinner spinner-inverse" *ngIf="!scenarios$">
+      Loading...
+  </span>
+    <div *ngFor="let scenario of scenarios$|async" class="clr-row">
       <div class="clr-col">
         <div class="card">
           <div class="card-header">
