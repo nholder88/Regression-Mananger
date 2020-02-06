@@ -4,6 +4,7 @@ import { RegressionService } from '../regression.service';
 import { Scenario } from '../models/scenario';
 import { ScenarioService } from '../scenario.service';
 import { Observable } from 'rxjs';
+import { TestPassService } from '../testpass.service';
 
 @Component({
   selector: 'qa-regression-testing',
@@ -12,12 +13,13 @@ import { Observable } from 'rxjs';
 })
 export class RegressionTestingComponent implements OnInit {
   regression$ = this.service.regressionWithAdd$;
-
+testPasses$=this.testPassService.testPasses$;
   scenarios$: Observable<Array<Scenario>> = this.scenarioService.scenarioWithAdd$;
 
   constructor(
     private service: RegressionService,
-    private scenarioService: ScenarioService
+    private scenarioService: ScenarioService,
+    private testPassService:TestPassService
   ) {}
 
   ngOnInit() {
