@@ -1,29 +1,19 @@
 <div class="clr-row">
-  <div class="clr-col-2">
-    <h2>
-      Active Regressions
-      <qa-regression-test-pass-form></qa-regression-test-pass-form>
-    </h2>
-    <table class="table table-compact">
-      <thead>
-      <tr>
-        <th class="left">Name</th>
-        <th>Number of Tests</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>{{ regression.name }} -{{ regression.releaseName }}</td>
-        <td>{{ regression.results.length }}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
 
-  <div class="clr-col">
+
+  <div class="clr-col-10">
     <h2>Current Test</h2>
     <div class="clr-row">
       <div class="clr-col">
+           <div class="card">
+            <div class="card-header">
+              Scenario Configuration
+              </div>
+            <div class="card-block">
+
+              <div class="clr-row">
+                <div class="clr-col">
+
         <clr-select-container>
           <label>Role testing </label>
           <select clrSelect name="options">
@@ -33,53 +23,113 @@
             <option value="">Sys Admin</option>
           </select>
         </clr-select-container>
+
+        </div>
+        <div class="clr-col">  <clr-input-container>
+          <label>Testing Login</label>
+          <input clrInput placeholder="mdiadmin" name="name"  />
+        </clr-input-container></div>
+        <div class="clr-col">
+          <clr-input-container>
+            <label>Tester</label>
+            <input clrInput placeholder="Current Tester" name="name" />
+          </clr-input-container>
+        </div>
+        </div>
+      </div>
       </div>
     </div>
-    <div
-      *ngFor="let testCase of regression.results[0].testCases"
-      class="clr-row"
-    >
+    </div>
+    <span class="spinner spinner-inverse" *ngIf="!scenarios$">
+      Loading...
+  </span>
+    <div *ngFor="let scenario of scenarios$|async" class="clr-row">
       <div class="clr-col">
-        <h4>{{ testCase.testCase.feature.name }}</h4>
-
-        <div class="clr-row">
-          <div class="clr-col-9">
-
-            <clr-select-container>
-              <label
-              >{{ testCase.testCase.caseOrder }}-{{
-                testCase.testCase.description
-                }}</label
-              >
-              <select clrSelect name="options">
-                <option value="one">Untested</option>
-                <option value="two">Pass</option>
-                <option value="three">Fail</option>
-              </select>
-            </clr-select-container>
-            <button
-              aria-label="Create a Bug"
-              class="btn btn-danger-outline btn-icon btn-sm"
-              title="Create a bug for this test"
-              type="button"
-            >
-              <clr-icon class="is-solid" shape="bug"></clr-icon>
-            </button>
+        <div class="card">
+          <div class="card-header">
+            {{ scenario.feature }} - {{scenario.name}}
           </div>
+          <div class="card-block">
+            <div class="card-title">Steps to Test</div>
+            <div class="card-text">
 
-          <div class="clr-col-1">
-            <clr-input-container>
-              <input
-                clrInput
-                name="name"
-                placeholder="Provide Details for Failing tests"
-              />
-            </clr-input-container>
+              <ol class="list compact">
+                <li *ngFor="let step of scenario.steps">{{ step.name }}.</li>
+              </ol>
+
+              <clr-textarea-container>
+                <label>Scenario Notes</label>
+                <textarea
+                  clrTextarea
+                  name="note"
+                  style="width: 450px;"
+                  required
+                ></textarea>
+                <clr-control-helper
+                  >Provide Details for status</clr-control-helper
+                >
+                <clr-control-error
+                  >You must provide a description!</clr-control-error
+                >
+              </clr-textarea-container>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group btn-sm">
+              <div class="radio btn btn-outline-success">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-2_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-2_{{ scenario.order }}}"
+                  >Passed</label
+                >
+              </div>
+              <div class="radio btn  btn-outline-danger">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-3_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-3_{{ scenario.order }}}"
+                  >Failed</label
+                >
+              </div>
+              <div class="radio btn  btn-outline">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-1_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-1_{{ scenario.order }}}"
+                  >Skipped</label
+                >
+              </div>
+              <div class="radio btn  btn-outline">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}"
+                  id="btn-demo-radio-4_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-4_{{ scenario.order }}}"
+                  >Untested</label
+                >
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>
     </div>
 
-
   </div>
-</div>
+  <div class="clr-row-2">
+
+    <div style="position: absolute;">
+       <button class="btn"  >Save Test Results</button>
+      <button class="btn btn-primary" >Complete Test Run</button></div>
+    </div>
+  </div>
+

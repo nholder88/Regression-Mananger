@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppLink } from '../../appLink';
 
+import * as faker from 'faker';
+
 @Component({
   selector: 'qa-application-header',
   template: `
@@ -24,7 +26,9 @@ import { AppLink } from '../../appLink';
       <div class="header-actions">
         <a href="javascript://" class="nav-link nav-icon-text">
           <clr-icon shape="user"></clr-icon>
-          <span class="nav-text">username</span>
+
+          <span class="nav-text">Welcome, {{user}}</span>
+
         </a>
       </div>
     </header>
@@ -49,7 +53,7 @@ export class ApplicationHeaderComponent implements OnInit {
   constructor() {}
 
   appAreas: AppLink[];
-
+user:string= faker.internet.userName()
   ngOnInit() {
     this.appAreas = [
       {
@@ -65,7 +69,8 @@ export class ApplicationHeaderComponent implements OnInit {
         subRoutes: [
           {
             title: 'Continue Regression Testing',
-            link: 'regression/continue',
+
+            link: 'regression/listing',
             summary: '',
             rolesAllowed: ['admin', 'tester', 'qa'],
             subRoutes: null
@@ -73,16 +78,19 @@ export class ApplicationHeaderComponent implements OnInit {
           {
             title: 'Manage',
             link: 'regression/manage',
+
             summary: '',
             rolesAllowed: ['admin', 'tester', 'qa'],
             subRoutes: null
           },
           {
+
             title: 'History',
             link: 'regression/history',
             summary: '',
             rolesAllowed: ['admin', 'tester', 'qa'],
             subRoutes: null
+
           }
         ],
         rolesAllowed: ['admin', 'tester', 'qa'],

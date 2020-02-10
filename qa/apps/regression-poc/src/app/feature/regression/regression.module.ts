@@ -8,12 +8,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegressionTestPassFormComponent } from './regression-test-pass-form/regression-test-pass-form.component';
 import { RegressionTestingComponent } from './regression-testing/regression-testing.component';
 
+import { RegressionTestPassListingComponent } from './regression-test-pass-listing/regression-test-pass-listing.component';
+
+
+
 @NgModule({
   declarations: [
     RegressionListingComponent,
     RegressionCreateComponent,
     RegressionTestPassFormComponent,
-    RegressionTestingComponent
+
+    RegressionTestingComponent,
+    RegressionTestPassListingComponent
+
   ],
   imports: [
     CommonModule,
@@ -23,7 +30,10 @@ import { RegressionTestingComponent } from './regression-testing/regression-test
         path: 'history',
         component: RegressionListingComponent
       },
-      { path: 'continue', component: RegressionTestingComponent }
+
+      { path: 'continue/:id', component: RegressionTestingComponent },
+      {path: 'listing', component:RegressionTestPassListingComponent}
+
     ]),
     ClarityModule
   ],

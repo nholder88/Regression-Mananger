@@ -4,7 +4,9 @@
 
 <div class="card" *ngIf="vm$ | async as vm">
   <div class="card-header">
-    History <qa-regression-create></qa-regression-create>
+
+    History <qa-regression-create class="add-regression-button"></qa-regression-create>
+
   </div>
   <div class="card-block">
     <div class="card-title">
@@ -18,7 +20,8 @@
         <clr-dg-column>Name</clr-dg-column>
         <clr-dg-column>Planned Start Date</clr-dg-column>
         <clr-dg-column>Actual Start Date</clr-dg-column>
-        <clr-dg-column></clr-dg-column>
+
+        <clr-dg-column>Test Runs</clr-dg-column>
 
         <clr-dg-row
           *clrDgItems="let regression of vm.ActiveRegressions"
@@ -30,8 +33,13 @@
           <clr-dg-cell>{{ regression.plannedEndDate | date }}</clr-dg-cell>
           <clr-dg-cell>{{ regression.actualStartDate | date }}</clr-dg-cell>
           <clr-dg-cell
-            ><qa-regression-test-pass-form></qa-regression-test-pass-form
-          ></clr-dg-cell>
+
+            >
+<!--            <qa-regression-test-pass-form></qa-regression-test-pass-form-->
+<!--          >-->
+            {{regression.results.length}}
+          </clr-dg-cell>
+
         </clr-dg-row>
 
         <clr-dg-footer
@@ -64,7 +72,271 @@
           <clr-dg-cell>{{ regression.plannedEndDate | date }}</clr-dg-cell>
           <clr-dg-cell>{{ regression.actualEndDate | date }}</clr-dg-cell>
           <clr-dg-cell
-            ><button class="btn btn-info-outline btn-sm">
+<div class="clr-row">
+
+  <div class="clr-col-11">
+    <h2>Current Test</h2>
+    <div class="clr-row">
+      <div class="clr-col">
+           <div class="card">
+            <div class="card-header">
+              Scenario Configuration
+              </div>
+            <div class="card-block">
+
+              <div class="clr-row">
+                <div class="clr-col">
+        <clr-select-container>
+          <label>Role testing </label>
+          <select clrSelect name="options">
+            <option value="">Admin</option>
+            <option value="">Front Desk</option>
+            <option value="">Doctor</option>
+            <option value="">Sys Admin</option>
+          </select>
+        </clr-select-container>
+        </div>
+        <div class="clr-col">  <clr-input-container>
+          <label>Testing Login</label>
+          <input clrInput placeholder="mdiadmin" name="name"  />
+        </clr-input-container></div>
+        <div class="clr-col">
+          <clr-input-container>
+            <label>Tester</label>
+            <input clrInput placeholder="Current Tester" name="name" />
+          </clr-input-container>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    </div>
+    <span class="spinner spinner-inverse" *ngIf="!scenarios$">
+      Loading...
+  </span>
+    <div *ngFor="let scenario of scenarios$|async" class="clr-row">
+      <div class="clr-col">
+        <div class="card">
+          <div class="card-header">
+            {{ scenario.feature }} - {{scenario.name}}
+          </div>
+          <div class="card-block">
+            <div class="card-title">Steps to Test</div>
+            <div class="card-text">
+
+              <ol class="list compact">
+                <li *ngFor="let step of scenario.steps">{{ step.name }}.</li>
+              </ol>
+
+              <clr-textarea-container>
+                <label>Scenario Notes</label>
+                <textarea
+                  clrTextarea
+                  name="note"
+                  style="width: 450px;"
+                  required
+                ></textarea>
+                <clr-control-helper
+                  >Provide Details for status</clr-control-helper
+                >
+                <clr-control-error
+                  >You must provide a description!</clr-control-error
+                >
+              </clr-textarea-container>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group btn-sm">
+              <div class="radio btn btn-outline-success">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-2_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-2_{{ scenario.order }}}"
+                  >Passed</label
+                >
+              </div>
+              <div class="radio btn  btn-outline-danger">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-3_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-3_{{ scenario.order }}}"
+                  >Failed</label
+                >
+              </div>
+              <div class="radio btn  btn-outline">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-1_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-1_{{ scenario.order }}}"
+                  >Skipped</label
+                >
+              </div>
+              <div class="radio btn  btn-outline">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}"
+                  id="btn-demo-radio-4_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-4_{{ scenario.order }}}"
+                  >Untested</label
+                >
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clr-row-1">
+ 
+    <div style="position: absolute;">
+       <button class="btn"  >Save Test Results</button>
+      <button class="btn btn-primary" >Complete Test Run</button></div>
+    </div>
+  </div>
+
+
+            ><button class="btn btn-info-outline btn-sm" (click)="onViewResultsClick(regression)">
+
+
+  <div class="clr-col-11">
+    <h2>Current Test</h2>
+    <div class="clr-row">
+      <div class="clr-col">
+           <div class="card">
+            <div class="card-header">
+              Scenario Configuration
+              </div>
+            <div class="card-block">
+
+              <div class="clr-row">
+                <div class="clr-col">
+        <clr-select-container>
+          <label>Role testing </label>
+          <select clrSelect name="options">
+            <option value="">Admin</option>
+            <option value="">Front Desk</option>
+            <option value="">Doctor</option>
+            <option value="">Sys Admin</option>
+          </select>
+        </clr-select-container>
+        </div>
+        <div class="clr-col">  <clr-input-container>
+          <label>Testing Login</label>
+          <input clrInput placeholder="mdiadmin" name="name"  />
+        </clr-input-container></div>
+        <div class="clr-col">
+          <clr-input-container>
+            <label>Tester</label>
+            <input clrInput placeholder="Current Tester" name="name" />
+          </clr-input-container>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    </div>
+    <span class="spinner spinner-inverse" *ngIf="!scenarios$">
+      Loading...
+  </span>
+    <div *ngFor="let scenario of scenarios$|async" class="clr-row">
+      <div class="clr-col">
+        <div class="card">
+          <div class="card-header">
+            {{ scenario.feature }} - {{scenario.name}}
+          </div>
+          <div class="card-block">
+            <div class="card-title">Steps to Test</div>
+            <div class="card-text">
+
+              <ol class="list compact">
+                <li *ngFor="let step of scenario.steps">{{ step.name }}.</li>
+              </ol>
+
+              <clr-textarea-container>
+                <label>Scenario Notes</label>
+                <textarea
+                  clrTextarea
+                  name="note"
+                  style="width: 450px;"
+                  required
+                ></textarea>
+                <clr-control-helper
+                  >Provide Details for status</clr-control-helper
+                >
+                <clr-control-error
+                  >You must provide a description!</clr-control-error
+                >
+              </clr-textarea-container>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group btn-sm">
+              <div class="radio btn btn-outline-success">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-2_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-2_{{ scenario.order }}}"
+                  >Passed</label
+                >
+              </div>
+              <div class="radio btn  btn-outline-danger">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-3_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-3_{{ scenario.order }}}"
+                  >Failed</label
+                >
+              </div>
+              <div class="radio btn  btn-outline">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}}"
+                  id="btn-demo-radio-1_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-1_{{ scenario.order }}}"
+                  >Skipped</label
+                >
+              </div>
+              <div class="radio btn  btn-outline">
+                <input
+                  type="radio"
+                  name="btn-group-demo-radios_{{ scenario.order }}"
+                  id="btn-demo-radio-4_{{ scenario.order }}}"
+                />
+                <label for="btn-demo-radio-4_{{ scenario.order }}}"
+                  >Untested</label
+                >
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clr-row-1">
+ 
+    <div style="position: absolute;">
+       <button class="btn"  >Save Test Results</button>
+      <button class="btn btn-primary" >Complete Test Run</button></div>
+    </div>
+  </div>
+
+
               View Results
             </button></clr-dg-cell
           >

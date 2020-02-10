@@ -75,25 +75,5 @@
     </form>
   </clr-wizard-page>
 
-  <clr-wizard-page>
-    <ng-template clrPageTitle>Roles to Test</ng-template>
-    <form clrForm [formGroup]="regressionForm">
-      <clr-checkbox-container>
-        <label>Roles</label>
-        <clr-checkbox-wrapper *ngFor="let role of userRoles$ | async">
-          <input
-            type="checkbox"
-            clrCheckbox
-            required
-            [value]="role.id"
-            (click)="onRoleSelected(role)"
-          />
-          <label>{{ role.name }}</label>
-        </clr-checkbox-wrapper>
 
-        <clr-control-helper>Select the roles to test with</clr-control-helper>
-        <clr-control-error>This field is required!</clr-control-error>
-      </clr-checkbox-container>
-    </form>
-  </clr-wizard-page>
 </clr-wizard>
