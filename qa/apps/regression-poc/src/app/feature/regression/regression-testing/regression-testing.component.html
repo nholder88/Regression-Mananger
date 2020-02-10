@@ -1,26 +1,4 @@
 <div class="clr-row">
-  <div class="clr-col-2">
-    <h2>
-      My Test Passes
-      <qa-regression-test-pass-form></qa-regression-test-pass-form>
-    </h2>
-    <table class="table table-compact">
-      <thead>
-        <tr>
-          <th class="left">Name</th>
-          <th>Number of Tests</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let regression of testPasses$ | async">
-          <td>{{ regression.creator }} -{{ regression.timeStamp }}</td>
-          <td>{{ regression.featureScenarioContainers.length }}</td>
-          <td><button class="btn btn-sm btn-secondary">Continue</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 
   <div class="clr-col">
     <h2>Current Test</h2>

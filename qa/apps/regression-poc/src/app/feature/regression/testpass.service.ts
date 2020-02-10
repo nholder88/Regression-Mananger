@@ -26,9 +26,10 @@ export class TestPassService {
       const step = new TestPass(
         [],
         faker.name.findName(),
-        faker.date.recent(15),
+        faker.date.recent(1),
         faker.random.boolean(),
-        faker.random.boolean()
+        faker.random.boolean(),
+        faker.random.uuid()
       );
       //step.steps.sort((x, y) => x.order - y.order);
       steps.push(step);

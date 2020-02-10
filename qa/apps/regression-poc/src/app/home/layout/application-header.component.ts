@@ -65,7 +65,7 @@ user:string= faker.internet.userName()
         subRoutes: [
           {
             title: 'Continue Regression Testing',
-            link: 'regression/continue',
+            link: 'regression/listing',
             summary: '',
             rolesAllowed: ['admin', 'tester', 'qa'],
             subRoutes: null
