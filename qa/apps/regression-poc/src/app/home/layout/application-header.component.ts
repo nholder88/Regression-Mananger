@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppLink } from '../../appLink';
+
 import * as faker from 'faker';
+
 @Component({
   selector: 'qa-application-header',
   template: `
@@ -24,7 +26,9 @@ import * as faker from 'faker';
       <div class="header-actions">
         <a href="javascript://" class="nav-link nav-icon-text">
           <clr-icon shape="user"></clr-icon>
+
           <span class="nav-text">Welcome, {{user}}</span>
+
         </a>
       </div>
     </header>
@@ -65,6 +69,7 @@ user:string= faker.internet.userName()
         subRoutes: [
           {
             title: 'Continue Regression Testing',
+
             link: 'regression/listing',
             summary: '',
             rolesAllowed: ['admin', 'tester', 'qa'],
@@ -73,16 +78,19 @@ user:string= faker.internet.userName()
           {
             title: 'Manage',
             link: 'regression/manage',
+
             summary: '',
             rolesAllowed: ['admin', 'tester', 'qa'],
             subRoutes: null
           },
           {
+
             title: 'History',
             link: 'regression/history',
             summary: '',
             rolesAllowed: ['admin', 'tester', 'qa'],
             subRoutes: null
+
           }
         ],
         rolesAllowed: ['admin', 'tester', 'qa'],

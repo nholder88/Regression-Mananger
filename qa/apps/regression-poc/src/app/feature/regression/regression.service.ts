@@ -210,7 +210,9 @@ export class RegressionService {
         .pipe(tap(regression => console.log(regression)))
         .subscribe();
     } else {
+
       regression.results=[];
+
       this.http
         .post(this.rootUrl, regression)
         // tslint:disable-next-line:no-shadowed-variable

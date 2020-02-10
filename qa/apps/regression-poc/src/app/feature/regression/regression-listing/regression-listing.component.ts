@@ -24,8 +24,10 @@ export class RegressionListingComponent implements OnInit {
     }))
   );
 
+
   onViewResultsClick(regression){
     window.open("https://valor-software.com/ng2-charts/#/GeneralInfo", "_blank");
 
   }
+
 }
