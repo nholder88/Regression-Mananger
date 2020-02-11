@@ -52,11 +52,13 @@
           <div class="card-block">
             <div class="card-title">Steps to Test</div>
             <div class="card-text">
+                          
 
-              <ol class="list compact">
-                <li *ngFor="let step of scenario.steps">{{ step.name }}.</li>
-              </ol>
-
+                <clr-toggle-wrapper *ngFor="let step of scenario.steps" >
+                    <input type="checkbox" clrToggle value="option1"/>
+                    <label>{{ step.name }}</label>
+                  </clr-toggle-wrapper> 
+           
               <clr-textarea-container>
                 <label>Scenario Notes</label>
                 <textarea
