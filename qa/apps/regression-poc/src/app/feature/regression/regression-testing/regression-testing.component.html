@@ -121,10 +121,25 @@
   </div>
   <div class="clr-col-1">
     <div style="position: absolute;">
-      <ul class="list-unstyled">
-      <li *ngFor="let feature of featureContainers" (click)="changeFeature(feature)">{{feature.feature}}</li>
-        
-      </ul>
+      <clr-dropdown>
+        <button class="btn btn-outline-primary btn-sm" clrDropdownTrigger>
+          Features <clr-icon shape="caret down"></clr-icon>
+        </button>
+        <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
+          <label class="dropdown-header" aria-hidden="true"
+            >Test Run Features</label
+          >
+          <div
+            aria-label="Dropdown header Action 1"
+            clrDropdownItem
+            *ngFor="let feature of featureContainers"
+            (click)="changeFeature(feature)"
+          >
+            {{ feature.feature }}
+          </div>
+        </clr-dropdown-menu>
+      </clr-dropdown>
+
       <button class="btn btn-sm">Save Test Results</button>
       <br />
       <button class="btn btn-primary btn-sm">Complete Test Run</button>
