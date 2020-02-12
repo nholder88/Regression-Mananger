@@ -1,64 +1,59 @@
 <div class="clr-row">
-
-
-  <div class="clr-col-10">
+  <div class="clr-col-11">
     <h2>Current Test</h2>
     <div class="clr-row">
       <div class="clr-col">
-           <div class="card">
-            <div class="card-header">
-              Scenario Configuration
+        <div class="card">
+          <div class="card-header">
+            Scenario Configuration
+          </div>
+          <div class="card-block">
+            <div class="clr-row">
+              <div class="clr-col">
+                <clr-select-container>
+                  <label>Role testing </label>
+                  <select clrSelect name="options">
+                    <option value="">Admin</option>
+                    <option value="">Front Desk</option>
+                    <option value="">Doctor</option>
+                    <option value="">Sys Admin</option>
+                  </select>
+                </clr-select-container>
               </div>
-            <div class="card-block">
-
-              <div class="clr-row">
-                <div class="clr-col">
-
-        <clr-select-container>
-          <label>Role testing </label>
-          <select clrSelect name="options">
-            <option value="">Admin</option>
-            <option value="">Front Desk</option>
-            <option value="">Doctor</option>
-            <option value="">Sys Admin</option>
-          </select>
-        </clr-select-container>
-
-        </div>
-        <div class="clr-col">  <clr-input-container>
-          <label>Testing Login</label>
-          <input clrInput placeholder="mdiadmin" name="name"  />
-        </clr-input-container></div>
-        <div class="clr-col">
-          <clr-input-container>
-            <label>Tester</label>
-            <input clrInput placeholder="Current Tester" name="name" />
-          </clr-input-container>
-        </div>
+              <div class="clr-col">
+                <clr-input-container>
+                  <label>Testing Login</label>
+                  <input clrInput placeholder="mdiadmin" name="name" />
+                </clr-input-container>
+              </div>
+              <div class="clr-col">
+                <clr-input-container>
+                  <label>Tester</label>
+                  <input clrInput placeholder="Current Tester" name="name" />
+                </clr-input-container>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      </div>
-    </div>
     </div>
     <span class="spinner spinner-inverse" *ngIf="!scenarios$">
       Loading...
-  </span>
-    <div *ngFor="let scenario of scenarios$|async" class="clr-row">
-      <div class="clr-col">
+    </span>
+    <div class="clr-row">
+      <div class="clr-col" *ngFor="let scenario of scenarios$ | async">
         <div class="card">
           <div class="card-header">
-            {{ scenario.feature }} - {{scenario.name}}
+            {{ scenario.feature }} - {{ scenario.name }}
           </div>
           <div class="card-block">
             <div class="card-title">Steps to Test</div>
             <div class="card-text">
-                          
-
-                <clr-toggle-wrapper *ngFor="let step of scenario.steps" >
-                    <input type="checkbox" clrToggle value="option1"/>
-                    <label>{{ step.name }}</label>
-                  </clr-toggle-wrapper> 
-           
+              <clr-toggle-wrapper *ngFor="let step of scenario.steps">
+                <input type="checkbox" clrToggle value="option1" />
+                <label>{{ step.name | slice: 0:100 }}</label>
+              </clr-toggle-wrapper>
+              <br />
               <clr-textarea-container>
                 <label>Scenario Notes</label>
                 <textarea
@@ -119,19 +114,20 @@
                 >
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
     </div>
-
   </div>
-  <div class="clr-row-2">
-
+  <div class="clr-col-1">
     <div style="position: absolute;">
-       <button class="btn"  >Save Test Results</button>
-      <button class="btn btn-primary" >Complete Test Run</button></div>
+      <ul class="list-unstyled">
+      <li *ngFor="let feature of featureContainers" (click)="changeFeature(feature)">{{feature.feature}}</li>
+        
+      </ul>
+      <button class="btn btn-sm">Save Test Results</button>
+      <br />
+      <button class="btn btn-primary btn-sm">Complete Test Run</button>
     </div>
   </div>
-
+</div>
