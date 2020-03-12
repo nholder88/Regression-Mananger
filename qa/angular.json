@@ -16,7 +16,7 @@
             "main": "apps/regression-poc/src/main.ts",
             "polyfills": "apps/regression-poc/src/polyfills.ts",
             "tsConfig": "apps/regression-poc/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/regression-poc/src/favicon.ico",
               "apps/regression-poc/src/assets"
@@ -44,7 +44,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
