@@ -48,7 +48,7 @@ export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  private onFinish() {
+   onFinish() {
     /*For now build a save model of roles, regression Id and all features*/
     const saveModel = {
       regressionId: this.regressionForm.get('regression').value,
