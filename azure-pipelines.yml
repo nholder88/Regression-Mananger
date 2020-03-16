@@ -18,11 +18,7 @@ steps:
 - script: |
     cd qa   
     npm install npx
-    npm install   
-  displayName: 'Install Dependencies'
-  
-- script:
-    cd qa
+    npm install
     npx ng build --prod
   displayName: 'Build'
 
