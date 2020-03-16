@@ -49,9 +49,9 @@
           <div class="card-block">
             <div class="card-title">Steps to Test</div>
             <div class="card-text">
-              <clr-toggle-wrapper *ngFor="let step of scenario.steps">
+              <clr-toggle-wrapper *ngFor="let step of scenario.steps" class="wrapper-fix">
                 <input type="checkbox" clrToggle value="option1" />
-                <label>{{ step.name | slice: 0:100 }}</label>
+                <label class="wrapper-fix">{{ step.name | slice: 0:100 }}</label>
               </clr-toggle-wrapper>
               <br />
               <clr-textarea-container>
