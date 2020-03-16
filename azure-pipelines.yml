@@ -22,8 +22,8 @@ steps:
   displayName: 'Install Dependencies'
   
 - script:
-  cd qa
-  npx ng build --prod
+    qa
+    npx ng build --prod
   displayName: 'Build'
 
 - task: CopyFiles@2
