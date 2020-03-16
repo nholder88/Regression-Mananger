@@ -21,12 +21,12 @@ steps:
     npm install
     ng build --prod
   displayName: 'npm install and build'
-- task: CopyFiles@2
+
+- task: PublishBuildArtifacts@1
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)'
-    Contents: |
-      **\dist\*.js
-      package.json
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: 'qa\dist\apps\regression-poc'
+    ArtifactName: 'web-app'
+    publishLocation: 'Container'
+  displayName: 'Publish Artifacts'
 
 - task: PublishBuildArtifacts@1
