@@ -13,20 +13,20 @@ steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  displayName: 'Setup Environment'
 
 - script: |
-    cd qa
-    npm install -g @angular/cli
+    cd qa   
+    npm install npx
     npm install
-    ng build --prod
-  displayName: 'npm install and build'
+    npx ng build --prod
+  displayName: 'Build'
 
-- task: PublishBuildArtifacts@1
+  - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: 'qa\dist\apps\regression-poc'
     ArtifactName: 'web-app'
     publishLocation: 'Container'
   displayName: 'Publish Artifacts'
 
-- task: PublishBuildArtifacts@1
+
