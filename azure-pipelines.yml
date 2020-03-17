@@ -22,7 +22,7 @@ steps:
     npx ng build --prod
   displayName: 'Build'
 
-  - task: PublishBuildArtifacts@1
+- task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: 'qa\dist\apps\regression-poc'
     ArtifactName: 'web-app'
