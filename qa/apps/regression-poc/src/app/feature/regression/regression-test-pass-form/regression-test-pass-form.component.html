@@ -36,6 +36,7 @@
   <clr-wizard-page>
     <ng-template clrPageTitle>Test Areas</ng-template>
     <form clrForm [formGroup]="regressionForm">
+      <clr-tree>
       <clr-tree-node [clrExpanded]="true">
         Areas to Test
         <clr-tree-node
@@ -72,6 +73,7 @@
           </clr-tree-node>
         </clr-tree-node>
       </clr-tree-node>
+    </clr-tree>
     </form>
   </clr-wizard-page>
 

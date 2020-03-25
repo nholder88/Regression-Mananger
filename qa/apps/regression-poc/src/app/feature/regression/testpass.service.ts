@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestPass } from './models/scenario';
-import { ErrorHandlingService } from 'apps/regression-poc/src/Shared/error-handling.service';
+import { ErrorHandlingService } from '../../../Shared/error-handling.service';
 import { of } from 'rxjs';
 import { delay, tap, catchError } from 'rxjs/operators';
 import * as faker from 'faker';
