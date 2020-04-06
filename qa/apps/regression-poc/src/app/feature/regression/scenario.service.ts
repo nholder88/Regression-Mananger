@@ -67,22 +67,28 @@ export class ScenarioService {
   // Action stream for product selection
   // Default to 0 for no product
   // Must have a default so the stream emits at least once.
-  private featureSelectedSubject = new BehaviorSubject<number>(0);
+  //TODO: Make this more robust to not have to hard code string...UGH
+  private featureSelectedSubject = new BehaviorSubject<string>('Letters');
   featureSelectedAction$ = this.featureSelectedSubject.asObservable();
 
   // Currently selected product
   // Used in both List and Detail pages,
   // so use the shareReply to share it with any component that uses it
   selectedFeature$ = combineLatest([
-    this.productsWithCategory$,
-    this.productSelectedAction$
+    this.features$,
+    this.featureSelectedAction$
   ]).pipe(
-    map(([products, selectedProductId]) =>
-      products.find(product => product.id === selectedProductId)
+    map(([feature, selectedFeatureName]) =>
+      feature.find(feat => feat.feature === selectedFeatureName)
     ),
-    tap(product => console.log('selectedProduct', product)),
+    tap(feature => console.log('selectedProduct', feature)),
     shareReplay(1)
   );
+
+  // Change the selected product
+  selectedFeatureChanged(selectedFeatureName: string): void {
+    this.featureSelectedSubject.next(selectedFeatureName);
+  }
 
   savescenario(scenario?: Scenario) {
     if (scenario === null || scenario === undefined) {

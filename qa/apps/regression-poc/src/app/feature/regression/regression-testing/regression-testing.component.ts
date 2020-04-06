@@ -15,8 +15,7 @@ import { TestPassService } from '../testpass.service';
 export class RegressionTestingComponent implements OnInit {
   regression$ = this.service.regressionWithAdd$;
   testPasses$ = this.testPassService.testPasses$;
-  scenarios$: Observable<Array<Scenario>> = this.scenarioService
-    .scenarioWithAdd$;
+  scenarios$ = this.scenarioService.selectedFeature$;
   featureContainers: FeatureScenarioContainer[] = [
     new FeatureScenarioContainer('Letters', []),
     new FeatureScenarioContainer('Faxing', []),
@@ -32,11 +31,9 @@ export class RegressionTestingComponent implements OnInit {
   ) {}
 
   ngOnInit() {}
-  changeFeature() {
+  changeFeature(featureName) {
     this.SaveScenarios();
-    this.scenarioService.savescenarioSubject.next(
-      this.scenarioService.createFakeScenario(1)[0]
-    );
+    this.scenarioService.selectedFeatureChanged(featureName);
   }
   SaveScenarios() {
     console.log('Scenarios Saved.');
