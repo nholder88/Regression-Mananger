@@ -16,13 +16,7 @@ export class RegressionTestingComponent implements OnInit {
   regression$ = this.service.regressionWithAdd$;
   testPasses$ = this.testPassService.testPasses$;
   scenarios$ = this.scenarioService.selectedFeature$;
-  featureContainers: FeatureScenarioContainer[] = [
-    new FeatureScenarioContainer('Letters', []),
-    new FeatureScenarioContainer('Faxing', []),
-    new FeatureScenarioContainer('Meds', []),
-    new FeatureScenarioContainer('Shared Care', []),
-    new FeatureScenarioContainer('ASC', [])
-  ];
+  features$ = this.scenarioService.features$;
 
   constructor(
     private service: RegressionService,
@@ -37,5 +31,8 @@ export class RegressionTestingComponent implements OnInit {
   }
   SaveScenarios() {
     console.log('Scenarios Saved.');
+  }
+  CompleteTestRuns() {
+    console.log('Test Run Completed');
   }
 }

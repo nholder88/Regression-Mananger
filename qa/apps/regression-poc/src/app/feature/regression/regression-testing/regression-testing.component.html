@@ -135,9 +135,8 @@
             >Test Run Features</label
           >
           <div
-            aria-label="Dropdown header Action 1"
             clrDropdownItem
-            *ngFor="let feature of featureContainers"
+            *ngFor="let feature of features$ | async"
             (click)="changeFeature(feature.feature)"
           >
             {{ feature.feature }}
@@ -145,7 +144,9 @@
         </clr-dropdown-menu>
       </clr-dropdown>
 
-      <button class="btn btn-sm">Save Test Results</button>
+      <button class="btn btn-sm" (click)="SaveScenarios()">
+        Save Test Results
+      </button>
       <br />
       <button class="btn btn-primary btn-sm">Complete Test Run</button>
     </div>
