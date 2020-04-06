@@ -1,6 +1,9 @@
 <div class="clr-row">
   <div class="clr-col-11">
-    <h2>Current Test</h2>
+    <h2 *ngIf="testPass$ | async as testPass">
+      Current Test - {{ testPass.creator }}
+      {{ testPass.timeStamp | date: 'medium' }}
+    </h2>
     <div class="clr-row">
       <div class="clr-col">
         <div class="card">

@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./regression-testing.component.css']
 })
 export class RegressionTestingComponent implements OnInit {
-  testPass$ = null;
+  testPass$ = this.testPassService.selectedTestPass$;
   selectedFeature$ = this.scenarioService.selectedFeature$;
   features$ = this.scenarioService.features$;
 
@@ -18,12 +18,15 @@ export class RegressionTestingComponent implements OnInit {
     private service: RegressionService,
     private scenarioService: ScenarioService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private testPassService: TestPassService
   ) {}
 
   ngOnInit() {
     //need to read router id and make call out to service to get the data
     let testPassId = this.route.snapshot.paramMap.get('id');
+    this.testPassService.selectedTestPassChanged(testPassId);
+    console.log(this.testPass$);
   }
   changeFeature(featureName) {
     this.saveScenarios();
