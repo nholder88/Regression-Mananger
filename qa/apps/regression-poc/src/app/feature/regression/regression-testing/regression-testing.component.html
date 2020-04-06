@@ -37,10 +37,10 @@
         </div>
       </div>
     </div>
-    <span class="spinner spinner-inverse" *ngIf="!scenarios$">
+    <span class="spinner spinner-inverse" *ngIf="!selectedFeature$">
       Loading...
     </span>
-    <div class="clr-row" *ngIf="scenarios$ | async as currentFeature">
+    <div class="clr-row" *ngIf="selectedFeature$ | async as currentFeature">
       <div class="clr-col" *ngFor="let scenario of currentFeature.scenarios">
         <div class="card">
           <div class="card-header">
@@ -144,11 +144,13 @@
         </clr-dropdown-menu>
       </clr-dropdown>
 
-      <button class="btn btn-sm" (click)="SaveScenarios()">
+      <button class="btn btn-sm" (click)="saveScenarios()">
         Save Test Results
       </button>
       <br />
-      <button class="btn btn-primary btn-sm">Complete Test Run</button>
+      <button class="btn btn-primary btn-sm" (click)="completeTestRun()">
+        Complete Test Run
+      </button>
     </div>
   </div>
 </div>
