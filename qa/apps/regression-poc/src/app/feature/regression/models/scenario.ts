@@ -30,7 +30,7 @@ export class TestPass {
     public timeStamp: Date,
     public isComplete: boolean,
     public isStarted: boolean,
-    public id:string=""
+    public id: string = ''
   ) {}
 }
 //Container for the passes and the root object
