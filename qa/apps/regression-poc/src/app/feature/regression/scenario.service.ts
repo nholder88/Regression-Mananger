@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
-import { merge, Observable, of, Subject } from 'rxjs';
+import {
+  merge,
+  Observable,
+  of,
+  Subject,
+  BehaviorSubject,
+  combineLatest
+} from 'rxjs';
 import * as faker from 'faker';
-import { catchError, scan, tap, delay } from 'rxjs/operators';
+import { catchError, scan, tap, delay, map, shareReplay } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../Shared/error-handling.service';
-import { Scenario, Steps } from './models/scenario';
+import { Scenario, Steps, FeatureScenarioContainer } from './models/scenario';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +25,9 @@ export class ScenarioService {
   private rootUrl = 'api/scenario';
 
   // scenarios$ = this.http.get<scenario[]>(this.rootUrl)
-  scenarios$ = of<Scenario[]>(this.createFakeScenario(faker.random.number({min:1, max:45}))).pipe(
+  scenarios$ = of<Scenario[]>(
+    this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
+  ).pipe(
     delay(700),
     tap(data => console.log('Scenario service', JSON.stringify(data))),
     catchError(this.errorHandler.handleError)
@@ -32,13 +41,56 @@ export class ScenarioService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
+  features$ = of<FeatureScenarioContainer[]>([
+    new FeatureScenarioContainer(
+      'Letters',
+      this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
+    ),
+    new FeatureScenarioContainer(
+      'Faxing',
+      this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
+    ),
+    new FeatureScenarioContainer(
+      'Meds',
+      this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
+    ),
+    new FeatureScenarioContainer(
+      'Shared Care',
+      this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
+    ),
+    new FeatureScenarioContainer(
+      'ASC',
+      this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
+    )
+  ]);
+
+  // Action stream for product selection
+  // Default to 0 for no product
+  // Must have a default so the stream emits at least once.
+  private featureSelectedSubject = new BehaviorSubject<number>(0);
+  featureSelectedAction$ = this.featureSelectedSubject.asObservable();
+
+  // Currently selected product
+  // Used in both List and Detail pages,
+  // so use the shareReply to share it with any component that uses it
+  selectedFeature$ = combineLatest([
+    this.productsWithCategory$,
+    this.productSelectedAction$
+  ]).pipe(
+    map(([products, selectedProductId]) =>
+      products.find(product => product.id === selectedProductId)
+    ),
+    tap(product => console.log('selectedProduct', product)),
+    shareReplay(1)
+  );
+
   savescenario(scenario?: Scenario) {
     if (scenario === null || scenario === undefined) {
       scenario = new Scenario(
         faker.commerce.department(),
         faker.name.jobArea(),
         null,
-       this.createFakeStep(faker.random.number(25)),
+        this.createFakeStep(faker.random.number(25)),
         new Date(),
         ''
       );
@@ -67,11 +119,13 @@ export class ScenarioService {
         faker.commerce.department(),
         faker.hacker.abbreviation(),
         null,
-       this.createFakeStep(faker.random.number(25)),
+        this.createFakeStep(faker.random.number(25)),
         new Date(),
-        '', faker.random.number(), faker.name.findName()
+        '',
+        faker.random.number(),
+        faker.name.findName()
       );
-      step.steps.sort((x,y)=>x.order- y.order);
+      step.steps.sort((x, y) => x.order - y.order);
       steps.push(step);
     }
 
