@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TestPass, FeatureScenarioContainer } from './models/scenario';
+import { TestPass } from './models/TestPass';
+import { FeatureScenarioContainer } from './models/FeatureScenarioContainer';
 import { ErrorHandlingService } from '../../../Shared/error-handling.service';
 import { of, BehaviorSubject, combineLatest } from 'rxjs';
 import { delay, tap, catchError, map, shareReplay } from 'rxjs/operators';

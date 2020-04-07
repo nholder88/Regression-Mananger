@@ -11,7 +11,9 @@ import * as faker from 'faker';
 import { catchError, scan, tap, delay, map, shareReplay } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../Shared/error-handling.service';
-import { Scenario, Steps, FeatureScenarioContainer } from './models/scenario';
+import { Scenario } from './models/scenario';
+import { FeatureScenarioContainer } from './models/FeatureScenarioContainer';
+import { Steps } from './models/Steps';
 
 @Injectable({
   providedIn: 'root'
