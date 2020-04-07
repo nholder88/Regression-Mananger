@@ -129,7 +129,7 @@
   </div>
   <div class="clr-col-1">
     <div style="position: absolute;">
-      <clr-dropdown>
+      <clr-dropdown *ngIf="testPass$ | async as testPass">
         <button class="btn btn-outline-primary btn-sm" clrDropdownTrigger>
           Features <clr-icon shape="caret down"></clr-icon>
         </button>
@@ -139,7 +139,7 @@
           >
           <div
             clrDropdownItem
-            *ngFor="let feature of features$ | async"
+            *ngFor="let feature of testPass.featureScenarioContainers"
             (click)="changeFeature(feature.feature)"
           >
             {{ feature.feature }}

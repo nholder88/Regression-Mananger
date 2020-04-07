@@ -11,12 +11,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class RegressionTestingComponent implements OnInit {
   testPass$ = this.testPassService.selectedTestPass$;
-  selectedFeature$ = this.scenarioService.selectedFeature$;
-  features$ = this.scenarioService.features$;
+  selectedFeature$ = this.testPassService.selectedFeature$;
 
   constructor(
-    private service: RegressionService,
-    private scenarioService: ScenarioService,
     private route: ActivatedRoute,
     private router: Router,
     private testPassService: TestPassService
@@ -30,7 +27,7 @@ export class RegressionTestingComponent implements OnInit {
   }
   changeFeature(featureName) {
     this.saveScenarios();
-    this.scenarioService.selectedFeatureChanged(featureName);
+    this.testPassService.selectedFeatureChanged(featureName);
   }
   saveScenarios() {
     console.log('Scenarios Saved.');

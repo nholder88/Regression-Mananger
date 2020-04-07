@@ -41,56 +41,7 @@ export class ScenarioService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
-  features$ = of<FeatureScenarioContainer[]>([
-    new FeatureScenarioContainer(
-      'Letters',
-      this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
-    ),
-    new FeatureScenarioContainer(
-      'Faxing',
-      this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
-    ),
-    new FeatureScenarioContainer(
-      'Meds',
-      this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
-    ),
-    new FeatureScenarioContainer(
-      'Shared Care',
-      this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
-    ),
-    new FeatureScenarioContainer(
-      'ASC',
-      this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
-    )
-  ]);
-
-  // Action stream for product selection
-  // Default to 0 for no product
-  // Must have a default so the stream emits at least once.
-  //TODO: Make this more robust to not have to hard code string...UGH
-  private featureSelectedSubject = new BehaviorSubject<string>('Letters');
-  featureSelectedAction$ = this.featureSelectedSubject.asObservable();
-
-  // Currently selected product
-  // Used in both List and Detail pages,
-  // so use the shareReply to share it with any component that uses it
-  selectedFeature$ = combineLatest([
-    this.features$,
-    this.featureSelectedAction$
-  ]).pipe(
-    map(([feature, selectedFeatureName]) =>
-      feature.find(feat => feat.feature === selectedFeatureName)
-    ),
-    tap(feature => console.log('selectedProduct', feature)),
-    shareReplay(1)
-  );
-
-  // Change the selected product
-  selectedFeatureChanged(selectedFeatureName: string): void {
-    this.featureSelectedSubject.next(selectedFeatureName);
-  }
-
-  savescenario(scenario?: Scenario) {
+  saveScenario(scenario?: Scenario) {
     if (scenario === null || scenario === undefined) {
       scenario = new Scenario(
         faker.commerce.department(),
