@@ -117,7 +117,7 @@ export class ScenarioService {
     this.savescenarioSubject.next(scenario);
   }
 
-  createFakeScenario(count: number) {
+  public createFakeScenario(count: number) {
     const steps = [];
     let x: number;
     for (x = 0; x < count; x++) {
@@ -137,7 +137,7 @@ export class ScenarioService {
 
     return steps;
   }
-  createFakeStep(count: number) {
+  public createFakeStep(count: number) {
     const steps = [];
     let x: number;
     for (x = 0; x < count; x++) {

@@ -50,7 +50,9 @@ export class TestPassService {
     let x: number;
     for (x = 0; x < count; x++) {
       const step = new TestPass(
-        [],
+        this.scenarioService.createFakeScenario(
+          faker.random.number({ min: 1, max: 45 })
+        ),
         faker.name.findName(),
         faker.date.recent(1),
         faker.random.boolean(),
