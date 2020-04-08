@@ -1,10 +1,19 @@
 import { Injectable } from '@angular/core';
-import { merge, Observable, of, Subject } from 'rxjs';
+import {
+  merge,
+  Observable,
+  of,
+  Subject,
+  BehaviorSubject,
+  combineLatest
+} from 'rxjs';
 import * as faker from 'faker';
-import { catchError, scan, tap, delay } from 'rxjs/operators';
+import { catchError, scan, tap, delay, map, shareReplay } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../Shared/error-handling.service';
-import { Scenario, Steps } from './models/scenario';
+import { Scenario } from './models/scenario';
+import { FeatureScenarioContainer } from './models/FeatureScenarioContainer';
+import { Steps } from './models/Steps';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +27,9 @@ export class ScenarioService {
   private rootUrl = 'api/scenario';
 
   // scenarios$ = this.http.get<scenario[]>(this.rootUrl)
-  scenarios$ = of<Scenario[]>(this.createFakeScenario(faker.random.number({min:1, max:45}))).pipe(
+  scenarios$ = of<Scenario[]>(
+    this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
+  ).pipe(
     delay(700),
     tap(data => console.log('Scenario service', JSON.stringify(data))),
     catchError(this.errorHandler.handleError)
@@ -32,13 +43,13 @@ export class ScenarioService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
-  savescenario(scenario?: Scenario) {
+  saveScenario(scenario?: Scenario) {
     if (scenario === null || scenario === undefined) {
       scenario = new Scenario(
         faker.commerce.department(),
         faker.name.jobArea(),
         null,
-       this.createFakeStep(faker.random.number(25)),
+        this.createFakeStep(faker.random.number(25)),
         new Date(),
         ''
       );
@@ -59,7 +70,7 @@ export class ScenarioService {
     this.savescenarioSubject.next(scenario);
   }
 
-  createFakeScenario(count: number) {
+  public createFakeScenario(count: number) {
     const steps = [];
     let x: number;
     for (x = 0; x < count; x++) {
@@ -67,17 +78,19 @@ export class ScenarioService {
         faker.commerce.department(),
         faker.hacker.abbreviation(),
         null,
-       this.createFakeStep(faker.random.number(25)),
+        this.createFakeStep(faker.random.number(25)),
         new Date(),
-        '', faker.random.number(), faker.name.findName()
+        '',
+        faker.random.number(),
+        faker.name.findName()
       );
-      step.steps.sort((x,y)=>x.order- y.order);
+      step.steps.sort((x, y) => x.order - y.order);
       steps.push(step);
     }
 
     return steps;
   }
-  createFakeStep(count: number) {
+  public createFakeStep(count: number) {
     const steps = [];
     let x: number;
     for (x = 0; x < count; x++) {

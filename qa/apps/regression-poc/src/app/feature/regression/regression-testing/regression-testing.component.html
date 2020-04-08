@@ -1,6 +1,9 @@
 <div class="clr-row">
   <div class="clr-col-11">
-    <h2>Current Test</h2>
+    <h2 *ngIf="testPass$ | async as testPass">
+      Current Test - {{ testPass.creator }}
+      {{ testPass.timeStamp | date: 'medium' }}
+    </h2>
     <div class="clr-row">
       <div class="clr-col">
         <div class="card">
@@ -37,11 +40,11 @@
         </div>
       </div>
     </div>
-    <span class="spinner spinner-inverse" *ngIf="!scenarios$">
+    <span class="spinner spinner-inverse" *ngIf="!selectedFeature$">
       Loading...
     </span>
-    <div class="clr-row">
-      <div class="clr-col" *ngFor="let scenario of scenarios$ | async">
+    <div class="clr-row" *ngIf="selectedFeature$ | async as currentFeature">
+      <div class="clr-col" *ngFor="let scenario of currentFeature.scenarios">
         <div class="card">
           <div class="card-header">
             {{ scenario.feature }} - {{ scenario.name }}
@@ -49,9 +52,14 @@
           <div class="card-block">
             <div class="card-title">Steps to Test</div>
             <div class="card-text">
-              <clr-toggle-wrapper *ngFor="let step of scenario.steps">
+              <clr-toggle-wrapper
+                *ngFor="let step of scenario.steps"
+                class="wrapper-fix"
+              >
                 <input type="checkbox" clrToggle value="option1" />
-                <label>{{ step.name | slice: 0:100 }}</label>
+                <label class="wrapper-fix">{{
+                  step.name | slice: 0:100
+                }}</label>
               </clr-toggle-wrapper>
               <br />
               <clr-textarea-container>
@@ -121,7 +129,7 @@
   </div>
   <div class="clr-col-1">
     <div style="position: absolute;">
-      <clr-dropdown>
+      <clr-dropdown *ngIf="testPass$ | async as testPass">
         <button class="btn btn-outline-primary btn-sm" clrDropdownTrigger>
           Features <clr-icon shape="caret down"></clr-icon>
         </button>
@@ -130,19 +138,22 @@
             >Test Run Features</label
           >
           <div
-            aria-label="Dropdown header Action 1"
             clrDropdownItem
-            *ngFor="let feature of featureContainers"
-            (click)="changeFeature(feature)"
+            *ngFor="let feature of testPass.featureScenarioContainers"
+            (click)="changeFeature(feature.feature)"
           >
             {{ feature.feature }}
           </div>
         </clr-dropdown-menu>
       </clr-dropdown>
 
-      <button class="btn btn-sm">Save Test Results</button>
+      <button class="btn btn-sm" (click)="saveScenarios()">
+        Save Test Results
+      </button>
       <br />
-      <button class="btn btn-primary btn-sm">Complete Test Run</button>
+      <button class="btn btn-primary btn-sm" (click)="completeTestRun()">
+        Complete Test Run
+      </button>
     </div>
   </div>
 </div>

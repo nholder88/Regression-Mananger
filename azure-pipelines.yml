@@ -4,39 +4,28 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- master
+  - master
+  - develop
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Setup Environment'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "10.x"
+    displayName: "Setup Environment"
 
-- script: |
-    cd qa   
-    npm install npx
-    npm install   
-  displayName: 'Install Dependencies'
-  
-- script:
-  cd qa
-  npx ng build --prod
-  displayName: 'Build'
+  - script: |
+      cd qa   
+      npm install npx
+      npm install
+      npx ng build --prod
+    displayName: "Build"
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)'
-    Contents: |
-      **\dist\*.js
-      package.json
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'dist/ng-azure-devops'
-    ArtifactName: 'web-app'
-    publishLocation: 'Container'
-  displayName: 'Publish Artifacts'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: "qa/dist/apps/regression-poc"
+      ArtifactName: "web-app"
+      publishLocation: "Container"
+    displayName: "Publish Artifacts"
