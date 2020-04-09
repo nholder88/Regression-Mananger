@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { TestPass } from './models/TestPass';
-import { FeatureScenarioContainer } from './models/FeatureScenarioContainer';
+
 import { ErrorHandlingService } from '../../../Shared/error-handling.service';
 import { of, BehaviorSubject, combineLatest } from 'rxjs';
 import { delay, tap, catchError, map, shareReplay } from 'rxjs/operators';
 import * as faker from 'faker';
 import { ScenarioService } from './scenario.service';
+import { TestPass } from '@qa/api-interfaces';
 
 @Injectable({
   providedIn: 'root'

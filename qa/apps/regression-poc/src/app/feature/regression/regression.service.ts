@@ -210,8 +210,7 @@ export class RegressionService {
         .pipe(tap(regression => console.log(regression)))
         .subscribe();
     } else {
-
-      regression.results=[];
+      regression.results = [];
 
       this.http
         .post(this.rootUrl, regression)
@@ -221,9 +220,13 @@ export class RegressionService {
     }
     this.saveRegressionSubject.next(regression);
   }
-  saveTestPass(saveModel: { selectedFeatures: any[]; regressionId: any; selectedRoles: any[], user: User }) {
+  saveTestPass(saveModel: {
+    selectedFeatures: any[];
+    regressionId: any;
+    selectedRoles: any[];
+    user: User;
+  }) {
     alert('Save still needs to be implemented. ');
-    //Create new Arrays for each set of roles and the tests therein
 
     //http request to save to the api
   }
