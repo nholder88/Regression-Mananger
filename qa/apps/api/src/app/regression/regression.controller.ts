@@ -2,11 +2,11 @@ import { Controller } from '@nestjs/common';
 import { RegressionService } from './regression.service';
 import { Crud } from '@nestjsx/crud';
 import { ApiTags } from '@nestjs/swagger';
-import { RegressionEntity } from '../Models/orm-entities';
+import { RegressionTestingEntity } from '../Models/regression-orm.model';
 
 @Crud({
   model: {
-    type: RegressionEntity
+    type: RegressionTestingEntity
   }
 })
 @ApiTags('regression')

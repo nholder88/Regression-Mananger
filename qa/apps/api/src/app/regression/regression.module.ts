@@ -10,26 +10,19 @@ import { RoleService } from './user/role.service';
 import { RoleController } from './user/roleController';
 import {
   IssueEntity,
-  RegressionEntity,
   TestCaseResultEntity,
   RolesEntity,
   TestCaseEntity,
   TestEntity,
   UserEntity
 } from '../Models/orm-entities';
-import { IssueService } from './user/issue.service';
-import { TestService } from './user/test.service';
-import { TestCaseService } from './user/test-case.service';
-import { TestCaseController } from './user/testCaseController';
-import { TestController } from './user/testController';
-import { IssueController } from './user/issueController';
-import { TestCaseResultController } from './user/testCaseResultController';
-import { TestCaseResultService } from './user/test-case-result.service';
+
+import { RegressionTestingEntity } from '../Models/regression-orm.model';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      RegressionEntity,
+      RegressionTestingEntity,
       UserEntity,
       RolesEntity,
       TestEntity,
@@ -38,23 +31,7 @@ import { TestCaseResultService } from './user/test-case-result.service';
       TestCaseResultEntity
     ])
   ],
-  providers: [
-    RegressionService,
-    UserService,
-    RoleService,
-    TestService,
-    IssueService,
-    TestCaseService,
-    TestCaseResultService
-  ],
-  controllers: [
-    RegressionController,
-    UserController,
-    RoleController,
-    TestController,
-    IssueController,
-    TestCaseController,
-    TestCaseResultController
-  ]
+  providers: [RegressionService, UserService, RoleService],
+  controllers: [RegressionController, UserController, RoleController]
 })
 export class RegressionModule {}

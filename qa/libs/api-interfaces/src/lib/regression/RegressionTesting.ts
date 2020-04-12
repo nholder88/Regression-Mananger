@@ -4,8 +4,8 @@ export class RegressionTesting {
   constructor(public testPasses: TestPass[], public name: string) {}
   id: number;
   releaseName: string;
-  StartDate: Date;
-  EndDate: Date;
+  startDate: Date;
+  endDate: Date;
   isComplete: boolean;
   isStarted: boolean;
 }
