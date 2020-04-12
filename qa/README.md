@@ -1,8 +1,33 @@
-# Qa
+# Qa Regression Manager
 
 This project was generated using [Nx](https://nx.dev).
 
 <p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png" width="450"></p>
+
+## Project Specific Quick Start
+
+Run `cd qa; npm install; npm run dev;` to run the API and UI at the same time on first pull of Repo
+
+## Roadmap
+
+### Phase I
+
+- Create Regression Page - Done
+- Create Regression Test Pass Page - Done
+- Create Regression Test Pass Create Page - Done
+- Create Endpoints For UI
+- Hook up Endpoints to UI
+- Add authentication
+- Add Test Import Page for Data Seeding
+- Add CI for UI
+- Add CI for API
+- Add E2E Testing for Release Validation
+
+### Phase II
+
+- Create Reporting Page
+- Create User Roles
+- Add Admin Pages for Managing Tests, Users, Regressions
 
 🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
 
