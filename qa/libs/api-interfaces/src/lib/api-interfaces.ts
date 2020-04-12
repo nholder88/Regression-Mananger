@@ -6,20 +6,6 @@ export interface Issue {
   id: number;
 }
 
-export interface Regression {
-  id: number;
-  name: string;
-  releaseName: string;
-  actualStartDate: Date;
-  actualEndDate: Date;
-  plannedStartDate: Date;
-  plannedEndDate: Date;
-  results: Test[];
-  isComplete: boolean;
-  isStarted: boolean;
-  practiceName: string;
-}
-
 export interface Test {
   id: number;
   testCases: TestCaseResult[];

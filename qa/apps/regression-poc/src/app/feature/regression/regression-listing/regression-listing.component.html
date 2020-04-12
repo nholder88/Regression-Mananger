@@ -17,8 +17,8 @@
     >
       <clr-datagrid [(clrDgSingleSelected)]="selected">
         <clr-dg-column>Name</clr-dg-column>
-        <clr-dg-column>Planned Start Date</clr-dg-column>
-        <clr-dg-column>Actual Start Date</clr-dg-column>
+        <clr-dg-column>Start Date</clr-dg-column>
+        <clr-dg-column>End Date</clr-dg-column>
 
         <clr-dg-column>Test Runs</clr-dg-column>
 
@@ -26,15 +26,11 @@
           *clrDgItems="let regression of vm.ActiveRegressions"
           [clrDgItem]="regression"
         >
-          <clr-dg-cell
-            >{{ regression.name }}-{{ regression.practiceName }}</clr-dg-cell
-          >
-          <clr-dg-cell>{{ regression.plannedEndDate | date }}</clr-dg-cell>
-          <clr-dg-cell>{{ regression.actualStartDate | date }}</clr-dg-cell>
+          <clr-dg-cell>{{ regression.name }}</clr-dg-cell>
+          <clr-dg-cell>{{ regression.startDate | date }}</clr-dg-cell>
+          <clr-dg-cell>{{ regression.endDate | date }}</clr-dg-cell>
           <clr-dg-cell>
-            <!--            <qa-regression-test-pass-form></qa-regression-test-pass-form-->
-            <!--          >-->
-            {{ regression.results.length }}
+            {{ regression.testPasses.length }}
           </clr-dg-cell>
         </clr-dg-row>
 
@@ -49,24 +45,21 @@
     </div>
     <div class="card-text" *ngIf="vm.CompletedRegressions">
       <clr-datagrid>
-        <clr-dg-column>Name - Practice Short Name</clr-dg-column>
+        <clr-dg-column>Name</clr-dg-column>
         <clr-dg-column>Release</clr-dg-column>
-        <clr-dg-column>Planned Start Date</clr-dg-column>
-        <clr-dg-column>Actual Start Date</clr-dg-column>
-        <clr-dg-column>Planned End Date</clr-dg-column>
-        <clr-dg-column>Actual End Date</clr-dg-column>
+        <clr-dg-column>Start Date</clr-dg-column>
+
+        <clr-dg-column>End Date</clr-dg-column>
 
         <clr-dg-column></clr-dg-column>
 
         <clr-dg-row *clrDgItems="let regression of vm.CompletedRegressions">
-          <clr-dg-cell
-            >{{ regression.name }}-{{ regression.practiceName }}</clr-dg-cell
-          >
+          <clr-dg-cell>{{ regression.name }}</clr-dg-cell>
           <clr-dg-cell>{{ regression.releaseName }}</clr-dg-cell>
-          <clr-dg-cell>{{ regression.plannedStartDate | date }}</clr-dg-cell>
-          <clr-dg-cell>{{ regression.actualStartDate | date }}</clr-dg-cell>
-          <clr-dg-cell>{{ regression.plannedEndDate | date }}</clr-dg-cell>
-          <clr-dg-cell>{{ regression.actualEndDate | date }}</clr-dg-cell>
+          <clr-dg-cell>{{ regression.startDate | date }}</clr-dg-cell>
+
+          <clr-dg-cell>{{ regression.endDate | date }}</clr-dg-cell>
+
           <clr-dg-cell
             ><button
               class="btn btn-info-outline btn-sm"

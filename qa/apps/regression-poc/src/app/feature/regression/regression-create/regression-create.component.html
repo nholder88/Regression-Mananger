@@ -1,8 +1,4 @@
-<button
-
-  class="btn btn-primary btn-sm"
-  (click)="xlOpen = !xlOpen"
->
+<button class="btn btn-primary btn-sm" (click)="xlOpen = !xlOpen">
   Add Regression
 </button>
 
@@ -24,39 +20,18 @@
               <input clrInput type="text" formControlName="releaseName" />
             </clr-input-container>
           </div>
-          <div class="clr-col">
-            <clr-input-container>
-              <label>Testing Practice Short Name</label>
-              <input clrInput type="text" formControlName="practiceName" />
-            </clr-input-container>
-          </div>
         </div>
         <div class="clr-row">
           <div class="clr-col">
             <clr-date-container>
-              <label>Planned Start Date</label>
-              <input clrDate type="date" formControlName="plannedStartDate" />
+              <label>Start Date</label>
+              <input clrDate type="date" [(clrDate)]="startDate" />
             </clr-date-container>
           </div>
           <div class="clr-col">
             <clr-date-container>
-              <label>Planned End Date</label>
-              <input clrDate type="date" formControlName="plannedEndDate" />
-            </clr-date-container>
-          </div>
-        </div>
-
-        <div class="clr-row">
-          <div class="clr-col">
-            <clr-date-container>
-              <label>Actual Start Date</label>
-              <input clrDate type="date" formControlName="actualStartDate" />
-            </clr-date-container>
-          </div>
-          <div class="clr-col">
-            <clr-date-container>
-              <label>Actual End Date</label>
-              <input clrDate type="date" formControlName="actualEndDate" />
+              <label>End Date</label>
+              <input clrDate type="date" [(clrDate)]="endDate" />
             </clr-date-container>
           </div>
         </div>

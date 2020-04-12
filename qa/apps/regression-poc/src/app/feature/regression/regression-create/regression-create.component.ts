@@ -1,13 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
-import { Area, Regression, Test } from '@qa/api-interfaces';
-import { ClrWizard } from '@clr/angular';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Regression } from '@qa/api-interfaces';
+
 import { RegressionService } from '../regression.service';
 
 @Component({
@@ -20,49 +14,30 @@ export class RegressionCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private regressionService: RegressionService
   ) {}
+  xlOpen = false;
+
+  regressionForm: FormGroup;
+  regressionModel: Regression = new Regression([], '');
 
   ngOnInit() {
     this.regressionForm = this.createFormGroupWithBuilderAndModel(
       this.formBuilder
     );
   }
-  xlOpen = false;
   onSubmit() {
-    alert('Submitted');
-
     this.regressionService.saveRegression({
-      actualEndDate: this.regressionForm.get('regression.actualEndDate').value,
-      actualStartDate: this.regressionForm.get('regression.actualStartDate')
-        .value,
+      endDate: this.regressionForm.get('regression.endDate').value,
+      startDate: this.regressionForm.get('regression.startDate').value,
       id: 0,
       isComplete: this.regressionForm.get('regression.isComplete').value,
       isStarted: this.regressionForm.get('regression.isStarted').value,
       name: this.regressionForm.get('regression.name').value,
-      plannedEndDate: this.regressionForm.get('regression.plannedEndDate')
-        .value,
-      plannedStartDate: this.regressionForm.get('regression.plannedStartDate')
-        .value,
-      practiceName: this.regressionForm.get('regression.practiceName').value,
+
       releaseName: this.regressionForm.get('regression.releaseName').value,
-      results: this.regressionForm.get('regression.results').value
+      testPasses: []
     });
     this.xlOpen = false;
   }
-
-  regressionForm: FormGroup;
-  regressionModel: Regression = new (class implements Regression {
-    isStarted: boolean = false;
-    actualEndDate: Date = null;
-    actualStartDate: Date = null;
-    id: number = null;
-    isComplete: boolean = false;
-    name: string = '';
-    plannedEndDate: Date = null;
-    plannedStartDate: Date = null;
-    releaseName: string = '';
-    practiceName: string = '';
-    results: Test[] = new Array<Test>();
-  })();
 
   private createFormGroupWithBuilderAndModel(formBuilder: FormBuilder) {
     return formBuilder.group({

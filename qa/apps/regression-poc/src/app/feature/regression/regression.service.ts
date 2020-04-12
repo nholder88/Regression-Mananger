@@ -18,32 +18,8 @@ export class RegressionService {
 
   // regressions$ = this.http.get<Regression[]>(this.rootUrl)
   regressions$ = of<Regression[]>([
-    {
-      id: 0,
-      practiceName: 'AMDDEMO',
-      isComplete: false,
-      name: 'Default Test',
-      isStarted: true,
-      releaseName: 'Alpha-2020',
-      actualEndDate: null,
-      actualStartDate: null,
-      plannedEndDate: null,
-      plannedStartDate: null,
-      results: []
-    },
-    {
-      id: -1,
-      practiceName: 'QA',
-      isComplete: true,
-      name: 'QA Test',
-      isStarted: true,
-      releaseName: 'Alpha-2019',
-      actualEndDate: new Date(),
-      actualStartDate: new Date(2019, 4, 1),
-      plannedEndDate: new Date(2020, 1, 4),
-      plannedStartDate: new Date(2018, 7, 9),
-      results: []
-    }
+    new Regression([], 'Default Test', true, true, 'Summer 2020'),
+    new Regression([], 'QA Test', true, true, 'Alpha-2021')
   ]).pipe(
     tap(data => console.log('regresssion service', JSON.stringify(data))),
     catchError(this.errorHandler.handleError)
@@ -190,34 +166,31 @@ export class RegressionService {
   saveRegression(regression?: Regression) {
     if (regression === null || regression === undefined) {
       regression = {
-        actualEndDate: null,
-        actualStartDate: null,
+        endDate: null,
+        startDate: null,
         id: 0,
         isComplete: false,
         isStarted: false,
         name: 'Blank_' + new Date().toUTCString(),
-        plannedEndDate: null,
-        plannedStartDate: null,
-        practiceName: 'REGRESSION',
         releaseName: 'RL_' + new Date().toLocaleDateString(),
-        results: []
+        testPasses: []
       };
     }
-    if (regression.id > 0) {
+    /*  if (regression.id > 0) {
       this.http
         .put(this.rootUrl, regression)
         // tslint:disable-next-line:no-shadowed-variable
         .pipe(tap(regression => console.log(regression)))
         .subscribe();
     } else {
-      regression.results = [];
+      regression.testPasses = [];
 
       this.http
         .post(this.rootUrl, regression)
         // tslint:disable-next-line:no-shadowed-variable
         .pipe(tap(regression => console.log(regression)))
         .subscribe();
-    }
+    }*/
     this.saveRegressionSubject.next(regression);
   }
   saveTestPass(saveModel: {
