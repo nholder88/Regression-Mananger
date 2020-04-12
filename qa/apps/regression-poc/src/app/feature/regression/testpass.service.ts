@@ -5,7 +5,7 @@ import { of, BehaviorSubject, combineLatest } from 'rxjs';
 import { delay, tap, catchError, map, shareReplay } from 'rxjs/operators';
 import * as faker from 'faker';
 import { ScenarioService } from './scenario.service';
-import { TestPass } from '@qa/api-interfaces';
+import { TestPass, FeatureScenarioContainer } from '@qa/api-interfaces';
 
 @Injectable({
   providedIn: 'root'
