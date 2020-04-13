@@ -30,12 +30,15 @@
           <clr-dg-cell>{{ regression.startDate | date }}</clr-dg-cell>
           <clr-dg-cell>{{ regression.endDate | date }}</clr-dg-cell>
           <clr-dg-cell>
-            {{ regression.testPasses.length }}
+            <span *ngIf="!regression.testPasses">No test passes</span>
+            <span *ngIf="!regression.testPasses">
+              {{ regression?.testPasses?.length }}</span
+            >
           </clr-dg-cell>
         </clr-dg-row>
 
         <clr-dg-footer
-          >{{ vm.ActiveRegressions.length }} Regression Cycle(s)</clr-dg-footer
+          >{{ vm.ActiveRegressions?.length }} Regression Cycle(s)</clr-dg-footer
         >
       </clr-datagrid>
     </div>
@@ -71,7 +74,7 @@
         </clr-dg-row>
 
         <clr-dg-footer
-          >{{ vm.CompletedRegressions.length }} Regression
+          >{{ vm.CompletedRegressions?.length }} Regression
           Cycle(s)</clr-dg-footer
         >
       </clr-datagrid>

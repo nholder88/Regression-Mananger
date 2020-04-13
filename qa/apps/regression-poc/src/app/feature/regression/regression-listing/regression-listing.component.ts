@@ -12,22 +12,22 @@ import { ClrWizard } from '@clr/angular';
 export class RegressionListingComponent implements OnInit {
   constructor(private service: RegressionService) {}
 
-  ngOnInit() {}
-
   regression$ = this.service.regressionWithAdd$;
   selected;
 
   vm$ = combineLatest([this.regression$]).pipe(
     map(([regressions]) => ({
       ActiveRegressions: regressions.filter(x => x.isComplete === false),
-      CompletedRegressions: regressions.filter(r => r.isComplete == true)
+      CompletedRegressions: regressions.filter(r => r.isComplete === true)
     }))
   );
 
+  ngOnInit() {}
 
-  onViewResultsClick(regression){
-    window.open("https://valor-software.com/ng2-charts/#/GeneralInfo", "_blank");
-
+  onViewResultsClick(regression) {
+    window.open(
+      'https://valor-software.com/ng2-charts/#/GeneralInfo',
+      '_blank'
+    );
   }
-
 }

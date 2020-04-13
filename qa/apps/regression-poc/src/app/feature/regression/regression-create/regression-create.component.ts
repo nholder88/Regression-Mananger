@@ -26,8 +26,10 @@ export class RegressionCreateComponent implements OnInit {
   }
   onSubmit() {
     this.regressionService.saveRegression({
-      endDate: this.regressionForm.get('regression.endDate').value,
-      startDate: this.regressionForm.get('regression.startDate').value,
+      endDate: new Date(this.regressionForm.get('regression.endDate').value),
+      startDate: new Date(
+        this.regressionForm.get('regression.startDate').value
+      ),
       id: 0,
       isComplete: this.regressionForm.get('regression.isComplete').value,
       isStarted: this.regressionForm.get('regression.isStarted').value,
@@ -41,7 +43,18 @@ export class RegressionCreateComponent implements OnInit {
 
   private createFormGroupWithBuilderAndModel(formBuilder: FormBuilder) {
     return formBuilder.group({
-      regression: formBuilder.group(this.regressionModel)
+      regression: formBuilder.group({
+        //I need to explain this here: Clarity when using reactive forms tries to treat the date as a string, when using forms its ok but reactive
+        //there was no way around it other than creating a model that is nearly identical then wrappping the dates in new Date()....
+        endDate: '',
+        startDate: '',
+        id: 0,
+        isComplete: false,
+        isStarted: false,
+        name: '',
+        releaseName: '',
+        testPasses: []
+      })
     });
   }
 }

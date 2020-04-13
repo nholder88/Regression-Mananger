@@ -16,7 +16,7 @@ export class RegressionService {
 
   private rootUrl = 'api/regression';
 
-  // regressions$ = this.http.get<Regression[]>(this.rootUrl)
+  // regressions$ = this.http.get<Regression[]>(this.rootUrl);
   regressions$ = of<Regression[]>([
     new Regression([], 'Default Test', true, true, 'Summer 2020'),
     new Regression([], 'QA Test', true, true, 'Alpha-2021')
@@ -176,7 +176,7 @@ export class RegressionService {
         testPasses: []
       };
     }
-    /*  if (regression.id > 0) {
+    if (regression.id > 0) {
       this.http
         .put(this.rootUrl, regression)
         // tslint:disable-next-line:no-shadowed-variable
@@ -190,7 +190,7 @@ export class RegressionService {
         // tslint:disable-next-line:no-shadowed-variable
         .pipe(tap(regression => console.log(regression)))
         .subscribe();
-    }*/
+    }
     this.saveRegressionSubject.next(regression);
   }
   saveTestPass(saveModel: {
