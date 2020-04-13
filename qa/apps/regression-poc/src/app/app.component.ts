@@ -9,5 +9,6 @@ import { Message } from '@qa/api-interfaces';
 })
 export class AppComponent {
   hello$ = this.http.get<Message>('/api/hello');
+  loggedIn = false;
   constructor(private http: HttpClient) {}
 }

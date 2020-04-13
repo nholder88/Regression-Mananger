@@ -11,13 +11,15 @@ import { WelcomeComponent } from './home/welcome/welcome.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { AdminModule } from './feature/admin/admin.module';
 import { ApplicationHeaderComponent } from './home/layout/application-header.component';
+import { LoginComponent } from './home/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WelcomeComponent,
     PageNotFoundComponent,
-    ApplicationHeaderComponent
+    ApplicationHeaderComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
