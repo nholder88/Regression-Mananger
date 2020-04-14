@@ -18,11 +18,11 @@ import {
   Team,
   Test,
   TestCase,
-  TestCaseResult,
-  User
+  TestCaseResult
 } from '@qa/api-interfaces';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
+import { UserEntity } from './UserEntity';
 
 @Entity()
 export class TeamEntity implements Team {
@@ -33,10 +33,16 @@ export class TeamEntity implements Team {
   @Column()
   name: string;
 
-  @ManyToMany(type => FeatureEntity, rr => rr.teams)
+  @ManyToMany(
+    type => FeatureEntity,
+    rr => rr.teams
+  )
   features: FeatureEntity[];
 
-  @ManyToOne(type => UserEntity, reg => reg.team)
+  @ManyToOne(
+    type => UserEntity,
+    reg => reg.team
+  )
   users: UserEntity[];
 }
 
@@ -47,7 +53,10 @@ export class AreaEntity implements Area {
   @IsString()
   @Column()
   name: string;
-  @OneToMany(type => FeatureEntity, featureEntity => featureEntity.area)
+  @OneToMany(
+    type => FeatureEntity,
+    featureEntity => featureEntity.area
+  )
   features: FeatureEntity[];
 }
 
@@ -62,28 +71,48 @@ export class FeatureEntity implements Feature {
 
   @Column() enable: boolean;
 
-  @ManyToMany(type => FeatureEntity, category => category.manyInverseFeatures, {
-    cascade: true
-  })
+  @ManyToMany(
+    type => FeatureEntity,
+    category => category.manyInverseFeatures,
+    {
+      cascade: true
+    }
+  )
   @JoinTable()
   subFeatures: FeatureEntity[];
 
-  @ManyToMany(type => FeatureEntity, category => category.subFeatures, {
-    cascade: false
-  })
+  @ManyToMany(
+    type => FeatureEntity,
+    category => category.subFeatures,
+    {
+      cascade: false
+    }
+  )
   manyInverseFeatures: FeatureEntity[];
 
-  @ManyToMany(type => TeamEntity, rr => rr.features)
+  @ManyToMany(
+    type => TeamEntity,
+    rr => rr.features
+  )
   teams: TeamEntity[];
-  @ManyToOne(type => AreaEntity, test => test.features)
+  @ManyToOne(
+    type => AreaEntity,
+    test => test.features
+  )
   area: AreaEntity;
 
-  @OneToMany(type => TestCaseEntity, testCase => testCase.feature) // note: we will create author property in the Photo class below
+  @OneToMany(
+    type => TestCaseEntity,
+    testCase => testCase.feature
+  ) // note: we will create author property in the Photo class below
   cases: TestCaseEntity[];
 }
 @Entity()
 export class TestCaseEntity implements TestCase {
-  @ManyToOne(type => FeatureEntity, featureEntity => featureEntity.cases)
+  @ManyToOne(
+    type => FeatureEntity,
+    featureEntity => featureEntity.cases
+  )
   feature: FeatureEntity;
 
   @ApiProperty({ type: 'number' })
@@ -110,37 +139,14 @@ export class TestCaseEntity implements TestCase {
 export class TestCaseResultEntity implements TestCaseResult {
   @PrimaryGeneratedColumn() id: number;
   @Column() caseStatus: string;
-  @ManyToOne(type => TestCaseEntity, testCase => testCase.tests)
+  @ManyToOne(
+    type => TestCaseEntity,
+    testCase => testCase.tests
+  )
   testCase: TestCaseEntity;
   @Column() testingLoginUserName: string;
   @Column() testingRole: string;
 }
-@Entity()
-export class UserEntity implements User {
-  @PrimaryGeneratedColumn() id: number;
-
-  @ManyToOne(type => TeamEntity, reg => reg.users)
-  team: TeamEntity;
-
-  @ApiProperty({ type: 'string' })
-  @IsString()
-  @Column()
-  name: string;
-
-  @ApiProperty()
-  @ManyToMany(type => RolesEntity, roles => roles.users)
-  @JoinTable()
-  roles: RolesEntity[];
-
-  @ApiProperty()
-  @IsDate()
-  @Column({ type: 'timestamp' })
-  lastLogin: Date;
-
-  @OneToMany(type => TestEntity, photo => photo.tester)
-  tests: TestEntity[];
-}
-
 @Entity()
 export class IssueEntity implements Issue {
   @ApiProperty({ type: 'number' })
@@ -160,7 +166,10 @@ export class RolesEntity implements Roles {
   name: string;
 
   @ApiProperty()
-  @ManyToMany(type => UserEntity, user => user.roles)
+  @ManyToMany(
+    type => UserEntity,
+    user => user.roles
+  )
   users: UserEntity[];
 }
 
@@ -202,7 +211,10 @@ export class RegressionEntity implements Regression {
   plannedEndDate: Date;
 
   @ApiProperty()
-  @OneToMany(type => TestEntity, rr => rr.regression)
+  @OneToMany(
+    type => TestEntity,
+    rr => rr.regression
+  )
   results: TestEntity[];
 
   @ApiProperty({ type: 'boolean' })
@@ -228,7 +240,10 @@ export class TestEntity implements Test {
   id: number;
 
   @ApiProperty()
-  @OneToMany(type => TestCaseResultEntity, testCase => testCase.testCase)
+  @OneToMany(
+    type => TestCaseResultEntity,
+    testCase => testCase.testCase
+  )
   testCases: TestCaseResultEntity[];
 
   @ApiProperty({ type: 'string' })
@@ -251,9 +266,15 @@ export class TestEntity implements Test {
   @Column()
   area: string;
   @Column() isComplete: boolean;
-  @ManyToOne(type => UserEntity, author => author.tests)
+  @ManyToOne(
+    type => UserEntity,
+    author => author.tests
+  )
   tester: UserEntity;
 
-  @ManyToOne(type => RegressionEntity, author => author.results)
+  @ManyToOne(
+    type => RegressionEntity,
+    author => author.results
+  )
   regression: RegressionEntity;
 }
