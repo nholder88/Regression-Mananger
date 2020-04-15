@@ -50,10 +50,9 @@ export interface TestCaseResult {
 
 export interface User {
   id: number;
-  team: Team;
-  name: string;
-  roles: Roles[];
-  lastLogin: Date;
+
+  userName: string;
+  password: string;
 }
 
 export interface Roles {
