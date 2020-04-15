@@ -3,7 +3,7 @@ import { Controller } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Crud } from '@nestjsx/crud';
 import { ApiTags } from '@nestjs/swagger';
-import { UserEntity } from '../../Models/UserEntity';
+import { UserEntity } from '../../Models/orm-entities';
 
 @Crud({
   model: {

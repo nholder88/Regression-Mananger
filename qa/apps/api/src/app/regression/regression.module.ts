@@ -13,9 +13,9 @@ import {
   TestCaseResultEntity,
   RolesEntity,
   TestCaseEntity,
-  TestEntity
+  TestEntity,
+  UserEntity
 } from '../Models/orm-entities';
-import { User } from '../Models/UserEntity';
 
 import { RegressionTestingEntity } from '../Models/regression-orm.model';
 
@@ -23,7 +23,7 @@ import { RegressionTestingEntity } from '../Models/regression-orm.model';
   imports: [
     TypeOrmModule.forFeature([
       RegressionTestingEntity,
-      User,
+      UserEntity,
       RolesEntity,
       TestEntity,
       IssueEntity,
