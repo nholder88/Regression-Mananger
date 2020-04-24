@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@qa/api-interfaces';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class UsersService {
@@ -25,7 +26,7 @@ export class UsersService {
     ];
   }
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.userName === username);
+   findOne(username: string): Observable<User> {
+    return of<User>(this.users.find(user => user.userName === username));
   }
 }

@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RegressionModule } from './regression/regression.module';
 
 import { getMetadataArgsStorage } from 'typeorm';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { getMetadataArgsStorage } from 'typeorm';
       entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
       synchronize: true
     }),
-    RegressionModule
+    RegressionModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService]
