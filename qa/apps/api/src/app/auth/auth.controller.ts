@@ -18,7 +18,7 @@ export class AuthController {
   @Post('auth/login')
   login(@Body() user: UserDto): Observable<any> {
 
-    return this.authService.validateUser(user.userName, user.password).pipe(
+    return this.authService.validateUser(user.username, user.password).pipe(
       map(user => {
         if (!user) {
           throw new UnauthorizedException();

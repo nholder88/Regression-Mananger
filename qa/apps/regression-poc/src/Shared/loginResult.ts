@@ -1,4 +1,4 @@
 export class LoginResult {
-  public isLoggedIn: boolean
-public  token:string
+  constructor(public isLoggedIn:boolean, public token:string) {
+  }
 }

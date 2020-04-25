@@ -1,4 +1,4 @@
-<qa-login *ngIf="!loggedIn" (isLoggedIn)="loggedIn"></qa-login>
+<qa-login *ngIf="!loggedIn" (isLoggedIn)="onLoginAttempt($event)"></qa-login>
 <div *ngIf="loggedIn" class="main-container">
   <div class="alert alert-app-level"></div>
   <qa-application-header></qa-application-header>

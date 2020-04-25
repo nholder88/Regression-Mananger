@@ -63,8 +63,12 @@ export class LoginComponent implements OnInit {
   loginError = false;
 
   login() {
-    const loginResult = this.authService.login(this.loginForm.value);
-    this.isLoggedIn.emit(loginResult.isLoggedIn);
+    const loginResult = this.authService.login(this.loginForm.value).subscribe(x=> {
+
+      console.log(x);
+      this.isLoggedIn.emit(x.isLoggedIn);
+    });
+
   }
 
   ngOnInit(): void {

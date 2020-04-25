@@ -34,7 +34,7 @@ export class UserService {
   ]);
 
   private selectedUserSubject = new BehaviorSubject<User>({
-    password: '', userName: '',
+    password: '', username: '',
     id: 0,  });
   userSelectedAction$ = this.selectedUserSubject.asObservable();
 
@@ -62,7 +62,7 @@ export class UserService {
   getLoggedInUser(): User {
     return {
       id: 1,
-      userName: 'Purely', password: ''
+      username: 'Purely', password: ''
     };
   }
 
@@ -70,7 +70,7 @@ export class UserService {
     if (user === null || user === undefined) {
       user = {
         id: 0,
-        userName: 'Genned',
+        username: 'Genned',
         password:''
       };
     }

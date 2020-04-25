@@ -3,6 +3,8 @@ import { environment } from '../environments/environment';
 import { User } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { LoginResult } from './loginResult';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -13,22 +15,18 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  login(input: User):LoginResult {
-    const result = new LoginResult();
-    if (environment.apiUrl.length > 1) {
-      // Do ApI call here
-      this.http.post<string>(environment.apiUrl+`/auth/login`, input).subscribe(x => {
-        result.isLoggedIn = true;
-        result.token = x;
-      });
-//Do some token stuff here
+  login(input: User): Observable<LoginResult> {
 
-    } else {
-      if (input.userName === 'test') {
-        result.token = '';
-        result.isLoggedIn = true;
-      }
+    if (environment.apiUrl.length > 1)
+      return this.http.post<string>(environment.apiUrl + `/auth/login`, input).pipe(
+        map(x => new LoginResult(true, x)
+        ));
+
+    const result = new LoginResult(false, '');
+    if (input.username === 'test') {
+      result.isLoggedIn = true;
+      return of<LoginResult>(result);
     }
-    return result;
+
   }
 }
