@@ -3,7 +3,7 @@ import { RegressionService } from './regression.service';
 import { Crud } from '@nestjsx/crud';
 import { ApiTags } from '@nestjs/swagger';
 import { RegressionTestingEntity } from '../Models/regression-orm.model';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Crud({
   model: {
