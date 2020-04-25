@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@qa/api-interfaces';
 import { Observable, of } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UsersService {
@@ -10,23 +11,14 @@ export class UsersService {
     this.users = [
       {
         id: 1,
-        userName: 'john',
-        password: 'changeme'
-      },
-      {
-        id: 2,
-        userName: 'chris',
-        password: 'secret'
-      },
-      {
-        id: 3,
-        userName: 'maria',
-        password: 'guess'
+        userName: environment.admin.username,
+        password: environment.admin.password
       }
     ];
   }
 
    findOne(username: string): Observable<User> {
+    // Replace with Database backed look up
     return of<User>(this.users.find(user => user.userName === username));
   }
 }

@@ -5,6 +5,8 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
 
 import { UserDto } from '../users/Dto/User.Dto';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @ApiTags('Auth')
 @Controller()
@@ -14,16 +16,17 @@ export class AuthController {
 
   //  Not going to  use the local strategy here because the user and password have to be in query string.
   @Post('auth/login')
-  login(@Body() user: UserDto) {
-    let currentUser = null;
-    // Make sure user is valid
-    this.authService.validateUser(user.userName, user.password).subscribe(user => currentUser = this.authService.login(user));
-    // Issue JWT
-    if (!currentUser) {
-      throw new UnauthorizedException();
-    } else {
-      return this.authService.login(currentUser);
-    }
+  login(@Body() user: UserDto): Observable<any> {
+
+    return this.authService.validateUser(user.userName, user.password).pipe(
+      map(user => {
+        if (!user) {
+          throw new UnauthorizedException();
+        }
+        return this.authService.login(user);
+      })
+    );
+
   }
 
   @UseGuards(JwtAuthGuard)
