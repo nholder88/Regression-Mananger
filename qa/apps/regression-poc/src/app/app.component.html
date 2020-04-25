@@ -1,38 +1,4 @@
-<div class="login-wrapper" *ngIf="!loggedIn">
-  <form class="login">
-    <section class="title">
-      <h3 class="welcome">Welcome to</h3>
-      QA's Regression Manager
-      <h5 class="hint">Use your ID to sign in or create one now</h5>
-    </section>
-    <div class="login-group">
-      <clr-input-container>
-        <label class="clr-sr-only">Username</label>
-        <input type="text" name="username" clrInput placeholder="Username" />
-      </clr-input-container>
-      <clr-password-container>
-        <label class="clr-sr-only">Password</label>
-        <input
-          type="password"
-          name="password"
-          clrPassword
-          placeholder="Password"
-        />
-      </clr-password-container>
-      <clr-checkbox-wrapper>
-        <label>Remember me</label>
-        <input type="checkbox" name="rememberMe" clrCheckbox />
-      </clr-checkbox-wrapper>
-      <div class="error ">
-        Invalid user name or password
-      </div>
-      <button type="submit" class="btn btn-primary" (click)="loggedIn = true">
-        NEXT
-      </button>
-      <a href="javascript://" class="signup">Request Login ID</a>
-    </div>
-  </form>
-</div>
+<qa-login *ngIf="!loggedIn" (isLoggedIn)="loggedIn"></qa-login>
 <div *ngIf="loggedIn" class="main-container">
   <div class="alert alert-app-level"></div>
   <qa-application-header></qa-application-header>

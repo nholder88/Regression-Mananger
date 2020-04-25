@@ -43,4 +43,6 @@ export class AuthService {
   public static async comparePasswords(plainTextpass, hash) {
     return await bcyrpt.compare(plainTextpass, hash).catch(err => console.log(err));
   }
+
+
 }

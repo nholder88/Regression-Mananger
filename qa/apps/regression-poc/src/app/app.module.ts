@@ -12,6 +12,7 @@ import { PageNotFoundComponent } from './page-not-found.component';
 import { AdminModule } from './feature/admin/admin.module';
 import { ApplicationHeaderComponent } from './home/layout/application-header.component';
 import { LoginComponent } from './home/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LoginComponent } from './home/login/login.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     RegressionModule,
-    AdminModule
+    AdminModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
