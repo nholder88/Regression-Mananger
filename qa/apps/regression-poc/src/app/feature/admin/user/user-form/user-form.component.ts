@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { Roles } from '@qa/api-interfaces';
@@ -18,9 +18,8 @@ export class UserFormComponent implements OnInit {
   ) {}
 
   userForm = this.formBuilder.group({
-    name: ['', Validators.required],
-    team: [-1, Validators.required],
-    roles: [false],
+    userName: ['', Validators.required],
+
     password: ['', Validators.required]
   });
   user$ = this.userService.selectedUser$.pipe(
@@ -40,7 +39,7 @@ export class UserFormComponent implements OnInit {
   selectedRoles = new Array<Roles>();
 
   onRoleSelected(role) {
-    var index = this.selectedRoles.findIndex(x => x.id == role.id);
+    let index = this.selectedRoles.findIndex(x => x.id == role.id);
     if (index === -1) {
       this.selectedRoles.push(role);
     } else {
@@ -49,15 +48,9 @@ export class UserFormComponent implements OnInit {
     console.log(this.selectedRoles);
   }
 
-  onSubmit(user?) {
+  onSubmit() {
     console.log('Forms current value', this.userForm.value);
-    this.userService.saveUser({
-      id: null,
-      lastLogin: undefined,
-      name: this.userForm.get('name').value,
-      roles: [...this.selectedRoles],
-      team: this.userForm.get('team').value
-    });
+    this.userService.saveUser(this.userForm.value);
     this.selectedRoles = [];
     this.userForm.reset();
   }

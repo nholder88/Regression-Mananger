@@ -1,18 +1,10 @@
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-  merge,
-  Observable,
-  of,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, merge, of, Subject } from 'rxjs';
 
 import { catchError, scan, shareReplay, tap } from 'rxjs/operators';
-import { Regression, User } from '@qa/api-interfaces';
+import { User } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/error-handling.service';
-import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +14,8 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private errorHandler: ErrorHandlingService
-  ) {}
+  ) {
+  }
 
   userRoles$ = of([
     { id: 1, name: 'Admin' },
@@ -41,12 +34,8 @@ export class UserService {
   ]);
 
   private selectedUserSubject = new BehaviorSubject<User>({
-    id: 0,
-    lastLogin: undefined,
-    name: '',
-    roles: [],
-    team: { id: 0, name: '' }
-  });
+    password: '', username: '',
+    id: 0,  });
   userSelectedAction$ = this.selectedUserSubject.asObservable();
 
   private rootUrl = 'api/user';
@@ -69,25 +58,20 @@ export class UserService {
     scan((acc: User[], value: User) => [...acc, value]),
     catchError(err => this.errorHandler.handleError(err))
   );
+
   getLoggedInUser(): User {
     return {
       id: 1,
-      lastLogin: null,
-      name: 'Purely',
-      roles: [],
-      team: { id: 1, name: 'Demo' }
+      username: 'Purely', password: ''
     };
-
   }
 
   saveUser(user?: User) {
     if (user === null || user === undefined) {
       user = {
         id: 0,
-        lastLogin: new Date(),
-        name: 'Genned',
-        roles: [],
-        team: null
+        username: 'Genned',
+        password:''
       };
     }
 
