@@ -20,7 +20,9 @@ export class LoginService {
 
     if (environment.apiUrl.length > 1)
       return this.http.post<string>(environment.apiUrl + `/auth/login`, input).pipe(
-        map(x => new LoginResult(true, x)
+        map(x =>{
+          this.jwtService.storeToken(x);
+          return  new LoginResult(true, x)}
         ));
 
     const result = new LoginResult(false, '');

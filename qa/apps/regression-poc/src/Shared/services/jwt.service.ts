@@ -12,7 +12,7 @@ export class JwtService {
 
   // This CANNOT be injected. This is why the JWTHelper service is newed up.
   public jwtHelper: JwtHelperService;
-  
+
   constructor() {
     this.jwtHelper = new JwtHelperService();
   }
