@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RegressionController } from './regression.controller';
-import { RegressionService } from './regression.service';
-
-import { RegressionTestingEntity } from '../Models/regression-orm.model';
+import { RegressionHeaderController } from './header/regressionHeader.controller';
+import { RegressionHeaderService } from './header/regression-header.service';
+import { RegressionHeaderDto } from '../Models/regression-header.dto';
+import { TestPassController } from './testPass/testPass.controller';
+import { TestPassDto } from './testPass/dto/TestPass.dto';
+import { TestPassService } from './testPass/testPass.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RegressionTestingEntity])],
-  providers: [RegressionService],
-  controllers: [RegressionController]
+  imports: [TypeOrmModule.forFeature([RegressionHeaderDto, TestPassDto])],
+  providers: [RegressionHeaderService,TestPassService],
+  controllers: [RegressionHeaderController, TestPassController]
 })
 export class RegressionModule {}

@@ -1,16 +1,16 @@
-import { FeatureScenarioContainer } from './FeatureScenarioContainer';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn
-} from 'typeorm'; //This is the listing in the regression that we look at to see the test passes that are done
-export class TestPass {
+import { FeatureScenarioContainer, IFeatureScenarioContainer } from './FeatureScenarioContainer';
+ //This is the listing in the regression that we look at to see the test passes that are done
+export interface ITestPass {
+     featureScenarioContainers: IFeatureScenarioContainer[],
+     creator: string,
+     timeStamp: Date,
+     isComplete: boolean,
+     isStarted: boolean,
+     id: string
+}
+
+
+export class TestPass implements ITestPass{
   constructor(
     public featureScenarioContainers: FeatureScenarioContainer[],
     public creator: string,

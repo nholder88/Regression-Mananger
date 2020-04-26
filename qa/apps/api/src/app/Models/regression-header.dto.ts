@@ -1,12 +1,12 @@
-import { Regression } from '@qa/api-interfaces';
 import { Entity } from 'typeorm/decorator/entity/Entity';
-import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
+import { Regression } from '@qa/api-interfaces';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, IsDate, IsBoolean } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
+import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
 import { Column } from 'typeorm';
 
 @Entity()
-export class RegressionTestingEntity extends Regression {
+export class RegressionHeaderDto extends Regression {
   @ApiProperty({ type: 'number' })
   @IsNumber()
   @PrimaryGeneratedColumn()
