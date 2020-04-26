@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   login(user: User): any {
-    const payload = { username: user.userName, sub: user.id, profile_info: { extra:  'more stufff'  } };
+    const payload = { username: user.username, sub: user.id, profile_info: { extra:  'more stufff'  } };
 
     return {
       access_token: this.jwtService.sign(payload)
