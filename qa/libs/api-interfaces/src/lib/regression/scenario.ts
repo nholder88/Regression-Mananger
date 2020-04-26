@@ -1,6 +1,17 @@
-import { Steps } from './Steps';
+import { ISteps, Steps } from './Steps';
 
-export class Scenario {
+export interface IScenario {
+  feature: string,
+  name: string,
+  steps: ISteps[],
+  timestamp: Date,
+  note: string,
+  order: number,
+  id: string,
+
+}
+
+export class Scenario implements IScenario {
   constructor(
     public feature: string,
     public name: string,
@@ -10,5 +21,6 @@ export class Scenario {
     public note: string = '',
     public order: number = 0,
     public id: string = ''
-  ) {}
+  ) {
+  }
 }

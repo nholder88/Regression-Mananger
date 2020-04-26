@@ -2,12 +2,12 @@
 import { ApiTags } from '@nestjs/swagger';
 import { Controller, UseGuards } from '@nestjs/common';
 import { TestPassService } from './testPass.service';
-import { TestPass } from '@qa/api-interfaces';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { TestPassDto } from './dto/TestPass.dto';
 
 @Crud({
   model: {
-    type: TestPass
+    type: TestPassDto
   }
 })
 @ApiTags('TestPass')
