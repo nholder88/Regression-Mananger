@@ -3,7 +3,7 @@ import { merge, Observable, of, Subject } from 'rxjs';
 import { Area, Regression, User } from '@qa/api-interfaces';
 import { catchError, scan, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { ErrorHandlingService } from '../../../Shared/error-handling.service';
+import { ErrorHandlingService } from '../../../Shared/services/error-handling.service';
 
 @Injectable({
   providedIn: 'root'

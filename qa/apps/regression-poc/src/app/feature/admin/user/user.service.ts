@@ -4,7 +4,7 @@ import { BehaviorSubject, combineLatest, merge, of, Subject } from 'rxjs';
 import { catchError, scan, shareReplay, tap } from 'rxjs/operators';
 import { User } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
-import { ErrorHandlingService } from '../../../../Shared/error-handling.service';
+import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 
 @Injectable({
   providedIn: 'root'

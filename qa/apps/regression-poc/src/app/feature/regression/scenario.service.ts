@@ -10,7 +10,7 @@ import {
 import * as faker from 'faker';
 import { catchError, scan, tap, delay, map, shareReplay } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { ErrorHandlingService } from '../../../Shared/error-handling.service';
+import { ErrorHandlingService } from '../../../Shared/services/error-handling.service';
 import { Scenario, Steps } from '@qa/api-interfaces';
 
 @Injectable({

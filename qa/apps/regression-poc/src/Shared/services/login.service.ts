@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 import { User } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
-import { LoginResult } from './loginResult';
+import { LoginResult } from '../Models/loginResult';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { JwtService } from './jwt.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class LoginService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private jwtService: JwtService) {
   }
 
   login(input: User): Observable<LoginResult> {
@@ -28,5 +29,9 @@ export class AuthService {
       return of<LoginResult>(result);
     }
 
+  }
+
+  logout() {
+    this.jwtService.clearToken();
   }
 }
