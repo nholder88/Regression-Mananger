@@ -9,7 +9,10 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class JwtService {
   TOKEN_KEY: string = 'reg_qa_app_token';
   USERNAME_KEY: string = 'reg_qa_app_username';
+
+  // This CANNOT be injected. This is why the JWTHelper service is newed up.
   public jwtHelper: JwtHelperService;
+  
   constructor() {
     this.jwtHelper = new JwtHelperService();
   }
