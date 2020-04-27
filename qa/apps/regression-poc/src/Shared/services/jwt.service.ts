@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +21,7 @@ export class JwtService {
   }
 
   getToken():string {
-    const token = JSON.parse(localStorage.getItem(this.TOKEN_KEY));
+    const token = localStorage.getItem(this.TOKEN_KEY);
       return token ?? "";
   }
 

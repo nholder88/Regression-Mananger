@@ -18,10 +18,11 @@ export class LoginService {
 
   login(input: User): Observable<LoginResult> {
 
+    //Todo: Update to make sure the return object is accurate.
     if (environment.apiUrl.length > 1)
-      return this.http.post<string>(environment.apiUrl + `/auth/login`, input).pipe(
+      return this.http.post<any>(environment.apiUrl + `/auth/login`, input).pipe(
         map(x =>{
-          this.jwtService.storeToken(x);
+          this.jwtService.storeToken(x?.access_token);
           return  new LoginResult(true, x)}
         ));
 
@@ -33,6 +34,9 @@ export class LoginService {
 
   }
 
+  isUserLoggedIn():boolean{
+    return this.jwtService.isLoggedIn();
+  }
   logout() {
     this.jwtService.clearToken();
   }
