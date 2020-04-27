@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { AuthService } from '../../../Shared/auth.service';
+import { LoginService } from '../services/login.service';
 import { FormBuilder } from '@angular/forms';
+
 
 
 @Component({
@@ -53,7 +54,7 @@ export class LoginComponent implements OnInit {
   @Output()
   isLoggedIn = new EventEmitter<boolean>();
 
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  constructor(private loginService: LoginService, private fb: FormBuilder) {
   }
 
   loginForm = this.fb.group({
@@ -63,12 +64,11 @@ export class LoginComponent implements OnInit {
   loginError = false;
 
   login() {
-    const loginResult = this.authService.login(this.loginForm.value).subscribe(x=> {
+    this.loginService.login(this.loginForm.value).subscribe(x=> {
 
       console.log(x);
       this.isLoggedIn.emit(x.isLoggedIn);
     });
-
   }
 
   ngOnInit(): void {

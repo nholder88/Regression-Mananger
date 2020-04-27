@@ -9,6 +9,8 @@ import { RegressionTestPassFormComponent } from './regression-test-pass-form/reg
 import { RegressionTestingComponent } from './regression-testing/regression-testing.component';
 
 import { RegressionTestPassListingComponent } from './regression-test-pass-listing/regression-test-pass-listing.component';
+import { SharedModule } from '../../../Shared/shared.module';
+
 
 
 
@@ -24,6 +26,7 @@ import { RegressionTestPassListingComponent } from './regression-test-pass-listi
   ],
   imports: [
     CommonModule,
+    ClarityModule,
     ReactiveFormsModule,
     RouterModule.forChild([
       {
@@ -35,7 +38,7 @@ import { RegressionTestPassListingComponent } from './regression-test-pass-listi
       {path: 'listing', component:RegressionTestPassListingComponent}
 
     ]),
-    ClarityModule
+    SharedModule
   ],
   exports: [RegressionListingComponent]
 })
