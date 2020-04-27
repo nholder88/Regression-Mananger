@@ -8,7 +8,7 @@ import { Message } from '@qa/api-interfaces';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  hello$ = this.http.get<Message>('/api/hello');
+
   loggedIn = false;
 
   constructor(private http: HttpClient) {

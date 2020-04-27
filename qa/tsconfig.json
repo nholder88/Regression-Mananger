@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@qa/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@qa/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@qa/auth": ["libs/auth/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

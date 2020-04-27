@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ErrorHandlingService } from '../../../Shared/error-handling.service';
+import { ErrorHandlingService } from '../../../Shared/services/error-handling.service';
 import { of, BehaviorSubject, combineLatest } from 'rxjs';
 import { delay, tap, catchError, map, shareReplay } from 'rxjs/operators';
 import * as faker from 'faker';
