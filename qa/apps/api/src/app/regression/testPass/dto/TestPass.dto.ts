@@ -1,8 +1,11 @@
-import { FeatureScenarioContainer, IFeatureScenarioContainer, ITestPass, TestPass } from '@qa/api-interfaces';
-import { Column, Entity } from 'typeorm';
+import { FeatureScenarioContainer, ITestPass } from '@qa/api-interfaces';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
+
+import { RegressionHeaderDto } from '../../../Models/regression-header.dto';
+
 @Entity()
 export class TestPassDto implements ITestPass{
 
@@ -11,7 +14,7 @@ export class TestPassDto implements ITestPass{
   @Column()
   creator: string;
 
-  featureScenarioContainers: FeatureScenarioContainer[];
+
   @ApiProperty({ type: 'number' })
   @IsNumber()
   @PrimaryGeneratedColumn()
@@ -26,9 +29,20 @@ export class TestPassDto implements ITestPass{
   @IsBoolean()
   @Column()
   isStarted: boolean;
-  @ApiProperty({ type: 'string' })
+
+
+  @ApiProperty()
   @IsDate()
-  @Column()
+  @Column({ default: '0001-01-01' })
+
   timeStamp: Date;
+
+  // Header is attached to this model there is one header per test pass.
+  @ApiProperty({ type: 'number' })
+  @IsNumber()
+  @ManyToOne(type=> RegressionHeaderDto, header => header.TestPasses)
+Header: RegressionHeaderDto;
+  // There are multiple feature-scenarios tied to each test pass.
+  featureScenarioContainers: FeatureScenarioContainer[];
 
 }
