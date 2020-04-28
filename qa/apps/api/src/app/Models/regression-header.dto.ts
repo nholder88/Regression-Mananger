@@ -1,17 +1,17 @@
 import { Entity } from 'typeorm/decorator/entity/Entity';
 import { ITestPass, Regression } from '@qa/api-interfaces';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
 import { Column } from 'typeorm';
 
 
 @Entity()
 export class RegressionHeaderDto extends Regression {
-  @ApiProperty({ type: 'number' })
-  @IsNumber()
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ApiProperty({ type: 'string' })
+  @IsUUID()
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @ApiProperty({ type: 'string' })
   @IsString()

@@ -10,5 +10,5 @@ export class Regression {
     public startDate: Date = new Date(),
     public endDate: Date = new Date()
   ) {}
-  id: number;
+  id: string;
 }

@@ -63,25 +63,8 @@ export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
     return this.userService.getLoggedInUser();
   }
 
-  onFeatureSelected(feature) {
-    const index = this.selectedFeatures.findIndex(x => x.id === feature.id);
-    if (index === -1 && feature.enable) {
-      this.selectedFeatures.push(feature);
-    } else {
-      this.selectedFeatures.splice(index, 1);
-    }
 
-  }
 
-  onRoleSelected(role) {
-    const index = this.selectedRoles.findIndex(x => x.id === role.id);
-    if (index === -1) {
-      this.selectedRoles.push(role);
-    } else {
-      this.selectedRoles.splice(index, 1);
-    }
-
-  }
 
   ngOnDestroy(): void {
  //   this.regressionService.areas$.unsubscribe();

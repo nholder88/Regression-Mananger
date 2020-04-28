@@ -10,7 +10,7 @@ export class UsersService {
   constructor() {
     this.users = [
       {
-        id: 1,
+        id: "one",
         username: environment.admin.username,
         password: environment.admin.password
       }

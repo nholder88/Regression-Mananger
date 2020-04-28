@@ -48,7 +48,7 @@
             *ngFor="let feature of area.features"
             [clrSelected]="feature.enable"
             (clrSelectedChange)="
-              feature.enable = !!$event; onFeatureSelected(feature)
+              feature.enable = !!$event;
             "
           >
             {{ feature.name }} ({{ feature.teams[0].name }})
@@ -56,7 +56,7 @@
               *ngFor="let subFeature of feature.subFeatures"
               [clrSelected]="subFeature.enable"
               (clrSelectedChange)="
-                subFeature.enable = !!$event; onFeatureSelected(subFeature)
+                subFeature.enable = !!$event;
               "
             >
               {{ subFeature.name }} ({{ subFeature.teams[0].name }})
@@ -64,7 +64,7 @@
                 *ngFor="let subFeaturen of subFeature.subFeatures"
                 [clrSelected]="subFeaturen.enable"
                 (clrSelectedChange)="
-                  subFeaturen.enable = !!$event; onFeatureSelected(subFeaturen)
+                  subFeaturen.enable = !!$event;
                 "
               >
                 {{ subFeaturen.name }} ({{ subFeaturen.teams[0].name }})

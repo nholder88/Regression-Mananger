@@ -6,9 +6,11 @@ import { RegressionHeaderDto } from '../Models/regression-header.dto';
 import { TestPassController } from './testPass/testPass.controller';
 import { TestPassDto } from './testPass/dto/TestPass.dto';
 import { TestPassService } from './testPass/testPass.service';
+import { FeatureDto } from '../Models/feature.dto';
+import { ScenarioDto } from '../Models/scenario.dto';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RegressionHeaderDto, TestPassDto])],
+  imports: [TypeOrmModule.forFeature([RegressionHeaderDto, TestPassDto,FeatureDto,ScenarioDto])],
   providers: [RegressionHeaderService,TestPassService],
   controllers: [RegressionHeaderController, TestPassController]
 })

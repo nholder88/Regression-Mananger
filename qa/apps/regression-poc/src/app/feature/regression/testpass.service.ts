@@ -71,6 +71,10 @@ export class TestPassService {
     this.featureSelectedSubject.next(selectedFeatureName);
   }
 
+  saveTestPass(testPass:TestPass){
+    if(testPass.id.length > 0){}
+  }
+
   createFakeTestPasses(count: number) {
     const steps = [];
     let x: number;

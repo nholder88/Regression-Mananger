@@ -1,10 +1,12 @@
-import { FeatureScenarioContainer, ITestPass } from '@qa/api-interfaces';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { FeatureScenarioContainer, IFeatureScenarioContainer, ITestPass } from '@qa/api-interfaces';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
 
 import { RegressionHeaderDto } from '../../../Models/regression-header.dto';
+import { FeatureDto } from '../../../Models/feature.dto';
+
 
 @Entity()
 export class TestPassDto implements ITestPass{
@@ -15,9 +17,9 @@ export class TestPassDto implements ITestPass{
   creator: string;
 
 
-  @ApiProperty({ type: 'number' })
-  @IsNumber()
-  @PrimaryGeneratedColumn()
+  @ApiProperty()
+  @IsUUID()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @ApiProperty({ type: 'boolean' })
@@ -42,7 +44,10 @@ export class TestPassDto implements ITestPass{
   @IsNumber()
   @ManyToOne(type=> RegressionHeaderDto, header => header.TestPasses)
 Header: RegressionHeaderDto;
+
+  @ManyToMany(type => FeatureDto)
+  @JoinTable()
   // There are multiple feature-scenarios tied to each test pass.
-  featureScenarioContainers: FeatureScenarioContainer[];
+  featureScenarioContainers: FeatureDto[];
 
 }

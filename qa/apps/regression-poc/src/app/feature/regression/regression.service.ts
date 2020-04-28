@@ -201,14 +201,5 @@ export class RegressionService {
     this.saveRegressionSubject.next(regression);
   }
 
-  saveTestPass(saveModel: {
-    selectedFeatures: any[];
-    regressionId: any;
-    selectedRoles: any[];
-    user: User;
-  }) {
-    alert('Save still needs to be implemented. ');
 
-    //http request to save to the api
-  }
 }

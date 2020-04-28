@@ -1,7 +1,7 @@
 import { ISteps, Steps } from './Steps';
 
 export interface IScenario {
-  feature: string,
+  //feature: string,
   name: string,
   steps: ISteps[],
   timestamp: Date,
