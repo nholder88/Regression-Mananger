@@ -4,8 +4,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
 
-import { RegressionHeaderDto } from '../../../Models/regression-header.dto';
-import { FeatureDto } from '../../../Models/feature.dto';
+import { RegressionHeaderDto } from './regression-header.dto';
+import { FeatureDto } from './feature.dto';
 
 
 @Entity()

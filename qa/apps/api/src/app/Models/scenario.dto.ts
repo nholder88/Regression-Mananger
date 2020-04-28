@@ -13,14 +13,17 @@ export class ScenarioDto implements IScenario {
   @IsUUID()
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @ApiProperty({ type: 'string' })
   @IsString()
   @Column()
   name: string;
+
   @ApiProperty({ type: 'string' })
   @IsString()
   @Column()
   note: string;
+
   @ApiProperty()
   @IsNumber()
   @Column()
