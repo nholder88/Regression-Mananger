@@ -8,24 +8,23 @@ trigger:
   - develop
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: 'ubuntu-latest'
 
 steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: "10.x"
-    displayName: "Setup Environment"
+      versionSpec: '10.x'
+    displayName: 'Setup Environment'
 
   - script: |
-      cd qa   
       npm install npx
       npm install
       npx ng build --prod
-    displayName: "Build"
+    displayName: 'Build'
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: "qa/dist/apps/regression-poc"
-      ArtifactName: "web-app"
-      publishLocation: "Container"
-    displayName: "Publish Artifacts"
+      PathtoPublish: 'qa/dist/apps/regression-poc'
+      ArtifactName: 'web-app'
+      publishLocation: 'Container'
+    displayName: 'Publish Artifacts'
