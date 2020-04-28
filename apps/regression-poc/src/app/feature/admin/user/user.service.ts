@@ -10,12 +10,10 @@ import { ErrorHandlingService } from '../../../../Shared/services/error-handling
   providedIn: 'root'
 })
 export class UserService {
-
   constructor(
     private http: HttpClient,
     private errorHandler: ErrorHandlingService
-  ) {
-  }
+  ) {}
 
   userRoles$ = of([
     { id: 1, name: 'Admin' },
@@ -34,8 +32,10 @@ export class UserService {
   ]);
 
   private selectedUserSubject = new BehaviorSubject<User>({
-    password: '', username: '',
-    id: 0,  });
+    password: '',
+    username: '',
+    id: ''
+  });
   userSelectedAction$ = this.selectedUserSubject.asObservable();
 
   private rootUrl = 'api/user';
@@ -61,17 +61,18 @@ export class UserService {
 
   getLoggedInUser(): User {
     return {
-      id: 1,
-      username: 'Purely', password: ''
+      id: '',
+      username: 'Purely',
+      password: ''
     };
   }
 
   saveUser(user?: User) {
     if (user === null || user === undefined) {
       user = {
-        id: 0,
+        id: '',
         username: 'Genned',
-        password:''
+        password: ''
       };
     }
 

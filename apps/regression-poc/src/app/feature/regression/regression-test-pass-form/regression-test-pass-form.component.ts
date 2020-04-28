@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup} from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Area } from '@qa/api-interfaces';
 import { ClrWizard } from '@clr/angular';
 import { UserService } from '../../admin/user/user.service';
@@ -13,7 +11,6 @@ import { RegressionService } from '../regression.service';
   styleUrls: ['./regression-test-pass-form.component.css']
 })
 export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
-
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
@@ -44,7 +41,7 @@ export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
     );
   }
 
-   onFinish() {
+  onFinish() {
     /*For now build a save model of roles, regression Id and all features*/
     const saveModel = {
       regressionId: this.regressionForm.get('regression').value,
@@ -53,8 +50,8 @@ export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
       user: this.getCurrentUser()
     };
 
-    this.regressionService.saveTestPass(saveModel);
-    console.log("Test Pass Saved", JSON.stringify(saveModel) );
+    //this.regressionService.saveTestPass(saveModel);
+    console.log('Test Pass Saved', JSON.stringify(saveModel));
     this.regressionForm.reset();
     this.wizardExtraLarge.reset();
   }
@@ -63,10 +60,7 @@ export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
     return this.userService.getLoggedInUser();
   }
 
-
-
-
   ngOnDestroy(): void {
- //   this.regressionService.areas$.unsubscribe();
+    //   this.regressionService.areas$.unsubscribe();
   }
 }

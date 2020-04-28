@@ -15,22 +15,27 @@ export class RegressionService {
     private http: HttpClient,
     private errorHandler: ErrorHandlingService,
     private loginService: LoginService
-  ) {
-  }
+  ) {}
 
   private rootUrl = environment.apiUrl + '/regressionheader';
 
-// TODO: Remove this once the API is hosted
-  regressions$ = this.loginService.isUserLoggedIn() ? this.http.get<Regression[]>(this.rootUrl).pipe(
-    tap(data => console.log('regresssion service-API', JSON.stringify(data))),
-    catchError(this.errorHandler.handleError)
-  ) : of<Regression[]>([
-    new Regression([], 'Default Test', true, true, 'Summer 2020'),
-    new Regression([], 'QA Test', true, true, 'Alpha-2021')
-  ]).pipe(
-    tap(data => console.log('regresssion service-DEMO', JSON.stringify(data))),
-    catchError(this.errorHandler.handleError)
-  );
+  // TODO: Remove this once the API is hosted
+  regressions$ = this.loginService.isUserLoggedIn()
+    ? this.http.get<Regression[]>(this.rootUrl).pipe(
+        tap(data =>
+          console.log('regresssion service-API', JSON.stringify(data))
+        ),
+        catchError(this.errorHandler.handleError)
+      )
+    : of<Regression[]>([
+        new Regression([], 'Default Test', true, true, 'Summer 2020'),
+        new Regression([], 'QA Test', true, true, 'Alpha-2021')
+      ]).pipe(
+        tap(data =>
+          console.log('regresssion service-DEMO', JSON.stringify(data))
+        ),
+        catchError(this.errorHandler.handleError)
+      );
   saveRegressionSubject = new Subject<Regression>();
   regressionSavedAction$ = this.saveRegressionSubject.asObservable();
 
@@ -175,7 +180,7 @@ export class RegressionService {
       regression = {
         endDate: null,
         startDate: null,
-        id: 0,
+        id: '',
         isComplete: false,
         isStarted: false,
         name: 'Blank_' + new Date().toUTCString(),
@@ -183,7 +188,7 @@ export class RegressionService {
         testPasses: []
       };
     }
-    if (regression.id > 0) {
+    if (regression.id.length > 0) {
       this.http
         .put(this.rootUrl, regression)
         // tslint:disable-next-line:no-shadowed-variable
@@ -200,6 +205,4 @@ export class RegressionService {
     }
     this.saveRegressionSubject.next(regression);
   }
-
-
 }
