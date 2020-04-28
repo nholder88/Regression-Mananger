@@ -19,8 +19,8 @@ async function bootstrap() {
   app.use(
     rateLimit({
       windowMs: 4 * 60 * 1000, // 4 minutes
-      max: 100, // limit each IP to 100 requests per windowMs
-    }),
+      max: 100 // limit each IP to 100 requests per windowMs
+    })
   );
 
   const options = new DocumentBuilder()
@@ -32,7 +32,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
-  const port = process.env.port || 3333;
+  const port = process.env.PORT || 3333;
 
   await app.listen(port, () => {
     console.log('Listening at http://localhost:' + port + '/' + globalPrefix);
