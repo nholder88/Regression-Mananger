@@ -24,7 +24,7 @@ steps:
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: 'qa/dist/apps/regression-poc'
+      PathtoPublish: 'dist/apps/regression-poc'
       ArtifactName: 'web-app'
       publishLocation: 'Container'
     displayName: 'Publish Artifacts'
