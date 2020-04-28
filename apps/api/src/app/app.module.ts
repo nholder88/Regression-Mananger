@@ -12,11 +12,11 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.MYSQL_INSTANCE??'localhost',
-      port:  +process.env.MYSQL_INSTANCE_PORT  ?? 3306,
-      username: process.env.MYSQL_INSTANCE_USER ??'root',
-      password:process.env.MYSQL_INSTANCE_Password ??'root',
-      database:process.env.MYSQL_INSTANCE_DBNAME ??'test',
+      host: process.env.MYSQL_INSTANCE ?? 'localhost',
+      port: +process.env.MYSQL_INSTANCE_PORT ?? 3306,
+      username: process.env.MYSQL_INSTANCE_USER ?? 'root',
+      password: process.env.MYSQL_INSTANCE_PASSWORD ?? 'root',
+      database: process.env.MYSQL_INSTANCE_DBNAME ?? 'test',
       entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
       synchronize: true
     }),
