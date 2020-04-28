@@ -21,11 +21,26 @@ steps:
       npm install npx
       npm install
       npx ng build --prod
-    displayName: "Build"
+    displayName: "Build UI"
+
+  - script: |
+      cd qa   
+      npm install npx
+      npm install
+      npx ng build api --prod
+    displayName: "Build API"
 
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: "qa/dist/apps/regression-poc"
       ArtifactName: "web-app"
       publishLocation: "Container"
-    displayName: "Publish Artifacts"
+    displayName: "Publish UI Artifacts"
+    
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: 'qa/dist/apps/api'
+      ArtifactName: 'web-api'
+      publishLocation: 'Container'
+    displayName: "Publish API Artifacts"
+    
