@@ -1,9 +1,14 @@
-import { IScenario, ISteps } from '@qa/api-interfaces';
+import {  ISteps } from '@qa/api-interfaces';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsUUID } from 'class-validator';
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { IsNumber, IsString, IsUUID } from 'class-validator';
+import { Column, Entity, PrimaryGeneratedColumn,ManyToOne } from 'typeorm';
 
+import { ScenarioDto } from './scenario.dto';
+@Entity()
 export class StepDto implements ISteps{
+
+  @IsString()
+  @Column()
   name: string;
 
 
@@ -18,7 +23,7 @@ export class StepDto implements ISteps{
   @Column()
   order: number;
 
-
-  scenario: IScenario
+@ManyToOne('ScenarioDto', 'steps')
+  scenario: ScenarioDto
 
 }

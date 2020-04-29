@@ -46,7 +46,7 @@ export class TestPassDto implements ITestPass{
   @ManyToOne('RegressionHeaderDto','testPasses')
 Header: RegressionHeaderDto;
 
-  @ManyToMany(type => FeatureDto)
+  @ManyToMany( 'FeatureDto')
   @JoinTable()
   // There are multiple feature-scenarios tied to each test pass.
   featureScenarioContainers: FeatureDto[];

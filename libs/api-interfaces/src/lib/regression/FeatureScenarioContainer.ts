@@ -4,13 +4,13 @@ import { IScenario, Scenario } from './scenario';
 
 export interface IFeatureScenarioContainer {
   id: string,
-  feature: string,
+  name: string,
   team: string,
   scenarios: IScenario[]
 }
 
 export class FeatureScenarioContainer implements IFeatureScenarioContainer {
-  constructor(public feature: string, public scenarios: Scenario[]) {
+  constructor(public name: string, public scenarios: Scenario[]) {
   }
 
   id: string;

@@ -1,12 +1,13 @@
 ﻿import { Injectable } from '@nestjs/common';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ScenarioDto } from '../../Models/scenario.dto';
 
-import { TestPassDto } from '../../Models/testPass.dto';
+
 
 @Injectable()
-export class TestPassService extends TypeOrmCrudService<TestPassDto> {
-  constructor(@InjectRepository(TestPassDto) repository) {
+export class ScenarioService extends TypeOrmCrudService<ScenarioDto> {
+  constructor(@InjectRepository(ScenarioDto) repository) {
     super(repository);
   }
 }

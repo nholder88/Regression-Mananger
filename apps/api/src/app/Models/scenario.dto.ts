@@ -1,10 +1,11 @@
 import { IScenario, ISteps } from '@qa/api-interfaces';
 import { FeatureDto } from './feature.dto';
-import { Column, ManyToOne } from 'typeorm';
+import { Column, ManyToOne, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm';
 import { Entity } from 'typeorm/decorator/entity/Entity';
+import { StepDto } from './step.dto';
 
 
 @Entity()
@@ -34,10 +35,10 @@ export class ScenarioDto implements IScenario {
   @Column({ default: '0001-01-01' })
   timestamp: Date;
 
-  steps: ISteps[];
+  @OneToMany("StepDto", "scenario")
+  steps: StepDto[];
 
 
-  @ManyToOne(type => FeatureDto, feature => feature.scenarios,
-    { eager: true })
+  @ManyToOne('FeatureDto', 'scenarios')
   feature: FeatureDto;
 }

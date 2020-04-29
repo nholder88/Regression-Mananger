@@ -6,7 +6,7 @@ import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGenerat
 import { Column, ManyToOne, OneToMany } from 'typeorm';
 
 import { IRegression } from '@qa/api-interfaces';
-import { TestPassDto } from './TestPass.dto';
+import { TestPassDto } from './testPass.dto';
 
 
 @Entity()
