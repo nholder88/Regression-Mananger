@@ -1,5 +1,5 @@
 export * from './lib/regression/FeatureScenarioContainer';
-export * from './lib/regression/Regression';
+export * from './lib/regression/RegressionHeader';
 export * from './lib/regression/Status';
 export * from './lib/regression/Steps';
 export * from './lib/regression/TestPass';

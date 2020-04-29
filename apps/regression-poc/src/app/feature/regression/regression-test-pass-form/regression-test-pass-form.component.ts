@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Area } from '@qa/api-interfaces';
 import { ClrWizard } from '@clr/angular';
 import { UserService } from '../../admin/user/user.service';
-import { RegressionService } from '../regression.service';
+import { RegressionHeaderService } from '../regression-header.service';
 
 @Component({
   selector: 'qa-regression-test-pass-form',
@@ -14,7 +14,7 @@ export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private regressionService: RegressionService
+    private regressionService: RegressionHeaderService
   ) {}
   // @ts-ignore
   @ViewChild('wizardxl') wizardExtraLarge: ClrWizard;

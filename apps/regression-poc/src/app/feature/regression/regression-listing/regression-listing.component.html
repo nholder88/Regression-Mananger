@@ -31,7 +31,7 @@
           <clr-dg-cell>{{ regression.endDate | date }}</clr-dg-cell>
           <clr-dg-cell>
             <span *ngIf="!regression.testPasses">No test passes</span>
-            <span *ngIf="!regression.testPasses">
+            <span *ngIf="regression.testPasses">
               {{ regression?.testPasses?.length }}</span
             >
           </clr-dg-cell>

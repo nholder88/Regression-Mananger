@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Regression } from '@qa/api-interfaces';
+import { RegressionHeader } from '@qa/api-interfaces';
 
-import { RegressionService } from '../regression.service';
+import { RegressionHeaderService } from '../regression-header.service';
 
 @Component({
   selector: 'qa-regression-create',
@@ -12,12 +12,12 @@ import { RegressionService } from '../regression.service';
 export class RegressionCreateComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private regressionService: RegressionService
+    private regressionService: RegressionHeaderService
   ) {}
   xlOpen = false;
 
   regressionForm: FormGroup;
-  regressionModel: Regression = new Regression([], '');
+  regressionModel: RegressionHeader = new RegressionHeader([], '');
 
   ngOnInit() {
     this.regressionForm = this.createFormGroupWithBuilderAndModel(

@@ -1,4 +1,4 @@
-import { FeatureScenarioContainer, IFeatureScenarioContainer, IRegression, ITestPass } from '@qa/api-interfaces';
+import { ITestPass } from '@qa/api-interfaces';
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
