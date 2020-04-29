@@ -8,11 +8,20 @@ import { RegressionHeaderDto } from '../../Models/regression-header.dto';
 @Crud({
   model: {
     type: RegressionHeaderDto
+  }, query: {
+    join: {
+      testPasses:
+        {
+          eager: true
+        }
+    }
   }
 })
+
 @ApiTags('regression')
 @Controller('regressionHeader')
 @UseGuards(JwtAuthGuard)
 export class RegressionHeaderController {
-  constructor(public service: RegressionHeaderService) {}
+  constructor(public service: RegressionHeaderService) {
+  }
 }

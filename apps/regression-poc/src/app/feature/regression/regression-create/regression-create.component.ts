@@ -30,13 +30,12 @@ export class RegressionCreateComponent implements OnInit {
       startDate: new Date(
         this.regressionForm.get('regression.startDate').value
       ),
-      id: '',
+      id: null,
       isComplete: this.regressionForm.get('regression.isComplete').value,
       isStarted: this.regressionForm.get('regression.isStarted').value,
       name: this.regressionForm.get('regression.name').value,
-
       releaseName: this.regressionForm.get('regression.releaseName').value,
-      testPasses: []
+      testPasses: null
     });
     this.xlOpen = false;
   }

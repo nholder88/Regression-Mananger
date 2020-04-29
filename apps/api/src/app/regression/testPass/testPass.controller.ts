@@ -7,8 +7,9 @@ import { TestPassDto } from '../../Models/TestPass.dto';
 
 @Crud({
   model: {
-    type: TestPassDto
-  }
+    type: TestPassDto,
+  },
+  query:{ join:{Header:{eager:false}},maxLimit:100 }
 })
 @ApiTags('TestPass')
 @Controller('TestPass')

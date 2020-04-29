@@ -7,8 +7,8 @@ import { RegressionService } from '../regression.service';
 
 @Component({
   selector: 'qa-regression-test-pass-form',
-  templateUrl: './regression-test-pass-form.component.html',
-  styleUrls: ['./regression-test-pass-form.component.css']
+  templateUrl: './regression-test-pass-form.component.html'
+
 })
 export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
   constructor(
