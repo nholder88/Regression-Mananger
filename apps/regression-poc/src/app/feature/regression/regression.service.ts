@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable, of, Subject } from 'rxjs';
-import { Area, Regression, User } from '@qa/api-interfaces';
+import { Area, Regression } from '@qa/api-interfaces';
 import { catchError, scan, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../Shared/services/error-handling.service';
@@ -18,7 +18,7 @@ export class RegressionService {
   ) {
   }
 
-  private rootUrl = environment.apiUrl + '/regressionheader';
+  private rootUrl = environment.apiUrl + '/header';
 
   // TODO: Remove this once the API is hosted
   regressions$ = this.loginService.isUserLoggedIn()

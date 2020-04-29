@@ -1,10 +1,4 @@
-export interface Message {
-  message: string;
-}
 
-export interface Issue {
-  id: number;
-}
 
 export interface Test {
   id: number;

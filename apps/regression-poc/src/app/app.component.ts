@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Message } from '@qa/api-interfaces';
 
 @Component({
   selector: 'qa-root',
@@ -11,7 +9,7 @@ export class AppComponent {
 
   loggedIn = false;
 
-  constructor(private http: HttpClient) {
+  constructor() {
   }
 
   onLoginAttempt(result: boolean) {

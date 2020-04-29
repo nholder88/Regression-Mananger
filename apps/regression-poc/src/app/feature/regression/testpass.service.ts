@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { ErrorHandlingService } from '../../../Shared/services/error-handling.service';
-import { of, BehaviorSubject, combineLatest } from 'rxjs';
-import { delay, tap, catchError, map, shareReplay } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, of } from 'rxjs';
+import { catchError, delay, map, shareReplay, tap } from 'rxjs/operators';
 import * as faker from 'faker';
 import { ScenarioService } from './scenario.service';
-import { TestPass, FeatureScenarioContainer } from '@qa/api-interfaces';
+import { FeatureScenarioContainer, TestPass } from '@qa/api-interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +54,7 @@ export class TestPassService {
   ]).pipe(
     map(([testPass, selectedFeatureName]) =>
       testPass.featureScenarioContainers.find(
-        tp => tp.feature === selectedFeatureName
+        tp => tp.name === selectedFeatureName
       )
     ),
     tap(feature => console.log('selectedProduct', feature)),

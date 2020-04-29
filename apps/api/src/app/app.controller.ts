@@ -1,17 +1,14 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { Message } from '@qa/api-interfaces';
-
-import { AppService } from './app.service';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
 
 @ApiTags('App')
 @Controller('App')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor() {}
 
-  @Get('hello')
-  getData(): Message {
-    return this.appService.getData();
+  @Get('heartbeat')
+  getData(): string {
+    return `Api is live as of ${Date.now().toLocaleString()}`;
   }
 }
