@@ -15,10 +15,13 @@ import { FeatureService } from './feature/feature.service';
 import { StepController } from './step/step.controller';
 import { ScenarioController } from './scenario/scenario.controller';
 import { FeatureController } from './feature/feature.controller';
+import { ScenarioResultDto } from '../Models/scenarioResult';
+import { ScenarioResultService } from './scenarioResult/scenarioResult.service';
+import { ScenarioResultController } from './scenarioResult/scenarioResult.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RegressionHeaderDto, TestPassDto,FeatureDto,ScenarioDto, StepDto])],
-  providers: [RegressionHeaderService,TestPassService, StepService, ScenarioService, FeatureService],
-  controllers: [RegressionHeaderController, TestPassController, StepController, ScenarioController, FeatureController]
+  imports: [TypeOrmModule.forFeature([RegressionHeaderDto, TestPassDto,FeatureDto,ScenarioDto, StepDto,ScenarioResultDto])],
+  providers: [RegressionHeaderService,TestPassService, StepService, ScenarioService, FeatureService,ScenarioResultService],
+  controllers: [RegressionHeaderController, TestPassController, StepController, ScenarioController, FeatureController, ScenarioResultController]
 })
 export class RegressionModule {}
