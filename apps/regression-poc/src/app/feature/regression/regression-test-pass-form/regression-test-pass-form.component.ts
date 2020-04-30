@@ -4,6 +4,7 @@ import { Area } from '@qa/api-interfaces';
 import { ClrWizard } from '@clr/angular';
 import { UserService } from '../../admin/user/user.service';
 import { RegressionHeaderService } from '../regression-header.service';
+import { TestPassService } from '../testpass.service';
 
 @Component({
   selector: 'qa-regression-test-pass-form',
@@ -14,6 +15,7 @@ export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private testPassService: TestPassService,
     private regressionService: RegressionHeaderService
   ) {}
   // @ts-ignore
@@ -50,7 +52,7 @@ export class RegressionTestPassFormComponent implements OnInit, OnDestroy {
       user: this.getCurrentUser()
     };
 
-    //this.regressionService.saveTestPass(saveModel);
+   this.testPassService.saveTestPass(null);
     console.log('Test Pass Saved', JSON.stringify(saveModel));
     this.regressionForm.reset();
     this.wizardExtraLarge.reset();

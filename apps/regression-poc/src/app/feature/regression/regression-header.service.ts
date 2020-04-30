@@ -16,7 +16,7 @@ export class RegressionHeaderService {
   ) {
   }
 
-  private rootUrl = environment.apiUrl + '/header';
+  private rootUrl = `${environment.apiUrl }/header`;
 
   regressions$ =
     this.http.get<RegressionHeader[]>(`${this.rootUrl}`).pipe(

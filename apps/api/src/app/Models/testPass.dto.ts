@@ -32,12 +32,15 @@ export class TestPassDto implements ITestPass{
   @Column()
   isStarted: boolean;
 
-
   @ApiProperty()
   @IsDate()
   @Column({ default: '0001-01-01' })
-
   timeStamp: Date;
+
+  @ApiProperty({ type: 'string' })
+  @IsString()
+  @Column()
+  title: string;
 
   // Header is attached to this model there is one header per test pass.
   @ApiProperty({ type: 'number' })
@@ -50,5 +53,7 @@ Header: RegressionHeaderDto;
   @JoinTable()
   // There are multiple feature-scenarios tied to each test pass.
   featureScenarioContainers: FeatureDto[];
+
+
 
 }
