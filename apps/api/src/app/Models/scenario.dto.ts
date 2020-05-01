@@ -1,9 +1,8 @@
-import { IScenario, ISteps } from '@qa/api-interfaces';
+import { IScenario } from '@qa/api-interfaces';
 import { FeatureDto } from './feature.dto';
-import { Column, ManyToOne, OneToMany } from 'typeorm';
+import { Column, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
-import { PrimaryGeneratedColumn } from 'typeorm';
 import { Entity } from 'typeorm/decorator/entity/Entity';
 import { StepDto } from './step.dto';
 
@@ -22,7 +21,7 @@ export class ScenarioDto implements IScenario {
 
   @ApiProperty({ type: 'string' })
   @IsString()
-  @Column()
+  @Column({default:""})
   note: string;
 
   @ApiProperty()
@@ -35,7 +34,7 @@ export class ScenarioDto implements IScenario {
   @Column({ default: '0001-01-01' })
   timestamp: Date;
 
-  @OneToMany("StepDto", "scenario")
+  @OneToMany("StepDto", "scenario", {cascade:true, eager:true})
   steps: StepDto[];
 
 

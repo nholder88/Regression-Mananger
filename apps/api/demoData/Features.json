@@ -1,0 +1,66 @@
+[{
+  "name":"Letters",
+  "team":"OU",
+  "scenarios":[
+    {
+      "name": "Letter Preview Generates",
+      "order":2,
+      "steps":
+      [
+        {"name": "Open Chart",
+        "order": 1
+        },
+        {"name": "Open Letter Control ",
+          "order": 2
+        },
+        {"name": "Select Letter Type",
+          "order": 3
+        },
+        {"name": "Hit Refresh in Letter control ",
+          "order": 4
+        },
+        {"name": "Letter Preview should show Letter with defaults.",
+          "order": 5
+        }
+      ]
+
+    }]
+},
+{ "id": "237ccd68-376d-437b-a630-d244db766d39",
+  "name":"CQM",
+  "team":"OD",
+  "scenarios":[
+    {
+      "name": "CQM Appears",
+      "order":1,
+      "steps":
+      [
+        {"name": "set things up ",
+          "order": 1
+        },
+        {"name": "DO stuff ",
+          "order": 2
+        },
+        {"name": "It works",
+          "order": 3
+        }
+      ]
+
+    },
+    {
+      "name": "CQM Calc",
+      "order":1,
+      "steps":
+      [
+        {"name": "set things up ",
+          "order": 1
+        },
+        {"name": "DO stuff ",
+          "order": 2
+        },
+        {"name": "It works",
+          "order": 3
+        }
+      ]
+
+    }]}]

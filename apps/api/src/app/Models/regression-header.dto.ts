@@ -44,6 +44,6 @@ export class RegressionHeaderDto implements IRegressionHeader {
   @Column()
   isStarted: boolean;
 
-  @OneToMany('TestPassDto','Header')
+  @OneToMany('TestPassDto','Header',{cascade:true})
   testPasses: TestPassDto[];
 }
