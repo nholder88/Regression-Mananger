@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegressionListingComponent } from './regression-listing.component';
+import { RegressionListingComponent } from '../regression-listing/regression-listing.component';
 
 describe('RegressionListingComponent', () => {
   let component: RegressionListingComponent;

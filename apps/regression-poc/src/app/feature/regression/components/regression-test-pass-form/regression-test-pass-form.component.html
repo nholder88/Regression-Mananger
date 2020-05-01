@@ -17,7 +17,7 @@
   >
 
   <clr-wizard-page>
-    <ng-template clrPageTitle>Select Active Regresssion</ng-template>
+    <ng-template clrPageTitle>Select Active Regression</ng-template>
 
     <form clrForm [formGroup]="regressionForm">
       <clr-select-container>
@@ -35,46 +35,27 @@
 
   <clr-wizard-page>
     <ng-template clrPageTitle>Test Areas</ng-template>
-    <form clrForm [formGroup]="regressionForm">
+
       <clr-tree>
       <clr-tree-node [clrExpanded]="true">
         Areas to Test
         <clr-tree-node
-          *ngFor="let area of availableAreas"
+          *ngFor="let feature of features$| async"
           [clrExpanded]="false"
         >
-          {{ area.name }}
+          {{ feature.name }}  ({{feature.team}})
           <clr-tree-node
-            *ngFor="let feature of area.features"
-            [clrSelected]="feature.enable"
-            (clrSelectedChange)="
-              feature.enable = !!$event;
-            "
+            *ngFor="let scenarios of feature.scenarios"
+            [(clrSelected)]="scenarios.enable"
+
           >
-            {{ feature.name }} ({{ feature.teams[0].name }})
-            <clr-tree-node
-              *ngFor="let subFeature of feature.subFeatures"
-              [clrSelected]="subFeature.enable"
-              (clrSelectedChange)="
-                subFeature.enable = !!$event;
-              "
-            >
-              {{ subFeature.name }} ({{ subFeature.teams[0].name }})
-              <clr-tree-node
-                *ngFor="let subFeaturen of subFeature.subFeatures"
-                [clrSelected]="subFeaturen.enable"
-                (clrSelectedChange)="
-                  subFeaturen.enable = !!$event;
-                "
-              >
-                {{ subFeaturen.name }} ({{ subFeaturen.teams[0].name }})
-              </clr-tree-node>
-            </clr-tree-node>
+            {{ scenarios.name }}
+
           </clr-tree-node>
         </clr-tree-node>
       </clr-tree-node>
     </clr-tree>
-    </form>
+
   </clr-wizard-page>
 
 

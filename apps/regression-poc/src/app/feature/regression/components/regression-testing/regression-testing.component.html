@@ -140,9 +140,9 @@
           <div
             clrDropdownItem
             *ngFor="let feature of testPass.featureScenarioContainers"
-            (click)="changeFeature(feature.feature)"
+            (click)="changeFeature(feature.name)"
           >
-            {{ feature.feature }}
+            {{ feature.name }}
           </div>
         </clr-dropdown-menu>
       </clr-dropdown>

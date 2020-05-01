@@ -1,16 +1,9 @@
 import { Injectable } from '@angular/core';
-import {
-  merge,
-  Observable,
-  of,
-  Subject,
-  BehaviorSubject,
-  combineLatest
-} from 'rxjs';
+import { merge, of, Subject } from 'rxjs';
 import * as faker from 'faker';
-import { catchError, scan, tap, delay, map, shareReplay } from 'rxjs/operators';
+import { catchError, delay, scan, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { ErrorHandlingService } from '../../../Shared/services/error-handling.service';
+import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { Scenario, Steps } from '@qa/api-interfaces';
 
 @Injectable({

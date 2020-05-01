@@ -65,10 +65,10 @@ user:string= faker.internet.userName()
       },
       {
         title: 'Regressions',
-        link: 'regression/history',
+        link: 'regression',
         subRoutes: [
           {
-            title: 'Continue Regression Testing',
+            title: 'Test Passes',
 
             link: 'regression/listing',
             summary: '',

@@ -5,7 +5,7 @@
 <div class="card" *ngIf="vm$ | async as vm">
   <div class="card-header">
     History
-    <qa-regression-create class="add-regression-button"></qa-regression-create>
+    <qa-regression-header-create class="add-regression-button"></qa-regression-header-create>
   </div>
   <div class="card-block">
     <div class="card-title">
@@ -31,7 +31,7 @@
           <clr-dg-cell>{{ regression.endDate | date }}</clr-dg-cell>
           <clr-dg-cell>
             <span *ngIf="!regression.testPasses">No test passes</span>
-            <span *ngIf="!regression.testPasses">
+            <span *ngIf="regression.testPasses">
               {{ regression?.testPasses?.length }}</span
             >
           </clr-dg-cell>
