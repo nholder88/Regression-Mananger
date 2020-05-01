@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { RegressionHeaderService } from '../../services/regression-header.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { RegressionService } from '../regression.service';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ClrWizard } from '@clr/angular';
 
 @Component({
   selector: 'qa-regression-listing',
@@ -9,7 +10,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./regression-listing.component.css']
 })
 export class RegressionListingComponent implements OnInit {
-  constructor(private service: RegressionHeaderService) {}
+  constructor(private service: RegressionService) {}
 
   regression$ = this.service.regressionWithAdd$;
   selected;

@@ -1,8 +1,8 @@
-import { IFeatureScenarioContainer } from '@qa/api-interfaces';
+import { IFeatureScenarioContainer, IScenario } from '@qa/api-interfaces';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
-import { Column, OneToMany } from 'typeorm';
+import { Column, ManyToOne } from 'typeorm';
 import { Entity } from 'typeorm/decorator/entity/Entity';
 import { ScenarioDto } from './scenario.dto';
 
@@ -23,7 +23,7 @@ export class FeatureDto implements IFeatureScenarioContainer{
   @Column()
   team: string;
 
-  @OneToMany('ScenarioDto', 'feature', { eager: true,cascade:true })
+  @ManyToOne('ScenarioDto', 'feature', { eager: true })
   scenarios: ScenarioDto[];
 
 

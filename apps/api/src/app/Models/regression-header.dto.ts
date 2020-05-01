@@ -1,14 +1,16 @@
 import { Entity } from 'typeorm/decorator/entity/Entity';
-import { IRegressionHeader } from '@qa/api-interfaces';
+import { ITestPass, Regression } from '@qa/api-interfaces';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsDate, IsString, IsUUID } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
-import { Column, OneToMany } from 'typeorm';
+import { Column, ManyToOne, OneToMany } from 'typeorm';
+
+import { IRegression } from '@qa/api-interfaces';
 import { TestPassDto } from './testPass.dto';
 
 
 @Entity()
-export class RegressionHeaderDto implements IRegressionHeader {
+export class RegressionHeaderDto implements IRegression {
   @ApiProperty({ type: 'string' })
   @IsUUID()
   @PrimaryGeneratedColumn("uuid")
@@ -44,6 +46,6 @@ export class RegressionHeaderDto implements IRegressionHeader {
   @Column()
   isStarted: boolean;
 
-  @OneToMany('TestPassDto','Header',{cascade:true})
+  @OneToMany('TestPassDto','Header')
   testPasses: TestPassDto[];
 }

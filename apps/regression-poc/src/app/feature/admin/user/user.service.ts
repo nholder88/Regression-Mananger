@@ -5,8 +5,6 @@ import { catchError, scan, shareReplay, tap } from 'rxjs/operators';
 import { User } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
-import { LoginService } from '../../../../Shared/services/login.service';
-
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +12,7 @@ import { LoginService } from '../../../../Shared/services/login.service';
 export class UserService {
   constructor(
     private http: HttpClient,
-    private errorHandler: ErrorHandlingService,
-    private loginService: LoginService
+    private errorHandler: ErrorHandlingService
   ) {}
 
   userRoles$ = of([
@@ -62,8 +59,12 @@ export class UserService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
-  getLoggedInUser(): string  {
-    return this.loginService.getCurrentUserName();
+  getLoggedInUser(): User {
+    return {
+      id: '',
+      username: 'Purely',
+      password: ''
+    };
   }
 
   saveUser(user?: User) {

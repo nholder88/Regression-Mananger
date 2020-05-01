@@ -12,7 +12,6 @@ export interface IScenario {
 }
 
 export class Scenario implements IScenario {
-  enable: boolean= false;
   constructor(
     public feature: string,
     public name: string,
@@ -21,8 +20,7 @@ export class Scenario implements IScenario {
     public timestamp: Date = new Date(),
     public note: string = '',
     public order: number = 0,
-    public id: string = '',
-
+    public id: string = ''
   ) {
   }
 }

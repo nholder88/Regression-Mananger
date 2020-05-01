@@ -10,7 +10,7 @@ import { StepService } from './step.service';
 @Crud({
   model: {
     type: StepDto,
-  },routes:{exclude:[ 'replaceOneBase', 'replaceOneBase']},
+  },routes:{exclude:['createManyBase', 'replaceOneBase', 'replaceOneBase']},
   query:{ join:{},maxLimit:100 }
 })
 @ApiTags('Step')

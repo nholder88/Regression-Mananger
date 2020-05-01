@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RegressionListingComponent } from './components/regression-listing/regression-listing.component';
+import { RegressionListingComponent } from './regression-listing/regression-listing.component';
 import { RouterModule } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
-import { RegressionHeaderCreateComponent } from './components/regression-header-create/regression-header-create.component';
+import { RegressionCreateComponent } from './regression-create/regression-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RegressionTestPassFormComponent } from './components/regression-test-pass-form/regression-test-pass-form.component';
-import { RegressionTestingComponent } from './components/regression-testing/regression-testing.component';
+import { RegressionTestPassFormComponent } from './regression-test-pass-form/regression-test-pass-form.component';
+import { RegressionTestingComponent } from './regression-testing/regression-testing.component';
 
-import { RegressionTestPassListingComponent } from './components/regression-test-pass-listing/regression-test-pass-listing.component';
+import { RegressionTestPassListingComponent } from './regression-test-pass-listing/regression-test-pass-listing.component';
 import { SharedModule } from '../../../Shared/shared.module';
+
+
 
 
 @NgModule({
   declarations: [
     RegressionListingComponent,
-    RegressionHeaderCreateComponent,
+    RegressionCreateComponent,
     RegressionTestPassFormComponent,
 
     RegressionTestingComponent,
@@ -33,8 +35,8 @@ import { SharedModule } from '../../../Shared/shared.module';
       },
 
       { path: 'continue/:id', component: RegressionTestingComponent },
-      {path: 'listing', component:RegressionTestPassListingComponent},
-      {path: '', redirectTo: 'history', pathMatch:'full' }
+      {path: 'listing', component:RegressionTestPassListingComponent}
+
     ]),
     SharedModule
   ],

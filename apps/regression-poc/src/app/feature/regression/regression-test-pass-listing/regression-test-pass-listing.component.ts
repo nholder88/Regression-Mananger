@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TestPassService } from '../../services/testpass.service';
+import { TestPassService } from '../testpass.service';
 
 @Component({
   selector: 'qa-regression-test-pass-listing',

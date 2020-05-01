@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TestPassService } from '../../services/testpass.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { RegressionService } from '../regression.service';
+import { ScenarioService } from '../scenario.service';
+import { TestPassService } from '../testpass.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'qa-regression-testing',

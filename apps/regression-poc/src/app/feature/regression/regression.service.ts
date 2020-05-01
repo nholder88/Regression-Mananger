@@ -1,64 +1,53 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable, of, Subject } from 'rxjs';
-import { Area, RegressionHeader } from '@qa/api-interfaces';
-import { catchError, scan } from 'rxjs/operators';
+import { Area, Regression } from '@qa/api-interfaces';
+import { catchError, scan, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
-import { environment } from '../../../../environments/environment';
+import { ErrorHandlingService } from '../../../Shared/services/error-handling.service';
+import { environment } from '../../../environments/environment';
+import { LoginService } from '../../../Shared/services/login.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RegressionHeaderService {
+export class RegressionService {
   constructor(
     private http: HttpClient,
-    private errorHandler: ErrorHandlingService
+    private errorHandler: ErrorHandlingService,
+    private loginService: LoginService
   ) {
   }
 
-  private rootUrl = `${environment.apiUrl }/header`;
+  private rootUrl = environment.apiUrl + '/header';
 
-  regressions$ =
-    this.http.get<RegressionHeader[]>(`${this.rootUrl}`).pipe(
+  // TODO: Remove this once the API is hosted
+  regressions$ = this.loginService.isUserLoggedIn()
+    ? this.http.get<Regression[]>(this.rootUrl).pipe(
+      tap(data =>
+        console.log('regresssion service-API', JSON.stringify(data))
+      ),
+      catchError(this.errorHandler.handleError)
+    )
+    : of<Regression[]>([
+      new Regression([], 'Default Test', true, true, 'Summer 2020'),
+      new Regression([], 'QA Test', true, true, 'Alpha-2021')
+    ]).pipe(
+      tap(data =>
+        console.log('regresssion service-DEMO', JSON.stringify(data))
+      ),
       catchError(this.errorHandler.handleError)
     );
-
-  saveRegressionSubject = new Subject<RegressionHeader>();
+  saveRegressionSubject = new Subject<Regression>();
   regressionSavedAction$ = this.saveRegressionSubject.asObservable();
 
   regressionWithAdd$ = merge(
     this.regressions$,
     this.regressionSavedAction$
   ).pipe(
-    scan((acc: RegressionHeader[], value: RegressionHeader) => [...acc, value]),
+    tap(data => console.log(data)),
+    scan((acc: Regression[], value: Regression) => [...acc, value]),
     catchError(err => this.errorHandler.handleError(err))
   );
-
-  saveRegression(regression?: RegressionHeader) {
-    if (!regression.id) {
-      regression.testPasses = [];
-      delete regression.id;
-    }
-    const saveObservable$ = regression.id ? this.http
-      .put(this.rootUrl, regression) : this.http
-      .post(this.rootUrl, regression);
-
-    saveObservable$.pipe(
-      catchError(err => this.errorHandler.handleError(err)))
-      .subscribe();
-    this.saveRegressionSubject.next(regression);
-  }
-
-  completeRegression(regression: RegressionHeader) {
-    // Update regression and mark it as Completed
-    regression.isComplete = true;
-    this.http.put(this.rootUrl, regression).pipe(
-      catchError(err => this.errorHandler.handleError(err)))
-      .subscribe();
-
-  }
-
-
   areas$: Observable<Area[]> = of<Area[]>([
     {
       id: 1,
@@ -186,4 +175,23 @@ export class RegressionHeaderService {
       ]
     }
   ]);
+
+  saveRegression(regression?: Regression) {
+    if (regression.id) {
+      this.http
+        .put(this.rootUrl, regression)
+        // tslint:disable-next-line:no-shadowed-variable
+        .pipe(tap(regression => console.log(regression)))
+        .subscribe();
+    } else {
+      regression.testPasses = [];
+      delete regression.id;
+      this.http
+        .post(this.rootUrl, regression)
+        // tslint:disable-next-line:no-shadowed-variable
+        .pipe(tap(regression => console.log(regression)))
+        .subscribe();
+    }
+    this.saveRegressionSubject.next(regression);
+  }
 }

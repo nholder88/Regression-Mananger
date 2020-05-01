@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegressionTestPassFormComponent } from '../regression-test-pass-form/regression-test-pass-form.component';
+import { RegressionTestPassFormComponent } from './regression-test-pass-form.component';
 
 describe('RegressionTestPassFormComponent', () => {
   let component: RegressionTestPassFormComponent;

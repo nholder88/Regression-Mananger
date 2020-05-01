@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
 
-import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
-import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
-import { catchError, delay, map, scan, shareReplay, tap } from 'rxjs/operators';
+import { ErrorHandlingService } from '../../../Shared/services/error-handling.service';
+import { BehaviorSubject, combineLatest, of } from 'rxjs';
+import { catchError, delay, map, shareReplay, tap } from 'rxjs/operators';
 import * as faker from 'faker';
 import { ScenarioService } from './scenario.service';
 import { FeatureScenarioContainer, TestPass } from '@qa/api-interfaces';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TestPassService {
   constructor(
-    private http: HttpClient,
     private errorHandler: ErrorHandlingService,
     private scenarioService: ScenarioService
   ) {}
-  rootUrl:string= `${environment.apiUrl }/TestPass`;
 
-  testPasses$ =
-  this.http.get<TestPass[]>(this.rootUrl).pipe(
+  testPasses$ = of<TestPass[]>(
+    this.createFakeTestPasses(faker.random.number({ min: 1, max: 45 }))
+  ).pipe(
     delay(700),
     tap(data => console.log('Scenario service', JSON.stringify(data))),
     catchError(this.errorHandler.handleError)
@@ -74,33 +71,9 @@ export class TestPassService {
     this.featureSelectedSubject.next(selectedFeatureName);
   }
 
-
-
-  saveTestPassSubject = new Subject<TestPass>();
-  testPassSavedAction$ = this.saveTestPassSubject.asObservable();
-
-  testPassesWithAdd$ = merge(
-    this.testPasses$,
-    this.testPassSavedAction$
-  ).pipe(
-    scan((acc: TestPass[], value: TestPass) => [...acc, value]),
-    catchError(err => this.errorHandler.handleError(err))
-  );
-
-  saveTestPass(testPass?:TestPass) {
-    if (!testPass.id) {
-       delete testPass.id;
-    }
-    const saveObservable$ = testPass.id ? this.http
-      .put(this.rootUrl, testPass) : this.http
-      .post(this.rootUrl, testPass);
-
-    saveObservable$.pipe(
-      catchError(err => this.errorHandler.handleError(err)))
-      .subscribe();
-    this.saveTestPassSubject.next(testPass);
+  saveTestPass(testPass:TestPass){
+    if(testPass.id.length > 0){}
   }
-
 
   createFakeTestPasses(count: number) {
     const steps = [];

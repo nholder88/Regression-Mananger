@@ -9,15 +9,13 @@ import { FeatureDto } from '../../Models/feature.dto';
 
 @Crud({
   model: {
-    type: FeatureDto
+    type: FeatureDto,
   },routes:{exclude:['createManyBase', 'replaceOneBase', 'replaceOneBase']},
-  query:{ join:{scenarios:{}, steps:{}},maxLimit:100 }
+  query:{ join:{},maxLimit:100 }
 })
 @ApiTags('Feature')
 @Controller('Feature')
 @UseGuards(JwtAuthGuard)
 export class FeatureController {
   constructor(public service: FeatureService) {}
-
-
 }

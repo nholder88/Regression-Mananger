@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { AppComponent } from './app.component';
+import { RegressionListingComponent } from './feature/regression/regression-listing/regression-listing.component';
 import { WelcomeComponent } from './home/welcome/welcome.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 
