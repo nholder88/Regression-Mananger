@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RegressionHeaderService } from '../regression-header.service';
+import { RegressionHeaderService } from '../../services/regression-header.service';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 

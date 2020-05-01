@@ -13,15 +13,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let regression of testPasses$ | async">
+        <tr *ngFor="let testPass of testPasses$ | async">
           <td>
-            {{ regression.creator }} -{{ regression.timeStamp | date: 'short' }}
+           {{testPass.title}} - {{ testPass.timeStamp | date: 'short' }} - {{ testPass.creator }}
           </td>
-          <td>{{ regression.featureScenarioContainers.length }}</td>
+          <td>{{ testPass.featureScenarioContainers.length }}</td>
           <td>
             <a
               class="btn btn-sm btn-secondary"
-              [routerLink]="['/regression/continue', regression.id]"
+              [routerLink]="['/regression/continue', testPass.id]"
               >Continue</a
             >
           </td>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { RegressionHeaderService } from '../regression-header.service';
+import { RegressionHeaderService } from '../../services/regression-header.service';
 
 @Component({
   selector: 'qa-regression-header-create',

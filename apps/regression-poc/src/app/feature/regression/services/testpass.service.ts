@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { ErrorHandlingService } from '../../../Shared/services/error-handling.service';
+import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
 import { catchError, delay, map, scan, shareReplay, tap } from 'rxjs/operators';
 import * as faker from 'faker';
 import { ScenarioService } from './scenario.service';
 import { FeatureScenarioContainer, TestPass } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

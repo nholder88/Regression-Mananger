@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TestPassService } from '../testpass.service';
+import { TestPassService } from '../../services/testpass.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

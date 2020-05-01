@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegressionHeaderCreateComponent } from './regression-header-create.component';
+import { RegressionHeaderCreateComponent } from '../regression-header-create/regression-header-create.component';
 
 describe('RegressionCreateComponent', () => {
   let component: RegressionHeaderCreateComponent;

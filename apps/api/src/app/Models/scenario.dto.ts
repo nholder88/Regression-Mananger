@@ -33,6 +33,7 @@ export class ScenarioDto implements IScenario {
   @IsDate()
   @Column({ default: '0001-01-01' })
   timestamp: Date;
+  enable: boolean= false;
 
   @OneToMany("StepDto", "scenario", {cascade:true, eager:true})
   steps: StepDto[];
