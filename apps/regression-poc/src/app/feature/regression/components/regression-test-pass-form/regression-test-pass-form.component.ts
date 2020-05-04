@@ -44,11 +44,11 @@ export class RegressionTestPassFormComponent implements OnInit {
   onFinish() {
     console.log(this.features);
 // Manually get the array and only add those that have been added
-    var featureScenarioContainers = this.features.map(feature => {
+    let featureScenarioContainers = this.features.map(feature => {
       // Check if this has any scenarios to add
-      var scenarios= feature.scenarios.filter(s => s.enable);
-      var hasScenarios = scenarios.length> 0;
-            return hasScenarios? new FeatureScenarioContainer(feature.name,scenarios, feature.id ): null;
+      let scenarios = feature.scenarios.filter(s => s.enable);
+      let hasScenarios = scenarios.length > 0;
+      return hasScenarios ? new FeatureScenarioContainer(feature.name, scenarios, feature.id) : null;
     });
 
     // Can probably use reduce here but want to make sure its valid first.

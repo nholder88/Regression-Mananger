@@ -9,7 +9,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./regression-listing.component.css']
 })
 export class RegressionListingComponent implements OnInit {
-  constructor(private service: RegressionHeaderService) {}
+  constructor(private service: RegressionHeaderService) {
+  }
 
   regression$ = this.service.regressionWithAdd$;
   selected;
@@ -21,7 +22,8 @@ export class RegressionListingComponent implements OnInit {
     }))
   );
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   onViewResultsClick(regression) {
     window.open(
