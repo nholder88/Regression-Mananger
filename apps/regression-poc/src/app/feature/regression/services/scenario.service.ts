@@ -22,8 +22,7 @@ export class ScenarioService {
     this.createFakeScenario(faker.random.number({ min: 1, max: 45 }))
   ).pipe(
     delay(700),
-    tap(data => console.log('Scenario service', JSON.stringify(data))),
-    catchError(this.errorHandler.handleError)
+     catchError(this.errorHandler.handleError)
   );
   savescenarioSubject = new Subject<Scenario>();
   scenarioSavedAction$ = this.savescenarioSubject.asObservable();

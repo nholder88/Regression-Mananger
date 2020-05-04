@@ -10,10 +10,10 @@ export interface IFeatureScenarioContainer {
 }
 
 export class FeatureScenarioContainer implements IFeatureScenarioContainer {
-  constructor(public name: string, public scenarios: Scenario[]) {
+  constructor(public name: string, public scenarios: Scenario[], public id :string= null ) {
   }
 public enable:boolean;
-  id: string;
+
   team: string;
 }
 

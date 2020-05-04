@@ -32,13 +32,13 @@ export class RegressionTestPassFormComponent implements OnInit {
     this.userService.getLoggedInUser(), new Date(), false, false);
   testPassForm: FormGroup;
   regressions$ = this.regressionService.regressionWithAdd$;
-  features$ = this.featureService.features$;
+  features$ = this.featureService.featureWithAdd$;
   features: FeatureScenarioContainer[];
 
   ngOnInit() {
     this.features$.subscribe(x => this.features = x);
     this.testPassForm = this.formBuilder.group(this.testPassModel);
-    console.log('intital Test Pass state', this.testPassForm.value);
+
   }
 
   onFinish() {
@@ -48,15 +48,13 @@ export class RegressionTestPassFormComponent implements OnInit {
       // Check if this has any scenarios to add
       var scenarios= feature.scenarios.filter(s => s.enable);
       var hasScenarios = scenarios.length> 0;
-            return hasScenarios? new FeatureScenarioContainer(feature.name,scenarios ): null;
+            return hasScenarios? new FeatureScenarioContainer(feature.name,scenarios, feature.id ): null;
     });
 
     // Can probably use reduce here but want to make sure its valid first.
     this.testPassForm.get('featureScenarioContainers').setValue(featureScenarioContainers.filter(x=> x));
 
-    console.log('Test Pass state', this.testPassForm.value);
-
-    // this.testPassService.saveTestPass(this.testPassForm.value);
+     this.testPassService.saveTestPass(this.testPassForm.value);
     this.testPassForm.reset();
     this.wizardExtraLarge.reset();
   }
