@@ -35,7 +35,7 @@ export class LoginService {
   }
 
   getCurrentUserName(){
-    return this.jwtService.getUserName();
+    return this.jwtService.getUserName()?? "No User";
   }
 
   isUserLoggedIn():boolean{

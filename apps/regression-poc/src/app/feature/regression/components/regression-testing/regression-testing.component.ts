@@ -20,6 +20,7 @@ export class RegressionTestingComponent implements OnInit {
   ngOnInit() {
     //need to read router id and make call out to service to get the data
     let testPassId = this.route.snapshot.paramMap.get('id');
+
     this.testPassService.selectedTestPassChanged(testPassId);
     console.log(this.testPass$);
   }

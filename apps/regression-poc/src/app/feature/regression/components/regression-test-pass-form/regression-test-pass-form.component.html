@@ -19,10 +19,10 @@
   <clr-wizard-page>
     <ng-template clrPageTitle>Select Active Regression</ng-template>
 
-    <form clrForm [formGroup]="regressionForm">
+    <form clrForm [formGroup]="testPassForm">
       <clr-select-container>
         <label>Please select a Regression</label>
-        <select clrSelect name="options" formControlName="regression">
+        <select clrSelect name="options" formControlName="Header">
           <option
             *ngFor="let regression of regressions$ | async"
             [value]="regression.id"
@@ -40,7 +40,7 @@
       <clr-tree-node [clrExpanded]="true">
         Areas to Test
         <clr-tree-node
-          *ngFor="let feature of features$| async"
+          *ngFor="let feature of features"
           [clrExpanded]="false"
         >
           {{ feature.name }}  ({{feature.team}})

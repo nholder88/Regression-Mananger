@@ -38,7 +38,8 @@
         </clr-dg-row>
 
         <clr-dg-footer
-          >{{ vm.ActiveRegressions?.length }} Regression Cycle(s)</clr-dg-footer
+        >{{ vm.ActiveRegressions?.length }} Regression Cycle(s)
+        </clr-dg-footer
         >
       </clr-datagrid>
     </div>
@@ -64,18 +65,21 @@
           <clr-dg-cell>{{ regression.endDate | date }}</clr-dg-cell>
 
           <clr-dg-cell
-            ><button
+          >
+            <button
               class="btn btn-info-outline btn-sm"
               (click)="onViewResultsClick(regression)"
             >
               View Results
-            </button></clr-dg-cell
+            </button>
+          </clr-dg-cell
           >
         </clr-dg-row>
 
         <clr-dg-footer
-          >{{ vm.CompletedRegressions?.length }} Regression
-          Cycle(s)</clr-dg-footer
+        >{{ vm.CompletedRegressions?.length }} Regression
+          Cycle(s)
+        </clr-dg-footer
         >
       </clr-datagrid>
     </div>

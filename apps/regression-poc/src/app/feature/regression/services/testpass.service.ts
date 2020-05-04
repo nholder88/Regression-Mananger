@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
 import { catchError, delay, map, scan, shareReplay, tap } from 'rxjs/operators';
-import * as faker from 'faker';
 import { ScenarioService } from './scenario.service';
-import { FeatureScenarioContainer, TestPass } from '@qa/api-interfaces';
+import { TestPass } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
@@ -21,7 +20,7 @@ export class TestPassService {
   rootUrl:string= `${environment.apiUrl }/TestPass`;
 
   testPasses$ =
-  this.http.get<TestPass[]>(this.rootUrl).pipe(
+  this.http.get<TestPass[]>(`${this.rootUrl}`).pipe(
     delay(700),
     tap(data => console.log('Scenario service', JSON.stringify(data))),
     catchError(this.errorHandler.handleError)
@@ -102,53 +101,5 @@ export class TestPassService {
   }
 
 
-  createFakeTestPasses(count: number) {
-    const steps = [];
-    let x: number;
-    for (x = 0; x < count; x++) {
-      const step = new TestPass(
-        [
-          new FeatureScenarioContainer(
-            faker.company.catchPhraseNoun(),
-            this.scenarioService.createFakeScenario(
-              faker.random.number({ min: 1, max: 45 })
-            )
-          ),
-          new FeatureScenarioContainer(
-            faker.company.catchPhraseNoun(),
-            this.scenarioService.createFakeScenario(
-              faker.random.number({ min: 1, max: 45 })
-            )
-          ),
-          new FeatureScenarioContainer(
-            faker.company.catchPhraseNoun(),
-            this.scenarioService.createFakeScenario(
-              faker.random.number({ min: 1, max: 45 })
-            )
-          ),
-          new FeatureScenarioContainer(
-            faker.company.catchPhraseNoun(),
-            this.scenarioService.createFakeScenario(
-              faker.random.number({ min: 1, max: 45 })
-            )
-          ),
-          new FeatureScenarioContainer(
-            faker.company.catchPhraseNoun(),
-            this.scenarioService.createFakeScenario(
-              faker.random.number({ min: 1, max: 45 })
-            )
-          )
-        ],
-        faker.name.findName(),
-        faker.date.recent(1),
-        faker.random.boolean(),
-        faker.random.boolean(),
-        faker.random.uuid()
-      );
-      //step.steps.sort((x, y) => x.order - y.order);
-      steps.push(step);
-    }
 
-    return steps;
-  }
 }
