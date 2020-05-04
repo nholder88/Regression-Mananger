@@ -20,6 +20,7 @@ export class TestPass implements ITestPass{
     public isComplete: boolean,
     public isStarted: boolean,
     public id: string = null,
-    public title:string= ''
+    public title:string= '',
+    public Header:string= null
   ) {}
 }
