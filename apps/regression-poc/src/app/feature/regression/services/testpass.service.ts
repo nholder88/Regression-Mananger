@@ -30,9 +30,7 @@ export class TestPassService {
   private testPassSelectedSubject = new BehaviorSubject<string>('');
   testPassSelectedAction$ = this.testPassSelectedSubject.asObservable();
 
-  // Currently selected product
-  // Used in both List and Detail pages,
-  // so use the shareReply to share it with any component that uses it
+
   selectedTestPass$ = combineLatest([
     this.testPasses$,
     this.testPassSelectedAction$
@@ -68,7 +66,7 @@ export class TestPassService {
     this.testPassSelectedSubject.next(id);
   }
 
-  // Change the selected product
+
   selectedFeatureChanged(selectedFeatureName: string): void {
     this.featureSelectedSubject.next(selectedFeatureName);
   }

@@ -4,7 +4,7 @@ import { ErrorHandlingService } from '../../../../Shared/services/error-handling
 import { environment } from '../../../../environments/environment';
 import { FeatureScenarioContainer } from '@qa/api-interfaces';
 import { catchError, scan } from 'rxjs/operators';
-import { merge, Subject } from 'rxjs';
+import { BehaviorSubject, merge, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +34,10 @@ export class FeatureService {
     scan((acc: FeatureScenarioContainer[], value: FeatureScenarioContainer) => [...acc, value]),
     catchError(err => this.errorHandler.handleError(err))
   );
+  //TODO: Make this more robust to not have to hard code string...UGH
+  private featureSelectedSubject = new BehaviorSubject<string>('Letters');
+  featureSelectedAction$ = this.featureSelectedSubject.asObservable();
+
 
   saveFeature(featureScenarioContainer?: FeatureScenarioContainer) {
     if (!featureScenarioContainer.id) {
@@ -41,12 +45,12 @@ export class FeatureService {
       delete featureScenarioContainer.id;
     }
     const saveObservable$ = featureScenarioContainer.id ? this.http
-      .put(this.rootUrl, featureScenarioContainer) : this.http
-      .post(this.rootUrl, featureScenarioContainer);
+      .put<FeatureScenarioContainer>(this.rootUrl, featureScenarioContainer) : this.http
+      .post<FeatureScenarioContainer>(this.rootUrl, featureScenarioContainer);
 
     saveObservable$.pipe(
       catchError(err => this.errorHandler.handleError(err)))
-      .subscribe();
-    this.saveFeatureSubject.next(featureScenarioContainer);
+      .subscribe( x=>
+    this.saveFeatureSubject.next(x));
   }
 }

@@ -47,14 +47,16 @@ export class RegressionTestPassFormComponent implements OnInit {
     let featureScenarioContainers = this.features.map(feature => {
       // Check if this has any scenarios to add
       let scenarios = feature.scenarios.filter(s => s.enable);
+
+
       let hasScenarios = scenarios.length > 0;
       return hasScenarios ? new FeatureScenarioContainer(feature.name, scenarios, feature.id) : null;
     });
 
     // Can probably use reduce here but want to make sure its valid first.
-    this.testPassForm.get('featureScenarioContainers').setValue(featureScenarioContainers.filter(x=> x));
+    this.testPassForm.get('featureScenarioContainers').setValue(featureScenarioContainers.filter(x => x));
 
-     this.testPassService.saveTestPass(this.testPassForm.value);
+    this.testPassService.saveTestPass(this.testPassForm.value);
     this.testPassForm.reset();
     this.wizardExtraLarge.reset();
   }
