@@ -17,9 +17,14 @@
   >
 
   <clr-wizard-page>
-    <ng-template clrPageTitle>Select Active Regression</ng-template>
+    <ng-template clrPageTitle>Test Pass </ng-template>
 
     <form clrForm [formGroup]="testPassForm">
+
+      <clr-input-container>
+        <label>Test Pass Title</label>
+        <input clrInput placeholder="Test Pass Name" name="name" formControlName="title" />
+      </clr-input-container>
       <clr-select-container>
         <label>Please select a Regression</label>
         <select clrSelect name="options" formControlName="Header">
@@ -30,6 +35,9 @@
           >
         </select>
       </clr-select-container>
+
+
+
     </form>
   </clr-wizard-page>
 
@@ -47,7 +55,6 @@
           <clr-tree-node
             *ngFor="let scenarios of feature.scenarios"
             [(clrSelected)]="scenarios.enable"
-
           >
             {{ scenarios.name }}
 

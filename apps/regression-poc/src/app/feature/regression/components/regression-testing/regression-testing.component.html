@@ -1,5 +1,5 @@
 <div class="clr-row">
-  <div class="clr-col-11">
+  <div class="clr-col">
     <h2 *ngIf="testPass$ | async as testPass">
       Current Test - {{ testPass.creator }}
       {{ testPass.timeStamp | date: 'medium' }}
@@ -11,7 +11,7 @@
             Scenario Configuration
           </div>
           <div class="card-block">
-            <div class="clr-row">
+            <div class="clr-row" style="padding-bottom: 5px">
               <div class="clr-col">
                 <clr-select-container>
                   <label>Role testing </label>
@@ -36,18 +36,45 @@
                 </clr-input-container>
               </div>
             </div>
+            <div class="clr-row">
+
+
+              <div class="clr-col">      <clr-dropdown *ngIf="testPass$ | async as testPass">
+                <button class="btn btn-outline-primary btn-sm" clrDropdownTrigger>
+                  Features <clr-icon shape="caret down"></clr-icon>
+                </button>
+                <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
+                  <label class="dropdown-header" aria-hidden="true"
+                  >Test Run Features</label
+                  >
+                  <div
+                    clrDropdownItem
+                    *ngFor="let feature of testPass.featureScenarioContainers"
+                    (click)="changeFeature(feature.id)"
+                  >
+                    {{ feature.name }}
+                  </div>
+                </clr-dropdown-menu>
+              </clr-dropdown></div>
+              <div class="clr-col">     <button class="btn btn-sm" >
+                Save Test Results
+              </button></div>
+              <div class="clr-col">           <button class="btn btn-primary btn-sm" (click)="completeTestRun()">
+                Complete Test Run
+              </button></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <span class="spinner spinner-inverse" *ngIf="!selectedFeature$">
+    <span class="spinner spinner-inverse" *ngIf="!selectedFeatureScenarios$">
       Loading...
     </span>
-    <div class="clr-row" *ngIf="selectedFeature$ | async as currentFeature">
-      <div class="clr-col" *ngFor="let scenario of currentFeature.scenarios">
+    <div class="clr-row" *ngIf="selectedFeatureScenarios$ | async as scenarios">
+      <div class="clr-col" *ngFor="let scenario of scenarios">
         <div class="card">
           <div class="card-header">
-            {{ scenario.feature }} - {{ scenario.name }}
+            {{ scenario.feature.name }} - {{ scenario.name }}
           </div>
           <div class="card-block">
             <div class="card-title">Steps to Test</div>
@@ -84,40 +111,40 @@
               <div class="radio btn btn-outline-success">
                 <input
                   type="radio"
-                  name="btn-group-demo-radios_{{ scenario.order }}}"
-                  id="btn-demo-radio-2_{{ scenario.order }}}"
+                  name="btn-group-demo-radios_{{ scenario.id }}}"
+                  id="btn-demo-radio-2_{{ scenario.id }}}"
                 />
-                <label for="btn-demo-radio-2_{{ scenario.order }}}"
+                <label for="btn-demo-radio-2_{{ scenario.id }}}"
                   >Passed</label
                 >
               </div>
               <div class="radio btn  btn-outline-danger">
                 <input
                   type="radio"
-                  name="btn-group-demo-radios_{{ scenario.order }}}"
-                  id="btn-demo-radio-3_{{ scenario.order }}}"
+                  name="btn-group-demo-radios_{{ scenario.id }}}"
+                  id="btn-demo-radio-3_{{ scenario.id }}}"
                 />
-                <label for="btn-demo-radio-3_{{ scenario.order }}}"
+                <label for="btn-demo-radio-3_{{ scenario.id }}}"
                   >Failed</label
                 >
               </div>
               <div class="radio btn  btn-outline">
                 <input
                   type="radio"
-                  name="btn-group-demo-radios_{{ scenario.order }}}"
-                  id="btn-demo-radio-1_{{ scenario.order }}}"
+                  name="btn-group-demo-radios_{{ scenario.id }}}"
+                  id="btn-demo-radio-1_{{ scenario.id }}}"
                 />
-                <label for="btn-demo-radio-1_{{ scenario.order }}}"
+                <label for="btn-demo-radio-1_{{ scenario.id }}}"
                   >Skipped</label
                 >
               </div>
               <div class="radio btn  btn-outline">
                 <input
                   type="radio"
-                  name="btn-group-demo-radios_{{ scenario.order }}"
-                  id="btn-demo-radio-4_{{ scenario.order }}}"
+                  name="btn-group-demo-radios_{{ scenario.id }}"
+                  id="btn-demo-radio-4_{{ scenario.id }}}"
                 />
-                <label for="btn-demo-radio-4_{{ scenario.order }}}"
+                <label for="btn-demo-radio-4_{{ scenario.id }}}"
                   >Untested</label
                 >
               </div>
@@ -127,33 +154,5 @@
       </div>
     </div>
   </div>
-  <div class="clr-col-1">
-    <div style="position: absolute;">
-      <clr-dropdown *ngIf="testPass$ | async as testPass">
-        <button class="btn btn-outline-primary btn-sm" clrDropdownTrigger>
-          Features <clr-icon shape="caret down"></clr-icon>
-        </button>
-        <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
-          <label class="dropdown-header" aria-hidden="true"
-            >Test Run Features</label
-          >
-          <div
-            clrDropdownItem
-            *ngFor="let feature of testPass.featureScenarioContainers"
-            (click)="changeFeature(feature.name)"
-          >
-            {{ feature.name }}
-          </div>
-        </clr-dropdown-menu>
-      </clr-dropdown>
 
-      <button class="btn btn-sm" (click)="saveScenarios()">
-        Save Test Results
-      </button>
-      <br />
-      <button class="btn btn-primary btn-sm" (click)="completeTestRun()">
-        Complete Test Run
-      </button>
-    </div>
-  </div>
 </div>

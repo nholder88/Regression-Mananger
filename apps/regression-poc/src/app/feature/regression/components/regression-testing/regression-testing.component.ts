@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { TestPassService } from '../../services/testpass.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {TestPassService} from '../../services/testpass.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ScenarioService} from "../../services/scenario.service";
 
 @Component({
   selector: 'qa-regression-testing',
@@ -9,28 +10,32 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class RegressionTestingComponent implements OnInit {
   testPass$ = this.testPassService.selectedTestPass$;
-  selectedFeature$ = this.testPassService.selectedFeature$;
+  selectedFeatureScenarios$ = this.scenarioService.selectedFeatureScenarios$;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private testPassService: TestPassService
-  ) {}
+    private testPassService: TestPassService,
+    private scenarioService: ScenarioService
+  ) {
+  }
 
   ngOnInit() {
     //need to read router id and make call out to service to get the data
     let testPassId = this.route.snapshot.paramMap.get('id');
 
     this.testPassService.selectedTestPassChanged(testPassId);
-    console.log(this.testPass$);
+
   }
+
   changeFeature(featureName) {
-    this.saveScenarios();
-    this.testPassService.selectedFeatureChanged(featureName);
+    this.scenarioService.selectedFeatureChanged(featureName);
   }
-  saveScenarios() {
-    console.log('Scenarios Saved.');
+
+  saveScenarioResults() {
+    console.log('Scenario Results Saved.');
   }
+
   completeTestRun() {
     console.log('Test Run Completed');
     this.router.navigateByUrl('/regression/listing');

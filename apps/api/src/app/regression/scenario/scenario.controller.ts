@@ -11,7 +11,7 @@ import { ScenarioService } from './scenario.service';
   model: {
     type: ScenarioDto,
   },routes:{exclude:[ 'replaceOneBase', 'replaceOneBase']},
-  query:{ join:{steps:{eager:true}},sort:[{field:"order", order:'ASC'},{field:"steps.order",order:"ASC"}],maxLimit:100 }
+  query:{ join:{steps:{eager:true}, feature:{}},sort:[{field:"order", order:'ASC'},{field:"steps.order",order:"ASC"}],maxLimit:100 }
 })
 @ApiTags('Scenario')
 @Controller('Scenario')

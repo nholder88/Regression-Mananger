@@ -14,15 +14,14 @@ import { environment } from '../../../../environments/environment';
 export class TestPassService {
   constructor(
     private http: HttpClient,
-    private errorHandler: ErrorHandlingService,
-    private scenarioService: ScenarioService
+    private errorHandler: ErrorHandlingService
   ) {}
   rootUrl:string= `${environment.apiUrl }/TestPass`;
 
   testPasses$ =
   this.http.get<TestPass[]>(`${this.rootUrl}`).pipe(
     delay(700),
-    tap(data => console.log('Scenario service', JSON.stringify(data))),
+    tap(data => console.log('Test Pass service', JSON.stringify(data))),
     catchError(this.errorHandler.handleError)
   );
 
@@ -37,42 +36,15 @@ export class TestPassService {
   ]).pipe(
     map(([testPass, id]) => testPass.find(feat => feat.id === id)),
 
-    tap(feature => console.log('selectedProduct', feature)),
+    tap(feature => console.log('Select test pass ', feature)),
     shareReplay(1)
   );
 
-  //TODO: Make this more robust to not have to hard code string...UGH
-  private featureSelectedSubject = new BehaviorSubject<string>('Letters');
-  featureSelectedAction$ = this.featureSelectedSubject.asObservable();
 
-  // Currently selected product
-  // Used in both List and Detail pages,
-  // so use the shareReply to share it with any component that uses it
-  selectedFeature$ = combineLatest([
-    this.selectedTestPass$,
-    this.featureSelectedAction$
-  ]).pipe(
-    map(([testPass, selectedFeatureName]) =>
-      testPass.featureScenarioContainers.find(
-        tp => tp.name === selectedFeatureName
-      )
-    ),
-    tap(feature => console.log('selectedProduct', feature)),
-    shareReplay(1)
-  );
-
-  // Change the selected product
+  // Change the selected Test Pass
   selectedTestPassChanged(id: string): void {
     this.testPassSelectedSubject.next(id);
   }
-
-
-  selectedFeatureChanged(selectedFeatureName: string): void {
-    this.featureSelectedSubject.next(selectedFeatureName);
-  }
-
-
-
   saveTestPassSubject = new Subject<TestPass>();
   testPassSavedAction$ = this.saveTestPassSubject.asObservable();
 
