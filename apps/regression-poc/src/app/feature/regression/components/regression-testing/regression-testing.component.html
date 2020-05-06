@@ -1,8 +1,8 @@
 <div class="clr-row">
   <div class="clr-col">
     <h2 *ngIf="testPass$ | async as testPass">
-      Current Test - {{ testPass.creator }}
-      {{ testPass.timeStamp | date: 'medium' }}
+      Current Test - {{ testPass.title }}
+      {{ testPass.creator  }}
     </h2>
     <div class="clr-row">
       <div class="clr-col">
@@ -10,12 +10,12 @@
           <div class="card-header">
             Scenario Configuration
           </div>
-          <div class="card-block">
+          <div class="card-block" [formGroup]="scenarioConfigForm">
             <div class="clr-row" style="padding-bottom: 5px">
               <div class="clr-col">
                 <clr-select-container>
                   <label>Role testing </label>
-                  <select clrSelect name="options">
+                  <select clrSelect name="options" formControlName="role">
                     <option value="">Admin</option>
                     <option value="">Front Desk</option>
                     <option value="">Doctor</option>
@@ -26,69 +26,74 @@
               <div class="clr-col">
                 <clr-input-container>
                   <label>Testing Login</label>
-                  <input clrInput placeholder="mdiadmin" name="name" />
+                  <input clrInput placeholder="mdiadmin" name="name" formControlName="testingLogin"/>
                 </clr-input-container>
               </div>
               <div class="clr-col">
                 <clr-input-container>
                   <label>Tester</label>
-                  <input clrInput placeholder="Current Tester" name="name" />
+                  <input clrInput placeholder="Current Tester" name="name" formControlName="tester"/>
                 </clr-input-container>
               </div>
             </div>
             <div class="clr-row">
-
-
-              <div class="clr-col">      <clr-dropdown *ngIf="testPass$ | async as testPass">
-                <button class="btn btn-outline-primary btn-sm" clrDropdownTrigger>
-                  Features <clr-icon shape="caret down"></clr-icon>
+              <div class="clr-col">
+                <clr-dropdown *ngIf="testPass$ | async as testPass">
+                  <button class="btn btn-outline-primary btn-sm" clrDropdownTrigger>
+                    Features
+                    <clr-icon shape="caret down"></clr-icon>
+                  </button>
+                  <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
+                    <label class="dropdown-header" aria-hidden="true"
+                    >Test Run Features</label
+                    >
+                    <div
+                      clrDropdownItem
+                      *ngFor="let feature of testPass.featureScenarioContainers"
+                      (click)="changeFeature(feature.id)"
+                    >
+                      {{ feature.name }}
+                    </div>
+                  </clr-dropdown-menu>
+                </clr-dropdown>
+              </div>
+              <div class="clr-col">
+                <button class="btn btn-sm" *ngIf="scenarioResultData$|async as data" (click)="saveScenarioResults(data)">
+                  Save Test Results
                 </button>
-                <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
-                  <label class="dropdown-header" aria-hidden="true"
-                  >Test Run Features</label
-                  >
-                  <div
-                    clrDropdownItem
-                    *ngFor="let feature of testPass.featureScenarioContainers"
-                    (click)="changeFeature(feature.id)"
-                  >
-                    {{ feature.name }}
-                  </div>
-                </clr-dropdown-menu>
-              </clr-dropdown></div>
-              <div class="clr-col">     <button class="btn btn-sm" >
-                Save Test Results
-              </button></div>
-              <div class="clr-col">           <button class="btn btn-primary btn-sm" (click)="completeTestRun()">
-                Complete Test Run
-              </button></div>
+              </div>
+              <div class="clr-col">
+                <button class="btn btn-primary btn-sm" (click)="completeTestRun()">
+                  Complete Test Run
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <span class="spinner spinner-inverse" *ngIf="!selectedFeatureScenarios$">
+    <span class="spinner spinner-inverse" *ngIf="!scenarioResultData$">
       Loading...
     </span>
-    <div class="clr-row" *ngIf="selectedFeatureScenarios$ | async as scenarios">
-      <div class="clr-col" *ngFor="let scenario of scenarios">
+    <div class="clr-row" *ngIf="scenarioResultData$ | async as scenarioResults">
+      <div class="clr-col" *ngFor="let result of scenarioResults" [formGroup]="scenarioForm">
         <div class="card">
           <div class="card-header">
-            {{ scenario.feature.name }} - {{ scenario.name }}
+            {{ result.scenario.feature.name }} - {{ result.scenario.name }}
           </div>
           <div class="card-block">
             <div class="card-title">Steps to Test</div>
             <div class="card-text">
               <clr-toggle-wrapper
-                *ngFor="let step of scenario.steps"
+                *ngFor="let step of result.scenario.steps"
                 class="wrapper-fix"
               >
-                <input type="checkbox" clrToggle value="option1" />
+                <input type="checkbox" clrToggle value="option1"  (click)="toggleStepCompleted(step, result)" />
                 <label class="wrapper-fix">{{
                   step.name | slice: 0:100
-                }}</label>
+                  }}</label>
               </clr-toggle-wrapper>
-              <br />
+              <br/>
               <clr-textarea-container>
                 <label>Scenario Notes</label>
                 <textarea
@@ -96,12 +101,16 @@
                   name="note"
                   style="width: 450px;"
                   required
+                  [value]="result.notes"
+
                 ></textarea>
                 <clr-control-helper
-                  >Provide Details for status</clr-control-helper
+                >Provide Details for status
+                </clr-control-helper
                 >
                 <clr-control-error
-                  >You must provide a description!</clr-control-error
+                >You must provide a description!
+                </clr-control-error
                 >
               </clr-textarea-container>
             </div>
@@ -109,43 +118,43 @@
           <div class="card-footer">
             <div class="btn-group btn-sm">
               <div class="radio btn btn-outline-success">
-                <input
-                  type="radio"
-                  name="btn-group-demo-radios_{{ scenario.id }}}"
-                  id="btn-demo-radio-2_{{ scenario.id }}}"
+                <input [value]="result.status"
+                       type="radio"
+
+                       id="btn-demo-radio-2_{{ result.scenario.id }}}"
                 />
-                <label for="btn-demo-radio-2_{{ scenario.id }}}"
-                  >Passed</label
+                <label for="btn-demo-radio-2_{{ result.scenario.id }}}"
+                >Passed</label
                 >
               </div>
               <div class="radio btn  btn-outline-danger">
                 <input
                   type="radio"
-                  name="btn-group-demo-radios_{{ scenario.id }}}"
-                  id="btn-demo-radio-3_{{ scenario.id }}}"
+                  [value]="result.status"
+                  id="btn-demo-radio-3_{{ result.scenario.id }}}"
                 />
-                <label for="btn-demo-radio-3_{{ scenario.id }}}"
-                  >Failed</label
+                <label for="btn-demo-radio-3_{{ result.scenario.id }}}"
+                >Failed</label
                 >
               </div>
               <div class="radio btn  btn-outline">
                 <input
                   type="radio"
-                  name="btn-group-demo-radios_{{ scenario.id }}}"
-                  id="btn-demo-radio-1_{{ scenario.id }}}"
+                  [value]="result.status"
+                  id="btn-demo-radio-1_{{ result.scenario.id }}}"
                 />
-                <label for="btn-demo-radio-1_{{ scenario.id }}}"
-                  >Skipped</label
+                <label for="btn-demo-radio-1_{{ result.scenario.id }}}"
+                >Skipped</label
                 >
               </div>
               <div class="radio btn  btn-outline">
                 <input
                   type="radio"
-                  name="btn-group-demo-radios_{{ scenario.id }}"
-                  id="btn-demo-radio-4_{{ scenario.id }}}"
+                  [value]="result.status"
+                  id="btn-demo-radio-4_{{ result.scenario.id }}}"
                 />
-                <label for="btn-demo-radio-4_{{ scenario.id }}}"
-                  >Untested</label
+                <label for="btn-demo-radio-4_{{ result.scenario.id }}}"
+                >Untested</label
                 >
               </div>
             </div>

@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {TestPassService} from '../../services/testpass.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ScenarioService} from "../../services/scenario.service";
+
+import {ScenarioResultService} from "../../services/scenario-result.service";
+import {FormBuilder} from "@angular/forms";
+import {ScenarioResult, Steps} from "@qa/api-interfaces";
 
 @Component({
   selector: 'qa-regression-testing',
@@ -10,34 +13,43 @@ import {ScenarioService} from "../../services/scenario.service";
 })
 export class RegressionTestingComponent implements OnInit {
   testPass$ = this.testPassService.selectedTestPass$;
-  selectedFeatureScenarios$ = this.scenarioService.selectedFeatureScenarios$;
+  scenarioResultData$ = this.scenarioResultService.scenarioResultForTestPass$;
+  scenarioForm;
+  scenarioConfigForm;
+
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private testPassService: TestPassService,
-    private scenarioService: ScenarioService
+    private scenarioResultService: ScenarioResultService,
+    private formBuilder: FormBuilder
   ) {
   }
 
   ngOnInit() {
-    //need to read router id and make call out to service to get the data
     let testPassId = this.route.snapshot.paramMap.get('id');
+    this.scenarioResultService.selectedTestPassChanged(testPassId);
 
-    this.testPassService.selectedTestPassChanged(testPassId);
-
+    this.scenarioConfigForm = this.formBuilder.group({testingLogin: "", tester: "", role: ""})
+    this.scenarioForm = this.scenarioResultService.getScenarioForm();
   }
 
   changeFeature(featureName) {
-    this.scenarioService.selectedFeatureChanged(featureName);
+    this.scenarioResultService.selectedFeatureChanged(featureName);
   }
 
-  saveScenarioResults() {
+  saveScenarioResults(data) {
+    this.scenarioResultService.saveResults(data)
     console.log('Scenario Results Saved.');
   }
 
   completeTestRun() {
     console.log('Test Run Completed');
     this.router.navigateByUrl('/regression/listing');
+  }
+
+  toggleStepCompleted(step: Steps, result: ScenarioResult) {
+
   }
 }

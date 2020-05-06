@@ -1,4 +1,4 @@
-import { IScenario, ITestPass } from '@qa/api-interfaces';
+import {IScenario, ITestPass, Scenario} from '@qa/api-interfaces';
 
 
 export interface IScenarioResult{
@@ -28,7 +28,7 @@ export class ScenarioResult implements IScenarioResult{
   completedSteps: Array<number>;
   id: string;
   notes: string;
-  scenario: IScenario;
+  scenario: Scenario;
   status: string;
   testPass: ITestPass;
   timestamp: Date;

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
 import { catchError, delay, map, scan, shareReplay, tap } from 'rxjs/operators';
-import { ScenarioService } from './scenario.service';
 import { TestPass } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
