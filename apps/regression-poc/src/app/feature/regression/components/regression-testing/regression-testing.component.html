@@ -75,20 +75,20 @@
     <span class="spinner spinner-inverse" *ngIf="!scenarioResultData$">
       Loading...
     </span>
-    <div class="clr-row" *ngIf="scenarioResultData$ | async as scenarioResults">
-      <div class="clr-col" *ngFor="let result of scenarioResults" [formGroup]="scenarioForm">
-        <div class="card">
+    <div class="clr-row" *ngIf="scenarioForm.length>0 ">
+      <div class="clr-col" *ngFor="let result of scenarioForm.controls; index as i" >
+        <div class="card" [formGroup]="result">
           <div class="card-header">
-            {{ result.scenario.feature.name }} - {{ result.scenario.name }}
+            {{ result.get("scenario").value.name}}
           </div>
           <div class="card-block">
             <div class="card-title">Steps to Test</div>
             <div class="card-text">
               <clr-toggle-wrapper
-                *ngFor="let step of result.scenario.steps"
+                *ngFor="let step of  result?.get('scenario')?.value.steps"
                 class="wrapper-fix"
               >
-                <input type="checkbox" clrToggle value="option1"  (click)="toggleStepCompleted(step, result)" />
+                <input type="checkbox" clrToggle [value]="step.id" formControlName="completedSteps"  />
                 <label class="wrapper-fix">{{
                   step.name | slice: 0:100
                   }}</label>
@@ -101,9 +101,7 @@
                   name="note"
                   style="width: 450px;"
                   required
-                  formControlName="scenario.note"
-                  [value]="result.notes"
-
+                  formControlName="notes"
                 ></textarea>
                 <clr-control-helper
                 >Provide Details for status
@@ -119,42 +117,45 @@
           <div class="card-footer">
             <div class="btn-group btn-sm">
               <div class="radio btn btn-outline-success">
-                <input [value]="result.status"
+                <input value="Passed"
                        type="radio"
-
-                       id="btn-demo-radio-2_{{ result.scenario.id }}}"
+formControlName="status"
+                       id="btn-demo-radio-2_{{ i}}"
                 />
-                <label for="btn-demo-radio-2_{{ result.scenario.id }}}"
+                <label for="btn-demo-radio-2_{{ i}}"
                 >Passed</label
                 >
               </div>
               <div class="radio btn  btn-outline-danger">
                 <input
                   type="radio"
-                  [value]="result.status"
-                  id="btn-demo-radio-3_{{ result.scenario.id }}}"
+                  value="Failed"
+                  formControlName="status"
+                  id="btn-demo-radio-3_{{ i }}"
                 />
-                <label for="btn-demo-radio-3_{{ result.scenario.id }}}"
+                <label for="btn-demo-radio-3_{{ i }}"
                 >Failed</label
                 >
               </div>
               <div class="radio btn  btn-outline">
                 <input
                   type="radio"
-                  [value]="result.status"
-                  id="btn-demo-radio-1_{{ result.scenario.id }}}"
+                  value="Skipped"
+                  formControlName="status"
+                  id="btn-demo-radio-1_{{ i }}"
                 />
-                <label for="btn-demo-radio-1_{{ result.scenario.id }}}"
+                <label for="btn-demo-radio-1_{{ i }}"
                 >Skipped</label
                 >
               </div>
               <div class="radio btn  btn-outline">
                 <input
                   type="radio"
-                  [value]="result.status"
-                  id="btn-demo-radio-4_{{ result.scenario.id }}}"
+                  value="Untested"
+                  formControlName="status"
+                  id="btn-demo-radio-4_{{ i }}"
                 />
-                <label for="btn-demo-radio-4_{{ result.scenario.id }}}"
+                <label for="btn-demo-radio-4_{{ i }}"
                 >Untested</label
                 >
               </div>

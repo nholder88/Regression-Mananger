@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {TestPassService} from '../../services/testpass.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { TestPassService } from '../../services/testpass.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {ScenarioResultService} from "../../services/scenario-result.service";
-import {FormArray, FormBuilder} from "@angular/forms";
-import {ScenarioResult, Steps} from "@qa/api-interfaces";
-import {tap} from "rxjs/operators";
+import { ScenarioResultService } from '../../services/scenario-result.service';
+import { FormArray, FormBuilder } from '@angular/forms';
+import { ScenarioResult, Steps } from '@qa/api-interfaces';
+
 
 @Component({
   selector: 'qa-regression-testing',
@@ -14,17 +14,9 @@ import {tap} from "rxjs/operators";
 })
 export class RegressionTestingComponent implements OnInit {
   testPass$ = this.testPassService.selectedTestPass$;
-  scenarioResultData$ = this.scenarioResultService.scenarioResultForTestPass$.pipe(
-    tap(x => {
-  this.scenarioResultData = x;
-  this.scenarioForm =  this.formBuilder.array(x);
-  //this.scenarioForm.patchValue( x);
-  console.log("Testing component Data on init", x, this.scenarioForm);
-}));
-
+  scenarioResultData$ = this.scenarioResultService.scenarioResultForTestPass$;
   scenarioConfigForm;
-  scenarioForm= new FormArray([]);
-  scenarioResultData;
+  scenarioForm = new FormArray([]);
 
   constructor(
     private route: ActivatedRoute,
@@ -38,17 +30,17 @@ export class RegressionTestingComponent implements OnInit {
   ngOnInit() {
     let testPassId = this.route.snapshot.paramMap.get('id');
     this.scenarioResultService.selectedTestPassChanged(testPassId);
-
-    this.scenarioConfigForm = this.formBuilder.group({testingLogin: "", tester: "", role: ""})
-
+    this.scenarioConfigForm = this.formBuilder.group({ testingLogin: '', tester: '', role: '' });
   }
 
   changeFeature(featureName) {
     this.scenarioResultService.selectedFeatureChanged(featureName);
+    this.scenarioResultData$.subscribe(x=>
+    this.scenarioForm= x)
   }
 
   saveScenarioResults(data) {
-    this.scenarioResultService.saveResults(data)
+    this.scenarioResultService.saveResults(data);
     console.log('Scenario Results Saved.', this.scenarioConfigForm.value, this.scenarioForm.value);
   }
 
@@ -56,7 +48,7 @@ export class RegressionTestingComponent implements OnInit {
     console.log('Test Run Completed');
     this.router.navigateByUrl('/regression/listing');
   }
-
+/*todo: Create the unsubscribe here*/
   toggleStepCompleted(step: Steps, result: ScenarioResult) {
 
   }
