@@ -14,15 +14,15 @@ export class TestPassService {
   constructor(
     private http: HttpClient,
     private errorHandler: ErrorHandlingService
-  ) {}
-  rootUrl:string= `${environment.apiUrl }/TestPass`;
+  ) {
+  }
+
+  rootUrl: string = `${environment.apiUrl}/TestPass`;
 
   testPasses$ =
-  this.http.get<TestPass[]>(`${this.rootUrl}`).pipe(
-    delay(700),
-    tap(data => console.log('Test Pass service', JSON.stringify(data))),
-    catchError(this.errorHandler.handleError)
-  );
+    this.http.get<TestPass[]>(`${this.rootUrl}`).pipe(
+      catchError(this.errorHandler.handleError)
+    );
 
   //TODO: Make this more robust to not have to hard code string...UGH
   private testPassSelectedSubject = new BehaviorSubject<string>('');
@@ -33,10 +33,7 @@ export class TestPassService {
     this.testPasses$,
     this.testPassSelectedAction$
   ]).pipe(
-    map(([testPass, id]) => testPass.find(feat => feat.id === id)),
-
-    tap(feature => console.log('Select test pass ', feature)),
-    shareReplay(1)
+    map(([testPass, id]) => testPass.find(feat => feat.id === id))
   );
 
 
@@ -44,6 +41,7 @@ export class TestPassService {
   selectedTestPassChanged(id: string): void {
     this.testPassSelectedSubject.next(id);
   }
+
   saveTestPassSubject = new Subject<TestPass>();
   testPassSavedAction$ = this.saveTestPassSubject.asObservable();
 
@@ -55,20 +53,19 @@ export class TestPassService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
-  saveTestPass(testPass?:TestPass) {
+  saveTestPass(testPass?: TestPass) {
     if (!testPass.id) {
-       delete testPass.id;
+      delete testPass.id;
     }
     const saveObservable$ = testPass.id ? this.http
-      .put(this.rootUrl, testPass) : this.http
-      .post(this.rootUrl, testPass);
+      .put<TestPass>(this.rootUrl, testPass) : this.http
+      .post<TestPass>(this.rootUrl, testPass);
 
     saveObservable$.pipe(
       catchError(err => this.errorHandler.handleError(err)))
-      .subscribe();
-    this.saveTestPassSubject.next(testPass);
-  }
+      .subscribe(x => this.saveTestPassSubject.next(x));
 
+  }
 
 
 }

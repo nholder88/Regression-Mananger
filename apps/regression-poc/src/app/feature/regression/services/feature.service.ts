@@ -49,6 +49,7 @@ export class FeatureService {
       .post<FeatureScenarioContainer>(this.rootUrl, featureScenarioContainer);
 
     saveObservable$.pipe(
+
       catchError(err => this.errorHandler.handleError(err)))
       .subscribe( x=>
     this.saveFeatureSubject.next(x));

@@ -11,8 +11,8 @@ import { ScenarioResultDto } from '../../Models/scenarioResult';
 @Crud({
   model: {
     type: ScenarioResultDto,
-  },routes:{exclude:['createManyBase', 'replaceOneBase', 'replaceOneBase']},
-  query:{ join:{},maxLimit:100 }
+  },routes:{exclude:[ 'replaceOneBase', 'replaceOneBase']},
+  query:{ join:{scenario:{}, testPass:{}},maxLimit:100 }
 })
 @ApiTags('Scenario Result')
 @Controller('ScenarioResult')

@@ -5,6 +5,7 @@ import {catchError,  map,  shareReplay, tap} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { Scenario} from '@qa/api-interfaces';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class ScenarioService {
   ) {
   }
 
-  private rootUrl = 'api/scenario';
+  private rootUrl = `${environment.apiUrl}/scenario`;
 
   scenarios$ = this.http.get<Scenario[]>(`${this.rootUrl}?join=feature`).pipe(
     tap(x=> console.log("scenario svc: ", x)),

@@ -7,6 +7,7 @@ import { combineLatest } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ScenarioResult } from '@qa/api-interfaces';
 import { FormBuilder } from '@angular/forms';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class ScenarioResultService {
               private errorHandler: ErrorHandlingService) {
   }
 
-  private rootUrl = 'api/ScenarioResult';
+  private rootUrl = `${environment.apiUrl}/ScenarioResult`;
 
   selectedTestPassChanged(testPassId: string) {
     this.testPassService.selectedTestPassChanged(testPassId);
@@ -30,9 +31,12 @@ export class ScenarioResultService {
     this.scenarioService.selectedFeatureChanged(featureId);
   }
 
-  saveResults(data) {
-    console.log("save results", data)
+  saveResults(data: ScenarioResult[]) {
+    this.http.post(`${this.rootUrl}/bulk`,{bulk: data}).pipe(
+      catchError(err => this.errorHandler.handleError(err)))
+      .subscribe(x => console.log('save results', x));
   }
+
 //Todo: this needs to get the existing test pass data and mash it together.
   scenarioResultForTestPass$ =
     combineLatest([
@@ -42,21 +46,21 @@ export class ScenarioResultService {
       map(([testPass, scenarios]) => {
         return scenarios.map(x => {
           let s = new ScenarioResult();
+          delete s.id;
+          // todo: need to handle case when ids are passed in.
           s.scenario = x;
           s.testPass = testPass;
           return s;
-        })
+        });
       }),
-      tap(x => console.log("Result mapping result", x)),
+
       map(x => {
-        let formGroups=  x.map(s=> this.formBuilder.group(s))
-        console.log("Form mapping ", formGroups)
+        let formGroups = x.map(s => this.formBuilder.group(s));
         return this.formBuilder.array(formGroups);
-        //this.scenarioForm.patchValue( x);
       }),
       tap(x => console.log("Result mapping Form", x)),
       catchError(this.errorHandler.handleError)
-    )
+    );
 
 
   saveScenarioResults(scenarioResults: ScenarioResult[]) {

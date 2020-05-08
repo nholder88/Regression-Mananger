@@ -39,9 +39,11 @@ export class RegressionTestingComponent implements OnInit {
     this.scenarioForm= x)
   }
 
-  saveScenarioResults(data) {
-    this.scenarioResultService.saveResults(data);
-    console.log('Scenario Results Saved.', this.scenarioConfigForm.value, this.scenarioForm.value);
+  saveScenarioResults() {
+    //Todo: Map each item to take the config data and update the property as needed.
+
+    this.scenarioResultService.saveResults(this.scenarioForm.value);
+    console.log('Scenario Results Saved.', this.scenarioConfigForm.value,this.scenarioForm.value );
   }
 
   completeTestRun() {
