@@ -1,4 +1,5 @@
 import { ISteps, Steps } from './Steps';
+import {IFeatureScenarioContainer} from "./FeatureScenarioContainer";
 
 export interface IScenario {
   //feature: string,
@@ -14,7 +15,7 @@ export interface IScenario {
 export class Scenario implements IScenario {
   enable: boolean= false;
   constructor(
-    public feature: string,
+    public feature: IFeatureScenarioContainer,
     public name: string,
     public result: boolean = false,
     public steps: Steps[] = [],

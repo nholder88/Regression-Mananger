@@ -4,12 +4,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ClarityModule } from '@clr/angular';
 import { ApplicationHeaderComponent } from '../app/home/layout/application-header.component';
 import { LoginComponent } from './login/login.component';
+import { AsyncFormModelDirective } from './directives/async-form-model.directive';
 
 
 
 @NgModule({
   declarations: [
-    LoginComponent],
+    LoginComponent,
+    AsyncFormModelDirective],
   exports: [
     LoginComponent
   ],

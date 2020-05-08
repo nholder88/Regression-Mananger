@@ -9,7 +9,61 @@ import { FeatureScenarioContainer, TestPass } from '@qa/api-interfaces';
 
 @Component({
   selector: 'qa-regression-test-pass-form',
-  templateUrl: './regression-test-pass-form.component.html'
+  template: `<button
+    style="align-self: end"
+    class="btn btn-sm btn-outline"
+    (click)="xlOpen = !xlOpen"
+  >
+    Add Regression Test Pass
+  </button>  <clr-wizard #wizardxl [(clrWizardOpen)]="xlOpen">
+    <clr-wizard-title>Create New Regression</clr-wizard-title>
+
+    <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+    <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+    <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+    <clr-wizard-button [type]="'finish'" (click)="onFinish()"
+    >Finish</clr-wizard-button
+    >
+    <clr-wizard-page>
+      <ng-template clrPageTitle>Test Pass </ng-template>
+      <form clrForm [formGroup]="testPassForm">
+        <clr-input-container>
+          <label>Test Pass Title</label>
+          <input clrInput placeholder="Test Pass Name" name="name" formControlName="title" />
+        </clr-input-container>
+        <clr-select-container>
+          <label>Please select a Regression</label>
+          <select clrSelect name="options" formControlName="Header">
+            <option
+              *ngFor="let regression of regressions$ | async"
+              [value]="regression.id"
+            >{{ regression.name }}</option
+            >
+          </select>
+        </clr-select-container>
+      </form>
+   </clr-wizard-page>
+    <clr-wizard-page>
+      <ng-template clrPageTitle>Test Areas</ng-template>
+      <clr-tree>
+        <clr-tree-node [clrExpanded]="true">
+          Areas to Test
+          <clr-tree-node
+            *ngFor="let feature of features"
+            [clrExpanded]="false"
+          >
+            {{ feature.name }}  ({{feature.team}})
+            <clr-tree-node
+              *ngFor="let scenarios of feature.scenarios"
+              [(clrSelected)]="scenarios.enable"
+            >
+              {{ scenarios.name }}
+            </clr-tree-node>
+          </clr-tree-node>
+        </clr-tree-node>
+      </clr-tree>
+    </clr-wizard-page>
+  </clr-wizard>`
 
 })
 export class RegressionTestPassFormComponent implements OnInit {
@@ -25,7 +79,7 @@ export class RegressionTestPassFormComponent implements OnInit {
   // @ts-ignore
   @ViewChild('wizardxl') wizardExtraLarge: ClrWizard;
   xlOpen = false;
-  selectedFeatures = [];
+
 
 
   testPassModel: TestPass = new TestPass([],
@@ -42,7 +96,7 @@ export class RegressionTestPassFormComponent implements OnInit {
   }
 
   onFinish() {
-    console.log(this.features);
+
 // Manually get the array and only add those that have been added
     let featureScenarioContainers = this.features.map(feature => {
       // Check if this has any scenarios to add

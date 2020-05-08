@@ -17,7 +17,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./feature/admin/admin.module').then(a => a.AdminModule)
   },
-  { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+  { path: '', redirectTo: 'regression', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

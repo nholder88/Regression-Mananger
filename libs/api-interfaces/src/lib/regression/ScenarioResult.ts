@@ -1,4 +1,4 @@
-import { IScenario, ITestPass } from '@qa/api-interfaces';
+import {IScenario, ITestPass, Scenario} from '@qa/api-interfaces';
 
 
 export interface IScenarioResult{
@@ -23,16 +23,16 @@ export interface IScenarioResult{
 export class ScenarioResult implements IScenarioResult{
   constructor() {
   }
-  bugCreated: boolean;
-  completedBy: string;
-  completedSteps: Array<number>;
-  id: string;
-  notes: string;
-  scenario: IScenario;
-  status: string;
+  bugCreated: boolean=false;
+  completedBy: string="";
+  completedSteps: Array<number>=[];
+  id: string="";
+  notes: string="";
+  scenario: Scenario;
+  status: string="";
   testPass: ITestPass;
-  timestamp: Date;
-  testingLoginUserName: string;
-  testingRole: string;
+  timestamp: Date= new Date();
+  testingLoginUserName: string="";
+  testingRole: string="";
 
 }

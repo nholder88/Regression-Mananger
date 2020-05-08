@@ -11,7 +11,7 @@ import { FeatureDto } from '../../Models/feature.dto';
   model: {
     type: FeatureDto
   },routes:{exclude:['createManyBase', 'replaceOneBase', 'replaceOneBase']},
-  query:{ join:{scenarios:{}, steps:{}},maxLimit:100 }
+  query:{ join:{scenarios:{eager:true }, "scenarios.steps":{eager:true}},maxLimit:100}
 })
 @ApiTags('Feature')
 @Controller('Feature')
