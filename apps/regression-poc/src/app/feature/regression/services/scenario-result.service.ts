@@ -51,13 +51,9 @@ export class ScenarioResultService {
       catchError(this.errorHandler.handleError)
     )
 
-  getScenarioForm() {
-    let form;
-    this.scenarioResultForTestPass$.pipe(tap(c=> console.log(c))).subscribe(d => {
-        form = this.formBuilder.group(d);
-        return form;
-      }
-    )
+
+  saveScenarioResults(scenarioResults: ScenarioResult[]) {
+
 
   }
 

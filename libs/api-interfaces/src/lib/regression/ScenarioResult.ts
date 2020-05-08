@@ -23,16 +23,16 @@ export interface IScenarioResult{
 export class ScenarioResult implements IScenarioResult{
   constructor() {
   }
-  bugCreated: boolean;
-  completedBy: string;
-  completedSteps: Array<number>;
-  id: string;
-  notes: string;
+  bugCreated: boolean=false;
+  completedBy: string="";
+  completedSteps: Array<number>=[];
+  id: string="";
+  notes: string="";
   scenario: Scenario;
-  status: string;
+  status: string="";
   testPass: ITestPass;
-  timestamp: Date;
-  testingLoginUserName: string;
-  testingRole: string;
+  timestamp: Date= new Date();
+  testingLoginUserName: string="";
+  testingRole: string="";
 
 }
