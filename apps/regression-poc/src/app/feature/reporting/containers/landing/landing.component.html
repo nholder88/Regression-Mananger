@@ -1,12 +1,14 @@
 <h2>Regression Overview</h2>
-<span class="spinner spinner-inverse" *ngIf="!reportData$">
+
+
+<span class="spinner spinner-inverse" *ngIf="!(reportData$|async)">
       Loading...
     </span>
 
 <ng-container *ngIf="reportData$|async as reportData">
-  <qa-bar-graph>
-  </qa-bar-graph>
-  <qa-datatable></qa-datatable>
+  <qa-graph [gridData]="reportData">
+  </qa-graph>
+  <qa-datatable [gridData]="reportData"></qa-datatable>
 
 </ng-container>
 
