@@ -4,7 +4,7 @@ import { ErrorHandlingService } from '../../../../Shared/services/error-handling
 import { TestPassService } from './testpass.service';
 import { ScenarioService } from './scenario.service';
 import { combineLatest } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, delay, map, tap } from 'rxjs/operators';
 import { ScenarioResult } from '@qa/api-interfaces';
 import { FormBuilder } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
@@ -63,10 +63,10 @@ export class ScenarioResultService {
     );
 
 
-  saveScenarioResults(scenarioResults: ScenarioResult[]) {
-
-
-  }
+reportData$= this.http.get<ScenarioResult[]>(this.rootUrl+`?join=scenario&join=testPass`).pipe(
+  delay(1000),
+  tap(x=> console.log("Reporting Data", x ))
+)
 
 
 }
