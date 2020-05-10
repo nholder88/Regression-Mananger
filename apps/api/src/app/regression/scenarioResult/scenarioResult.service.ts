@@ -7,6 +7,7 @@ import { ScenarioResultDto } from '../../Models/scenarioResult';
 
 @Injectable()
 export class ScenarioResultService extends TypeOrmCrudService<ScenarioResultDto> {
+
   constructor(@InjectRepository(ScenarioResultDto) repository) {
     super(repository);
   }

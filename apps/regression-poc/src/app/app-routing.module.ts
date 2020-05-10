@@ -17,6 +17,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./feature/admin/admin.module').then(a => a.AdminModule)
   },
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./feature/reporting/reporting.module').then(r => r.ReportingModule)
+  },
   { path: '', redirectTo: 'regression', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
