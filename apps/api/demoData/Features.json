@@ -26,41 +26,58 @@
 
     }]
 },
-{ "id": "237ccd68-376d-437b-a630-d244db766d39",
-  "name":"CQM",
-  "team":"OD",
+  {"name":"Visual Acuity ",
+  "team":"OU",
   "scenarios":[
+  {
+    "name": "Visual Acuity Control Loads",
+    "order":1,
+    "steps":
+    [
+      {"name": "Open Chart",
+        "order": 1
+      },
+      {"name": "Select the Visual Acuity link in V & P.",
+        "order": 2
+      },
+      {"name": "Verify that the Visual Acuity control displays.",
+        "order": 3
+      }
+    ]
+
+  },
     {
-      "name": "CQM Appears",
-      "order":1,
+      "name": "Visual Acuity Control Saves",
+      "order":2,
       "steps":
       [
-        {"name": "set things up ",
+        {"name": "Open Chart",
           "order": 1
         },
-        {"name": "DO stuff ",
+        {"name": "Select the Visual Acuity link in V & P.",
           "order": 2
         },
-        {"name": "It works",
+        {"name": "Verify that the Visual Acuity control displays.",
           "order": 3
+        },
+        {"name": "Enter the visual acuity for the patient. Be sure to complete all fields for OD, OS and OU.",
+          "order": 4
+        },
+        {"name": "Once complete, select the grey space to the left to close the control.",
+          "order": 5
+        },
+        {"name": "Verify that the information is saved. ",
+          "order": 5
+        },
+        {"name": "Verify the control closes and the summary information displays.",
+          "order": 6
+        },
+
+        {"name": "Verify summary information displays.",
+          "order": 7
         }
       ]
 
-    },
-    {
-      "name": "CQM Calc",
-      "order":1,
-      "steps":
-      [
-        {"name": "set things up ",
-          "order": 1
-        },
-        {"name": "DO stuff ",
-          "order": 2
-        },
-        {"name": "It works",
-          "order": 3
-        }
-      ]
+    }
 
-    }]}]
+]}]
