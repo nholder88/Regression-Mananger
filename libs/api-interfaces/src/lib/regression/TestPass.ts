@@ -1,18 +1,22 @@
-import { FeatureScenarioContainer, IFeatureScenarioContainer } from './FeatureScenarioContainer';
+import {
+  FeatureScenarioContainer,
+  IFeatureScenarioContainer
+} from './FeatureScenarioContainer';
+import { IScenarioResult } from './ScenarioResult';
 
 //This is the listing in the regression that we look at to see the test passes that are done
 export interface ITestPass {
-     featureScenarioContainers: IFeatureScenarioContainer[],
-     creator: string,
-     timeStamp: Date,
-     isComplete: boolean,
-     isStarted: boolean,
-  title:string,
-     id: string
+  featureScenarioContainers: IFeatureScenarioContainer[];
+  creator: string;
+  timeStamp: Date;
+  isComplete: boolean;
+  isStarted: boolean;
+  title: string;
+  id: string;
 }
 
-
-export class TestPass implements ITestPass{
+export class TestPass implements ITestPass {
+  results: IScenarioResult[];
   constructor(
     public featureScenarioContainers: FeatureScenarioContainer[],
     public creator: string,
@@ -20,7 +24,7 @@ export class TestPass implements ITestPass{
     public isComplete: boolean,
     public isStarted: boolean,
     public id: string = null,
-    public title:string= '',
-    public Header:string= null
+    public title: string = '',
+    public Header: string = null
   ) {}
 }
