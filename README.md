@@ -2,8 +2,9 @@
 
 This project was generated using [Nx](https://nx.dev).
 
-## Code Checks 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e8e825d4c8fb460696312a295f0a8e9d)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nholder88/Regression-Mananger&amp;utm_campaign=Badge_Grade)
+## Code Checks
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e8e825d4c8fb460696312a295f0a8e9d)](https://www.codacy.com?utm_source=github.com&utm_medium=referral&utm_content=nholder88/Regression-Mananger&utm_campaign=Badge_Grade)
 
 [![Build Status](https://dev.azure.com/nholder/Regression%20Manager/_apis/build/status/nholder88.Regression-Mananger?branchName=develop)](https://dev.azure.com/nholder/Regression%20Manager/_apis/build/status/nholder88.Regression-Mananger?branchName=develop)
 
@@ -24,17 +25,17 @@ Run `cd qa; npm install; npm run dev;` to run the API and UI at the same time on
 - Create Regression Page - Done
 - Create Regression Test Pass Page - Done
 - Create Regression Test Pass Create Page - Done
-- Create Endpoints For UI
-- Hook up Endpoints to UI
-- Add authentication
+- Create Endpoints For UI - Done
+- Hook up Endpoints to UI - Done
+- Add authentication - Done
 - Add Test Import Page for Data Seeding
-- Add CI for UI
-- Add CI for API
+- Add CI for UI - Done
+- Add CI for API - Done
 - Add E2E Testing for Release Validation
 
 ### Phase II
 
-- Create Reporting Page
+- Create Reporting Page - Done
 - Create User Roles
 - Add Admin Pages for Managing Tests, Users, Regressions
 
