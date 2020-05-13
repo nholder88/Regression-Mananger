@@ -41,13 +41,10 @@ export class RegressionTestingComponent implements OnInit {
 
   saveScenarioResults() {
     //Todo: Map each item to take the config data and update the property as needed.
-
     this.scenarioResultService.saveResults(this.scenarioForm.value);
-    console.log('Scenario Results Saved.', this.scenarioConfigForm.value,this.scenarioForm.value );
-  }
+    }
 
   completeTestRun() {
-    console.log('Test Run Completed');
     this.router.navigateByUrl('/regression/listing');
   }
 /*todo: Create the unsubscribe here*/

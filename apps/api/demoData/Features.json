@@ -72,7 +72,6 @@
         {"name": "Verify the control closes and the summary information displays.",
           "order": 6
         },
-
         {"name": "Verify summary information displays.",
           "order": 7
         }
