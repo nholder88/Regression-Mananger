@@ -17,7 +17,8 @@ import { TestPassDto } from '../../Models/testPass.dto';
     join: {
       Header: { eager: false },
       featureScenarioContainers: { eager: true },
-      results: { eager: true }
+      results: { eager: false },
+      'results.scenario': { eager: false, alias: 'scenario' }
     },
     maxLimit: 100
   }
