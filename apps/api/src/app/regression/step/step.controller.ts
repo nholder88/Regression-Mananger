@@ -6,12 +6,15 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { StepDto } from '../../Models/step.dto';
 import { StepService } from './step.service';
 
-
 @Crud({
   model: {
-    type: StepDto,
-  },routes:{exclude:[ 'replaceOneBase', 'replaceOneBase']},
-  query:{ join:{},maxLimit:100 }
+    type: StepDto
+  },
+  routes: { exclude: ['replaceOneBase', 'replaceOneBase'] },
+  params: {
+    id: { field: 'id', type: 'string', primary: true }
+  },
+  query: { join: {}, maxLimit: 100 }
 })
 @ApiTags('Step')
 @Controller('Step')

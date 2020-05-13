@@ -7,9 +7,20 @@ import { TestPassDto } from '../../Models/testPass.dto';
 
 @Crud({
   model: {
-    type: TestPassDto,
-  },routes:{exclude:['createManyBase', 'replaceOneBase', 'replaceOneBase']},
-  query:{ join:{Header:{eager:false}, featureScenarioContainers:{eager:true}},maxLimit:100 }
+    type: TestPassDto
+  },
+  routes: { exclude: ['createManyBase', 'replaceOneBase', 'replaceOneBase'] },
+  params: {
+    id: { field: 'id', type: 'string', primary: true }
+  },
+  query: {
+    join: {
+      Header: { eager: false },
+      featureScenarioContainers: { eager: true },
+      results: { eager: true }
+    },
+    maxLimit: 100
+  }
 })
 @ApiTags('TestPass')
 @Controller('TestPass')

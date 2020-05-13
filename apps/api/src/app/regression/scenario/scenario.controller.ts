@@ -6,12 +6,22 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { ScenarioDto } from '../../Models/scenario.dto';
 import { ScenarioService } from './scenario.service';
 
-
 @Crud({
   model: {
-    type: ScenarioDto,
-  },routes:{exclude:[ 'replaceOneBase', 'replaceOneBase']},
-  query:{ join:{steps:{eager:true}, feature:{}},sort:[{field:"order", order:'ASC'},{field:"steps.order",order:"ASC"}],maxLimit:100 }
+    type: ScenarioDto
+  },
+  routes: { exclude: ['replaceOneBase', 'replaceOneBase'] },
+  params: {
+    id: { field: 'id', type: 'string', primary: true }
+  },
+  query: {
+    join: { steps: { eager: true }, feature: {} },
+    sort: [
+      { field: 'order', order: 'ASC' },
+      { field: 'steps.order', order: 'ASC' }
+    ],
+    maxLimit: 100
+  }
 })
 @ApiTags('Scenario')
 @Controller('Scenario')

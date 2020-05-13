@@ -8,21 +8,22 @@ import { RegressionHeaderDto } from '../../Models/regression-header.dto';
 @Crud({
   model: {
     type: RegressionHeaderDto
-  }, routes: {exclude:['createManyBase', 'replaceOneBase', 'replaceOneBase']},
+  },
+  routes: { exclude: ['createManyBase', 'replaceOneBase', 'replaceOneBase'] },
+  params: {
+    id: { field: 'id', type: 'string', primary: true }
+  },
   query: {
     join: {
-      testPasses:
-        {
-          eager: true
-        }
+      testPasses: {
+        eager: true
+      }
     }
   }
 })
-
 @ApiTags('Regression Header')
 @Controller('Header')
 @UseGuards(JwtAuthGuard)
 export class RegressionHeaderController {
-  constructor(public service: RegressionHeaderService) {
-  }
+  constructor(public service: RegressionHeaderService) {}
 }
