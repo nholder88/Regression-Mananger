@@ -4,9 +4,9 @@ import { ErrorHandlingService } from '../../../../Shared/services/error-handling
 import { TestPassService } from './testpass.service';
 import { ScenarioService } from './scenario.service';
 import { combineLatest, Observable } from 'rxjs';
-import { catchError, delay, map, tap } from 'rxjs/operators';
-import { ScenarioResult, TestPass } from '@qa/api-interfaces';
-import { FormBuilder, FormArray } from '@angular/forms';
+import { catchError, map, tap } from 'rxjs/operators';
+import { ScenarioResult } from '@qa/api-interfaces';
+import { FormArray, FormBuilder } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -29,7 +29,6 @@ export class ScenarioResultService {
     this.scenarioService.selectedFeatureScenarios$
   ]).pipe(
     tap(x => console.log('scenarioResultForTestPass', x)),
-
     map(([testPass, scenarios]) => {
       //Need to check if the selected feature scenarios are in the listing as well
 
@@ -45,7 +44,6 @@ export class ScenarioResultService {
           return s;
         });
     }),
-
     map(x => {
       const formGroups = x.map(s => this.formBuilder.group(s));
       return this.formBuilder.array(formGroups);
@@ -57,7 +55,6 @@ export class ScenarioResultService {
   reportData$ = this.http
     .get<ScenarioResult[]>(this.rootUrl + `?join=scenario&join=testPass`)
     .pipe(
-      delay(1000),
       tap(x => console.log('Reporting Data', x))
     );
 
