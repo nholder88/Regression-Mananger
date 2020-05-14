@@ -1,7 +1,7 @@
-import {IScenario, ITestPass, Scenario} from '@qa/api-interfaces';
+import { IScenario, ITestPass, Scenario } from '@qa/api-interfaces';
 
 
-export interface IScenarioResult{
+export interface  IScenarioResult{
 
   id:string;
   timestamp:Date;
@@ -29,7 +29,7 @@ export class ScenarioResult implements IScenarioResult{
   id: string="";
   notes: string="";
   scenario: Scenario;
-  status: string="";
+  status: string="Untested";
   testPass: ITestPass;
   timestamp: Date= new Date();
   testingLoginUserName: string="";

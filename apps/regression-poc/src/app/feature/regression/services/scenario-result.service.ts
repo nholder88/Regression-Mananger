@@ -28,7 +28,6 @@ export class ScenarioResultService {
     this.testPassService.selectedTestPass$,
     this.scenarioService.selectedFeatureScenarios$
   ]).pipe(
-    tap(x => console.log('scenarioResultForTestPass', x)),
     map(([testPass, scenarios]) => {
       //Need to check if the selected feature scenarios are in the listing as well
 
@@ -48,7 +47,7 @@ export class ScenarioResultService {
       const formGroups = x.map(s => this.formBuilder.group(s));
       return this.formBuilder.array(formGroups);
     }),
-    tap(x => console.log('Result mapping Form', x)),
+
     catchError(this.errorHandler.handleError)
   );
 
