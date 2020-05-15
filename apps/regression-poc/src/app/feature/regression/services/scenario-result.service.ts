@@ -35,39 +35,42 @@ export class ScenarioResultService {
   ]).pipe(
     map(([scenarioResults, scenarios, testPass]) => {
 
-      const selectedFeatureResults = scenarioResults?.filter(s => scenarios.indexOf(s.scenario) > -1);
-      if (selectedFeatureResults.length > 0) {
-        return selectedFeatureResults;
-      } else
-        return scenarios.map(x => {
+      return scenarios.map(x => {
+        // find result that goes with scenario
+        const existing = scenarioResults.find(sc => sc.scenario.id == x.id);
+        if (existing) {
+          return existing;
+        } else {
           const s = new ScenarioResult();
           delete s.id;
           s.scenario = x;
           s.testPass = testPass;
           return s;
-        });
+        }
+      });
     }),
     map(x => {
+      console.log('form input', x);
       const formGroups = x.map(s => this.formBuilder.group(s));
       return this.formBuilder.array(formGroups);
     }),
-tap(x => console.log(x)),
     catchError(this.errorHandler.handleError)
   );
 
   reportData$ = this.http
-    .get<ScenarioResult[]>(`${this.rootUrl }?join=scenario&join=testPass`)
+    .get<ScenarioResult[]>(`${this.rootUrl}?join=scenario&join=testPass`)
     .pipe(
       tap(x => console.log('Reporting Data', x))
     );
 
   selectedTestPassChanged(testPassId: string) {
-    if(testPassId) {
+    if (testPassId) {
       this.http.get<ScenarioResult[]>(`${this.rootUrl}?join=scenario&join=testPass&filter=testPass.id||$eq||${testPassId}`)
         .subscribe(testPass => this.testPassChangedSubject.next(testPass));
       this.testPassService.selectedTestPassChanged(testPassId);
+    } else {
+      this.testPassChangedSubject.next(null);
     }
-    else{this.testPassChangedSubject.next(null)}
   }
 
   saveResults(data: ScenarioResult[]) {

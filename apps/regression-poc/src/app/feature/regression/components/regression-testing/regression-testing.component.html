@@ -75,7 +75,7 @@
     <span class="spinner spinner-inverse" *ngIf="!scenarioResultData$">
       Loading...
     </span>
-    <div class="clr-row" *ngIf="scenarioForm.length>0 ">
+    <div class="clr-row" >
       <div class="clr-col" *ngFor="let result of scenarioForm.controls; index as i" >
         <div class="card" [formGroup]="result">
           <div class="card-header">

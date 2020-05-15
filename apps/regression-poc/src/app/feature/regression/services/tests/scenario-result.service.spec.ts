@@ -122,30 +122,21 @@ describe('ScenarioResultService', () => {
           const controlValue = control.value;
           // verify
           expect(controlValue.status).toBe('Passed');
-          expect(controlValue.id).toBeTruthy();
+          expect(controlValue.notes).toBe('Check this.');
+          expect(controlValue.id).toBe('id');
         });
       })
         // verify
         expect(testPassServiceMock.selectedTestPassChanged).toBeCalled();
         const req = httpTestingController.expectOne(`${environment.apiUrl}/ScenarioResult?join=scenario&join=testPass&filter=testPass.id||$eq||ID`);
-
-
+        const existing = new ScenarioResult();
+        existing.id='id';
+        existing.status='Passed';
+        existing.notes='Check this.'
+        existing.scenario=new Scenario(undefined, 'Test Scenario', undefined, [], undefined, undefined, 1, 'id')
         req.flush([new ScenarioResult()]);
       });
 
-
-    it('should return the existing and blank results accurately', () => {
-      service.selectedTestPassChanged('ID');
-
-      // make call
-      service.scenarioResultForTestPass$.subscribe(results => {
-        expect(results.controls.length).toBeGreaterThan(0);
-      });
-      // verify
-      const req = httpTestingController.expectOne(`${environment.apiUrl}/ScenarioResult?join=scenario&join=testPass&filter=testPass.id||$eq||ID`);
-      expect(req.request.method).toEqual('GET');
-      req.flush([]);
-    });
   });
 
 

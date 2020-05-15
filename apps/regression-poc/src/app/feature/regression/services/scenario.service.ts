@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, combineLatest,  Observable,} from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
-import {catchError,  map,  shareReplay, tap} from 'rxjs/operators';
+import { catchError, map, publishReplay, refCount, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
-import { Scenario} from '@qa/api-interfaces';
+import { Scenario } from '@qa/api-interfaces';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -21,8 +21,9 @@ export class ScenarioService {
 
   scenarios$ = this.http.get<Scenario[]>(`${this.rootUrl}?join=feature`).pipe(
     tap(x=> console.log("scenario svc: ", x)),
-    catchError(this.errorHandler.handleError),
-    shareReplay(1, 6000)
+    publishReplay(1),
+    refCount(),
+    catchError(this.errorHandler.handleError)
   );
 
 
@@ -37,8 +38,7 @@ export class ScenarioService {
   ]).pipe(
     map(([scenarios, featureId]) =>
       scenarios.filter( x=> x.feature?.id===featureId)
-    ),
-    tap(feature => console.log('Selected Scenarios For Feature', feature))
+    )
   );
 
   selectedFeatureChanged(selectedFeatureName: string): void {
