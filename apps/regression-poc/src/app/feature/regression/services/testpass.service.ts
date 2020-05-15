@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
-import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
-import { catchError, delay, map, scan, shareReplay, tap } from 'rxjs/operators';
+import { BehaviorSubject, merge, Subject } from 'rxjs';
+import { catchError, scan, tap } from 'rxjs/operators';
 import { TestPass } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
@@ -43,7 +43,7 @@ export class TestPassService {
       // get the scenario results with this test pass
       this.http
         .get<TestPass>(
-          this.rootUrl + `/${id}?join=results&join=results.scenario`
+          this.rootUrl + `/${id}?join=results`
         )
         .pipe(
           // shareReplay(1, 150),

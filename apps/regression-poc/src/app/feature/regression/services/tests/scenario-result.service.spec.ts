@@ -39,6 +39,7 @@ describe('ScenarioResultService', () => {
     });
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(ScenarioResultService);
+
   });
   afterEach(() => {
     httpTestingController.verify();
@@ -69,63 +70,83 @@ describe('ScenarioResultService', () => {
     });
   });
   describe('Test Pass result retrieval', () => {
+    it('should trigger call to api', function() {
+      service.selectedTestPassChanged('ID');
+
+      // verify
+      service.testPassSelectedAction$.subscribe(results=> expect(results.length).toBe(1))
+      expect(testPassServiceMock.selectedTestPassChanged).toBeCalled();
+      const req = httpTestingController.expectOne(`${environment.apiUrl}/ScenarioResult?join=scenario&join=testPass&filter=testPass.id||$eq||ID`);
+      expect(req.request.method).toEqual('GET');
+      req.flush([new ScenarioResult()]);
+    });
 
     it('should call the correct endpoint ', () => {
       // make call
+      service.selectedTestPassChanged('ID');
       service.scenarioResultForTestPass$.subscribe(results => {
         expect(results.controls.length).toBeGreaterThan(0);
       });
       // verify
-      const req = httpTestingController.expectOne(`${environment.apiUrl}/ScenarioResult?join=scenario&join=testPass&&filter=testPass.id||$eq||ID`);
+      expect(testPassServiceMock.selectedTestPassChanged).toBeCalled();
+      const req = httpTestingController.expectOne(`${environment.apiUrl}/ScenarioResult?join=scenario&join=testPass&filter=testPass.id||$eq||ID`);
       expect(req.request.method).toEqual('GET');
       req.flush([]);
     });
 
-    it('should return the blank results for each scenario returned', () => {
+    it('should return the blank form array for each scenario returned', () => {
 
       // make call
+      service.selectedTestPassChanged('ID');
       service.scenarioResultForTestPass$.subscribe(results => {
         expect(results.controls.length).toBeGreaterThan(0);
-        results.controls.forEach( control=>
-        {
-          const controlValue= control.value;
+        results.controls.forEach(control => {
+          const controlValue = control.value;
           // verify
-          expect(controlValue.status).toBe("Untested")
-          expect(controlValue.id).toBeUndefined()
-        })
-       console.log(results[0].value)
+          expect(controlValue.status).toBe('Untested');
+          expect(controlValue.id).toBeFalsy();
+        });
       });
 
-     const req = httpTestingController.expectOne(`${environment.apiUrl}/ScenarioResult?join=scenario&join=testPass&&filter=testPass.id||$eq||ID`);
-           req.flush([]);
+      const req = httpTestingController.expectOne(`${environment.apiUrl}/ScenarioResult?join=scenario&join=testPass&filter=testPass.id||$eq||ID`);
+      req.flush([]);
     });
-
 
     it('should return the existing results for each scenario returned', () => {
 
 
-      // make call
+      service.selectedTestPassChanged('ID');
       service.scenarioResultForTestPass$.subscribe(results => {
         expect(results.controls.length).toBeGreaterThan(0);
+        results.controls.forEach(control => {
+          const controlValue = control.value;
+          // verify
+          expect(controlValue.status).toBe('Passed');
+          expect(controlValue.id).toBeTruthy();
+        });
+      })
+        // verify
+        expect(testPassServiceMock.selectedTestPassChanged).toBeCalled();
+        const req = httpTestingController.expectOne(`${environment.apiUrl}/ScenarioResult?join=scenario&join=testPass&filter=testPass.id||$eq||ID`);
+
+
+        req.flush([new ScenarioResult()]);
       });
-      // verify
-      const req = httpTestingController.expectOne(`${environment.apiUrl}/ScenarioResult?join=scenario&join=testPass&&filter=testPass.id||$eq||ID`);
-      expect(req.request.method).toEqual('GET');
-      req.flush([]);
-    });
+
 
     it('should return the existing and blank results accurately', () => {
-
+      service.selectedTestPassChanged('ID');
 
       // make call
       service.scenarioResultForTestPass$.subscribe(results => {
         expect(results.controls.length).toBeGreaterThan(0);
       });
       // verify
-      const req = httpTestingController.expectOne(`${environment.apiUrl}/ScenarioResult?join=scenario&join=testPass&&filter=testPass.id||$eq||ID`);
+      const req = httpTestingController.expectOne(`${environment.apiUrl}/ScenarioResult?join=scenario&join=testPass&filter=testPass.id||$eq||ID`);
       expect(req.request.method).toEqual('GET');
       req.flush([]);
     });
   });
+
 
 });
