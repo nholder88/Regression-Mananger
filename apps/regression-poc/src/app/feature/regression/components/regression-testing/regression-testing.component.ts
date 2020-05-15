@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ScenarioResultService } from '../../services/scenario-result.service';
 import { FormArray, FormBuilder } from '@angular/forms';
 import { ScenarioResult, Steps } from '@qa/api-interfaces';
-
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'qa-regression-testing',
@@ -24,31 +24,33 @@ export class RegressionTestingComponent implements OnInit {
     private testPassService: TestPassService,
     private scenarioResultService: ScenarioResultService,
     private formBuilder: FormBuilder
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     let testPassId = this.route.snapshot.paramMap.get('id');
     this.scenarioResultService.selectedTestPassChanged(testPassId);
-    this.scenarioConfigForm = this.formBuilder.group({ testingLogin: '', tester: '', role: '' });
+    this.scenarioConfigForm = this.formBuilder.group({
+      testingLogin: '',
+      tester: '',
+      role: ''
+    });
   }
 
   changeFeature(featureName) {
     this.scenarioResultService.selectedFeatureChanged(featureName);
-    this.scenarioResultData$.subscribe(x=>
-    this.scenarioForm= x)
+    this.scenarioResultData$.subscribe(x => {
+      return (this.scenarioForm = x);
+    });
   }
 
   saveScenarioResults() {
     //Todo: Map each item to take the config data and update the property as needed.
     this.scenarioResultService.saveResults(this.scenarioForm.value);
-    }
+  }
 
   completeTestRun() {
     this.router.navigateByUrl('/regression/listing');
   }
-/*todo: Create the unsubscribe here*/
-  toggleStepCompleted(step: Steps, result: ScenarioResult) {
-
-  }
+  /*todo: Create the unsubscribe here*/
+  toggleStepCompleted(step: Steps, result: ScenarioResult) {}
 }
