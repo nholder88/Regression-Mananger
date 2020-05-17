@@ -6,6 +6,7 @@ import { RegressionHeaderService } from '../../services/regression-header.servic
 import { TestPassService } from '../../services/testpass.service';
 import { FeatureService } from '../../services/feature.service';
 import { FeatureScenarioContainer, TestPass } from '@qa/api-interfaces';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'qa-regression-test-pass-form',
@@ -85,7 +86,9 @@ export class RegressionTestPassFormComponent implements OnInit {
   testPassModel: TestPass = new TestPass([],
     this.userService.getLoggedInUser(), new Date(), false, false);
   testPassForm: FormGroup;
-  regressions$ = this.regressionService.regressionWithAdd$;
+  regressions$ = this.regressionService.regressionWithAdd$.pipe(
+    map(x=> x.filter(s=> !s.isComplete))
+  );
   features$ = this.featureService.featureWithAdd$;
   features: FeatureScenarioContainer[];
 

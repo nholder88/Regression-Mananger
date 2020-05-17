@@ -39,6 +39,8 @@ export class ScenarioResultService {
         // find result that goes with scenario
         const existing = scenarioResults.find(sc => sc.scenario.id == x.id);
         if (existing) {
+          existing.scenario = x;
+          existing.testPass = testPass;
           return existing;
         } else {
           const s = new ScenarioResult();
@@ -66,8 +68,11 @@ export class ScenarioResultService {
   selectedTestPassChanged(testPassId: string) {
     if (testPassId) {
       this.http.get<ScenarioResult[]>(`${this.rootUrl}?join=scenario&join=testPass&filter=testPass.id||$eq||${testPassId}`)
-        .subscribe(testPass => this.testPassChangedSubject.next(testPass));
-      this.testPassService.selectedTestPassChanged(testPassId);
+        .subscribe(testPass => {
+          this.testPassChangedSubject.next(testPass);
+          this.testPassService.selectedTestPassChanged(testPassId);
+        });
+
     } else {
       this.testPassChangedSubject.next(null);
     }

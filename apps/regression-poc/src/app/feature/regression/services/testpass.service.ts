@@ -19,7 +19,7 @@ export class TestPassService {
   rootUrl: string = `${environment.apiUrl}/TestPass`;
 
   testPasses$ = this.http
-    .get<TestPass[]>(`${this.rootUrl}`)
+    .get<TestPass[]>(`${this.rootUrl}?join=Header`)
     .pipe(catchError(this.errorHandler.handleError));
 
   //TODO: Make this more robust to not have to hard code string...UGH
