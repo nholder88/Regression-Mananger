@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ScenarioResultService } from '../../services/scenario-result.service';
 import { FormArray, FormBuilder } from '@angular/forms';
 import { ScenarioResult, Steps } from '@qa/api-interfaces';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'qa-regression-testing',
@@ -17,6 +16,7 @@ export class RegressionTestingComponent implements OnInit {
   scenarioResultData$ = this.scenarioResultService.scenarioResultForTestPass$;
   scenarioConfigForm;
   scenarioForm = new FormArray([]);
+  currentTestPassId:string;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,8 +27,8 @@ export class RegressionTestingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    let testPassId = this.route.snapshot.paramMap.get('id');
-    this.scenarioResultService.selectedTestPassChanged(testPassId);
+     this.currentTestPassId = this.route.snapshot.paramMap.get('id');
+    this.scenarioResultService.selectedTestPassChanged(this.currentTestPassId);
     this.scenarioConfigForm = this.formBuilder.group({
       testingLogin: '',
       tester: '',
@@ -37,6 +37,7 @@ export class RegressionTestingComponent implements OnInit {
   }
 
   changeFeature(featureName) {
+    this.scenarioResultService.selectedTestPassChanged(this.currentTestPassId);
     this.scenarioResultService.selectedFeatureChanged(featureName);
     this.scenarioResultData$.subscribe(x => {
       return (this.scenarioForm = x);

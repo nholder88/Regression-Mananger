@@ -1,8 +1,6 @@
-import {
-  FeatureScenarioContainer,
-  IFeatureScenarioContainer
-} from './FeatureScenarioContainer';
+import { FeatureScenarioContainer, IFeatureScenarioContainer } from './FeatureScenarioContainer';
 import { IScenarioResult } from './ScenarioResult';
+import { IRegressionHeader } from './RegressionHeader';
 
 //This is the listing in the regression that we look at to see the test passes that are done
 export interface ITestPass {
@@ -25,6 +23,6 @@ export class TestPass implements ITestPass {
     public isStarted: boolean,
     public id: string = null,
     public title: string = '',
-    public Header: string = null
+    public Header: IRegressionHeader = null
   ) {}
 }

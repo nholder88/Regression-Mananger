@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TestPassService } from '../../services/testpass.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'qa-regression-test-pass-listing',
@@ -21,7 +22,7 @@ import { TestPassService } from '../../services/testpass.service';
           <tbody>
           <tr *ngFor="let testPass of testPasses$ | async">
             <td>
-              {{testPass.title}} - {{ testPass.timeStamp | date: 'short' }} - {{ testPass.creator }}
+              {{testPass.Header?.name}} : {{testPass.title}} - {{ testPass.timeStamp | date: 'short' }} - {{ testPass.creator }}
             </td>
             <td>{{ testPass.featureScenarioContainers.length }}</td>
             <td>
@@ -39,7 +40,9 @@ import { TestPassService } from '../../services/testpass.service';
 })
 export class RegressionTestPassListingComponent implements OnInit {
 
-  testPasses$ = this.testPass.testPassesWithAdd$;
+  testPasses$ = this.testPass.testPassesWithAdd$.pipe(
+    map(x=> x.filter(s=> !s.Header?.isComplete))
+  );
 
   constructor(private testPass: TestPassService) {
   }
