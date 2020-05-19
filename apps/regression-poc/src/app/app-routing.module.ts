@@ -2,28 +2,33 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WelcomeComponent } from './home/welcome/welcome.component';
 import { PageNotFoundComponent } from './page-not-found.component';
+import { LoginComponent } from '../Shared/login/login.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  { path: 'welcome', component: WelcomeComponent },
+
+
+
   {
-    path: 'regression',
+    path: 'regression', outlet:'app',
     loadChildren: () =>
       import('./feature/regression/regression.module').then(
         m => m.RegressionModule
       )
   },
   {
-    path: 'admin',
+    path: 'admin',  outlet:'app',
     loadChildren: () =>
       import('./feature/admin/admin.module').then(a => a.AdminModule)
   },
   {
-    path: 'dashboard',
+    path: 'dashboard',  outlet:'app',
     loadChildren: () =>
       import('./feature/reporting/reporting.module').then(r => r.ReportingModule)
   },
-  { path: '', redirectTo: 'regression', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+  {path: 'login', component:LoginComponent,  pathMatch:'full'},
+  {path:'**', component:WelcomeComponent},
+  { path: '**/**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
