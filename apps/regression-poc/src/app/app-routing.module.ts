@@ -1,34 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WelcomeComponent } from './home/welcome/welcome.component';
-import { PageNotFoundComponent } from './page-not-found.component';
 import { LoginComponent } from '../Shared/login/login.component';
-import { AppComponent } from './app.component';
+import { AuthGuard } from '../Shared/guards/auth.guard';
 
 const routes: Routes = [
-
-
-
   {
-    path: 'regression', outlet:'app',
+    path: 'regression', canActivate:[ AuthGuard],
     loadChildren: () =>
       import('./feature/regression/regression.module').then(
         m => m.RegressionModule
       )
   },
   {
-    path: 'admin',  outlet:'app',
+    path: 'admin', canActivate:[ AuthGuard],
     loadChildren: () =>
       import('./feature/admin/admin.module').then(a => a.AdminModule)
   },
   {
-    path: 'dashboard',  outlet:'app',
+    path: 'dashboard',  canActivate:[ AuthGuard],
     loadChildren: () =>
       import('./feature/reporting/reporting.module').then(r => r.ReportingModule)
   },
-  {path: 'login', component:LoginComponent,  pathMatch:'full'},
-  {path:'**', component:WelcomeComponent},
-  { path: '**/**', component: PageNotFoundComponent }
+  {path: 'login', outlet:'primary', component:WelcomeComponent},
+  {path: 'login', outlet:'login', component:LoginComponent,},
+  { path: '**',  loadChildren: () =>
+      import('./feature/reporting/reporting.module').then(r => r.ReportingModule), canActivate:[ AuthGuard] }
 ];
 
 @NgModule({

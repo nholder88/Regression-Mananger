@@ -1,18 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LoginService } from '../Shared/services/login.service';
 
 @Component({
   selector: 'qa-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
-  loggedIn = false;
+  loggedIn$ = this.loginService.LoggedOn$;
 
-  constructor() {
+  constructor(private loginService:LoginService) {
   }
 
-  onLoginAttempt(result: boolean) {
-    this.loggedIn = result;
+  ngOnInit(): void {
+    this.loginService.isUserLoggedIn();
   }
+
+
 }

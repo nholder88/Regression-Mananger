@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppLink } from '../../appLink';
-
-import * as faker from 'faker';
+import { LoginService } from '../../../Shared/services/login.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'qa-application-header',
@@ -50,10 +50,10 @@ import * as faker from 'faker';
 export class ApplicationHeaderComponent implements OnInit {
   private selectedArea: AppLink;
 
-  constructor() {}
+  constructor(private loginService:LoginService, private route: ActivatedRoute ) {}
 
   appAreas: AppLink[];
-user:string= faker.internet.userName()
+user:string= this.loginService.getCurrentUserName()
   ngOnInit() {
     this.appAreas = [
       {
@@ -126,6 +126,7 @@ user:string= faker.internet.userName()
         summary: 'Overview of Regression'
       }
     ];
+    console.log(this.route.snapshot)
   }
 
   setSelectedArea(area: AppLink) {
