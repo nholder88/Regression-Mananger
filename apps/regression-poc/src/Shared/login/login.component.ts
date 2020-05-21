@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { FormBuilder } from '@angular/forms';
-
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
   @Output()
   isLoggedIn = new EventEmitter<boolean>();
 
-  constructor(private loginService: LoginService, private fb: FormBuilder) {
+  constructor(private loginService: LoginService, private fb: FormBuilder,private router: Router, private route: ActivatedRoute) {
   }
 
   loginForm = this.fb.group({
@@ -62,15 +62,25 @@ export class LoginComponent implements OnInit {
     password: ['']
   });
   loginError = false;
+  redirectUrl:string;
 
   login() {
     this.loginService.login(this.loginForm.value).subscribe(x=> {
 
+      if(x.isLoggedIn){
+        console.log( this.redirectUrl)
+        this.router.navigate([{outlets:{primary:'regression',login:null}}]);
+      }
+      else {
+        this.loginError=true;
+      }
       console.log(x);
       this.isLoggedIn.emit(x.isLoggedIn);
     });
   }
 
   ngOnInit(): void {
+    this.route.queryParams
+      .subscribe(params => this.redirectUrl = params['return'] || '/dashboard');
   }
 }

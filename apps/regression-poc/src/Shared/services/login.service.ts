@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { User } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { LoginResult } from '../Models/loginResult';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JwtService } from './jwt.service';
 
@@ -15,6 +15,10 @@ export class LoginService {
 
   constructor(private http: HttpClient, private jwtService: JwtService) {
   }
+  IsLoggedInSubject = new BehaviorSubject<boolean>(false);
+  LoggedOn$ = this.IsLoggedInSubject.asObservable()
+
+
 
   login(input: User): Observable<LoginResult> {
 
@@ -22,7 +26,8 @@ export class LoginService {
     if (environment.apiUrl.length > 1)
       return this.http.post<any>(environment.apiUrl + `/auth/login`, input).pipe(
         map(x =>{
-          this.jwtService.storeToken(x?.access_token);
+          this.jwtService.storeToken(x.access_token);
+          this.IsLoggedInSubject.next(true);
           return  new LoginResult(true, x)}
         ));
 
@@ -39,9 +44,12 @@ export class LoginService {
   }
 
   isUserLoggedIn():boolean{
-    return this.jwtService.isLoggedIn();
+   const loggedIn=   this.jwtService.isLoggedIn();
+    this.IsLoggedInSubject.next(loggedIn);
+    return loggedIn;
   }
   logout() {
     this.jwtService.clearToken();
+    this.IsLoggedInSubject.next(false);
   }
 }

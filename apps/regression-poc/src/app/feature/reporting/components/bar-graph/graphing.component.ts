@@ -37,7 +37,7 @@ export class GraphingComponent implements OnInit {
   public pieChartPlugins = [pluginDataLabels];
   public pieChartColors = [
     {
-      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
+      backgroundColor: ['rgba(106,255,0,0.3)', 'rgba(227,14,14,0.49)', 'rgba(255,230,0,0.3)', "rgba(0,72,255,0.3)"],
     },
   ];
 

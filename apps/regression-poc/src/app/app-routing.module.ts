@@ -1,29 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WelcomeComponent } from './home/welcome/welcome.component';
-import { PageNotFoundComponent } from './page-not-found.component';
+import { LoginComponent } from '../Shared/login/login.component';
+import { AuthGuard } from '../Shared/guards/auth.guard';
 
 const routes: Routes = [
-  { path: 'welcome', component: WelcomeComponent },
   {
-    path: 'regression',
+    path: 'regression', canActivate:[ AuthGuard],
     loadChildren: () =>
       import('./feature/regression/regression.module').then(
         m => m.RegressionModule
       )
   },
   {
-    path: 'admin',
+    path: 'admin', canActivate:[ AuthGuard],
     loadChildren: () =>
       import('./feature/admin/admin.module').then(a => a.AdminModule)
   },
   {
-    path: 'dashboard',
+    path: 'dashboard',  canActivate:[ AuthGuard],
     loadChildren: () =>
       import('./feature/reporting/reporting.module').then(r => r.ReportingModule)
   },
-  { path: '', redirectTo: 'regression', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+  {path: 'login', outlet:'primary', component:WelcomeComponent},
+  {path: 'login', outlet:'login', component:LoginComponent,},
+  { path: '**',  loadChildren: () =>
+      import('./feature/reporting/reporting.module').then(r => r.ReportingModule), canActivate:[ AuthGuard] }
 ];
 
 @NgModule({

@@ -34,7 +34,8 @@ export class JwtService {
   public getUserName():string {
     //this.jwtHelper.decodeToken(this.getToken());
     if (this.isLoggedIn()) {
-      return localStorage.getItem(this.USERNAME_KEY);
+      const token= this.jwtHelper.decodeToken(this.getToken())
+      return token.username;
     }
   }
 public clearToken(){
