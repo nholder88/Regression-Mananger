@@ -28,6 +28,7 @@ import { map } from 'rxjs/operators';
     <clr-wizard-page>
       <ng-template clrPageTitle>Test Pass </ng-template>
       <form clrForm [formGroup]="testPassForm">
+        <p>
         <clr-input-container>
           <label>Test Pass Title</label>
           <input clrInput placeholder="Test Pass Name" name="name" formControlName="title" />
@@ -35,6 +36,7 @@ import { map } from 'rxjs/operators';
         <clr-select-container>
           <label>Please select a Regression</label>
           <select clrSelect name="options" formControlName="Header">
+
             <option
               *ngFor="let regression of regressions$ | async"
               [value]="regression.id"
@@ -42,10 +44,12 @@ import { map } from 'rxjs/operators';
             >
           </select>
         </clr-select-container>
+        </p>
       </form>
    </clr-wizard-page>
     <clr-wizard-page>
       <ng-template clrPageTitle>Test Areas</ng-template>
+      <p>
       <clr-tree>
         <clr-tree-node [clrExpanded]="true">
           Areas to Test
@@ -63,6 +67,8 @@ import { map } from 'rxjs/operators';
           </clr-tree-node>
         </clr-tree-node>
       </clr-tree>
+      </p>
+
     </clr-wizard-page>
   </clr-wizard>`
 

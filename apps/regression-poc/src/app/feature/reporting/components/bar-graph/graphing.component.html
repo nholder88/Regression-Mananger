@@ -1,5 +1,5 @@
 <div class="clr-row">
-  <div class="clr-col-4">
+  <div class="clr-col">
     <div class="card">
       <div class="card-header">
         Bar Graph
@@ -23,31 +23,8 @@
 
     </div>
   </div>
-  <div class="clr-col-4">
-    <div class="card">
-      <div class="card-header">
-        Line Graph
-      </div>
-      <div class="card-block">
 
-        <div class="card-text">
-          <div class="chart" >
-            <canvas baseChart
-                    [data]="pieChartData"
-                    [labels]="pieChartLabels"
-                    [chartType]="'line'"
-                    [options]="pieChartOptions"
-                    [plugins]="pieChartPlugins"
-                    [colors]="pieChartColors"
-                    [legend]="pieChartLegend">
-            </canvas>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <div class="clr-col-4">
+  <div class="clr-col">
     <div class="card">
       <div class="card-header">
         Pie Chart
