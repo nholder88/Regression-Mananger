@@ -33,20 +33,35 @@ import { map } from 'rxjs/operators';
           <label>Test Pass Title</label>
           <input clrInput placeholder="Test Pass Name" name="name" formControlName="title" />
         </clr-input-container>
-        <clr-select-container>
-          <label>Please select a Regression</label>
-          <select clrSelect name="options" formControlName="Header">
+          <clr-select-container>
+            <label>Role testing </label>
+            <select clrSelect name="options" formControlName="testingRole">
+              <option value="">Admin</option>
+              <option value="">Front Desk</option>
+              <option value="">Doctor</option>
+              <option value="">Sys Admin</option>
+            </select>
+          </clr-select-container>
+          <clr-select-container>
+            <label>Please select a Regression</label>
+            <select clrSelect name="options" formControlName="Header">
 
-            <option
-              *ngFor="let regression of regressions$ | async"
-              [value]="regression.id"
-            >{{ regression.name }}</option
-            >
-          </select>
-        </clr-select-container>
+              <option
+                *ngFor="let regression of regressions$ | async"
+                [value]="regression.id"
+              >{{ regression.name }}</option
+              >
+            </select>
+          </clr-select-container>
+          <clr-input-container>
+            <label>Testing User Login Name</label>
+            <input clrInput placeholder="mdiadmin" name="name" formControlName="testingLoginUserName" />
+          </clr-input-container>
+
         </p>
       </form>
    </clr-wizard-page>
+
     <clr-wizard-page>
       <ng-template clrPageTitle>Test Areas</ng-template>
       <p>
@@ -89,8 +104,7 @@ export class RegressionTestPassFormComponent implements OnInit {
 
 
 
-  testPassModel: TestPass = new TestPass([],
-    this.userService.getLoggedInUser(), new Date(), false, false);
+  testPassModel: TestPass;
   testPassForm: FormGroup;
   regressions$ = this.regressionService.regressionWithAdd$.pipe(
     map(x=> x.filter(s=> !s.isComplete))
@@ -100,8 +114,11 @@ export class RegressionTestPassFormComponent implements OnInit {
 
   ngOnInit() {
     this.features$.subscribe(x => this.features = x);
-    this.testPassForm = this.formBuilder.group(this.testPassModel);
 
+    this.testPassForm = this.formBuilder.group(new TestPass([],
+      this.userService.getLoggedInUser(), new Date(), false, false));
+
+    console.log(this.testPassForm)
   }
 
   onFinish() {

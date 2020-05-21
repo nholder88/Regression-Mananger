@@ -13,8 +13,7 @@ export interface  IScenarioResult{
   //Relationships
   scenario:IScenario;
   testPass:ITestPass;
-  testingRole: string;
-  testingLoginUserName: string;
+
 
 
 
@@ -32,7 +31,6 @@ export class ScenarioResult implements IScenarioResult{
   status: string="Untested";
   testPass: ITestPass;
   timestamp: Date= new Date();
-  testingLoginUserName: string="";
-  testingRole: string="";
+
 
 }

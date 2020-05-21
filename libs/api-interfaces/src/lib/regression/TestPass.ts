@@ -11,6 +11,8 @@ export interface ITestPass {
   isStarted: boolean;
   title: string;
   id: string;
+  testingRole: string;
+  testingLoginUserName: string;
 }
 
 export class TestPass implements ITestPass {
@@ -23,6 +25,10 @@ export class TestPass implements ITestPass {
     public isStarted: boolean,
     public id: string = null,
     public title: string = '',
-    public Header: IRegressionHeader = null
+    public Header: IRegressionHeader = null,
+    public testingLoginUserName: string=null,
+  public  testingRole: string=null
   ) {}
+
+
 }
