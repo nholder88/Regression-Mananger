@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
       }
       console.log(x);
       this.isLoggedIn.emit(x.isLoggedIn);
-    });
+    },()=> this.loginError=true);
   }
 
   ngOnInit(): void {
