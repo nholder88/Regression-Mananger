@@ -60,4 +60,14 @@ export class TestPassDto implements ITestPass {
 
   @OneToMany('ScenarioResultDto', 'testPass')
   results: ScenarioResultDto[];
+
+  @ApiProperty({ type: 'string' })
+  @IsString()
+  @Column()
+  testingLoginUserName: string;
+
+  @ApiProperty({ type: 'string' })
+  @IsString()
+  @Column()
+  testingRole: string;
 }

@@ -11,31 +11,7 @@
             Scenario Configuration
           </div>
           <div class="card-block" [formGroup]="scenarioConfigForm">
-            <div class="clr-row" style="padding-bottom: 5px">
-              <div class="clr-col">
-                <clr-select-container>
-                  <label>Role testing </label>
-                  <select clrSelect name="options" formControlName="role">
-                    <option value="">Admin</option>
-                    <option value="">Front Desk</option>
-                    <option value="">Doctor</option>
-                    <option value="">Sys Admin</option>
-                  </select>
-                </clr-select-container>
-              </div>
-              <div class="clr-col">
-                <clr-input-container>
-                  <label>Testing Login</label>
-                  <input clrInput placeholder="mdiadmin" name="name" formControlName="testingLogin"/>
-                </clr-input-container>
-              </div>
-              <div class="clr-col">
-                <clr-input-container>
-                  <label>Tester</label>
-                  <input clrInput placeholder="Current Tester" name="name" formControlName="tester"/>
-                </clr-input-container>
-              </div>
-            </div>
+
             <div class="clr-row">
               <div class="clr-col">
                 <clr-dropdown *ngIf="testPass$ | async as testPass">

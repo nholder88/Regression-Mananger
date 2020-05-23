@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClrWizard } from '@clr/angular';
-import { UserService } from '../../../admin/user/user.service';
+import { UserService } from '../../../admin/user/services/user.service';
 import { RegressionHeaderService } from '../../services/regression-header.service';
 import { TestPassService } from '../../services/testpass.service';
 import { FeatureService } from '../../services/feature.service';
 import { FeatureScenarioContainer, TestPass } from '@qa/api-interfaces';
 import { map } from 'rxjs/operators';
+import { RoleService } from '../../../admin/user/services/role.service';
 
 @Component({
   selector: 'qa-regression-test-pass-form',
@@ -31,22 +32,35 @@ import { map } from 'rxjs/operators';
         <p>
         <clr-input-container>
           <label>Test Pass Title</label>
-          <input clrInput placeholder="Test Pass Name" name="name" formControlName="title" />
+          <input clrInput placeholder="Test Pass Name" name="name" formControlName="title" required/>
         </clr-input-container>
-        <clr-select-container>
-          <label>Please select a Regression</label>
-          <select clrSelect name="options" formControlName="Header">
+          <clr-select-container>
+            <label>Role testing </label>
+            <select clrSelect name="options" formControlName="testingRole">
+              <option  *ngFor="let role of roles$ |async" [value]="role.id">{{role.name}} </option>
 
-            <option
-              *ngFor="let regression of regressions$ | async"
-              [value]="regression.id"
-            >{{ regression.name }}</option
-            >
-          </select>
-        </clr-select-container>
+            </select>
+          </clr-select-container>
+          <clr-select-container>
+            <label>Please select a Regression</label>
+            <select clrSelect name="options" formControlName="Header">
+
+              <option
+                *ngFor="let regression of regressions$ | async"
+                [value]="regression.id"
+              >{{ regression.name }}</option
+              >
+            </select>
+          </clr-select-container>
+          <clr-input-container>
+            <label>Testing User Login Name</label>
+            <input clrInput placeholder="mdiadmin" name="name" formControlName="testingLoginUserName" />
+          </clr-input-container>
+
         </p>
       </form>
    </clr-wizard-page>
+
     <clr-wizard-page>
       <ng-template clrPageTitle>Test Areas</ng-template>
       <p>
@@ -79,29 +93,29 @@ export class RegressionTestPassFormComponent implements OnInit {
     private userService: UserService,
     private testPassService: TestPassService,
     private regressionService: RegressionHeaderService,
-    private featureService: FeatureService
+    private featureService: FeatureService,
+    private roleService: RoleService
   ) {
   }
 
   // @ts-ignore
   @ViewChild('wizardxl') wizardExtraLarge: ClrWizard;
   xlOpen = false;
-
-
-
-  testPassModel: TestPass = new TestPass([],
-    this.userService.getLoggedInUser(), new Date(), false, false);
   testPassForm: FormGroup;
   regressions$ = this.regressionService.regressionWithAdd$.pipe(
     map(x=> x.filter(s=> !s.isComplete))
   );
   features$ = this.featureService.featureWithAdd$;
   features: FeatureScenarioContainer[];
+  roles$=this.roleService.roles$;
 
   ngOnInit() {
     this.features$.subscribe(x => this.features = x);
-    this.testPassForm = this.formBuilder.group(this.testPassModel);
 
+    this.testPassForm = this.formBuilder.group(new TestPass([],
+      this.userService.getLoggedInUser(), new Date(), false, false));
+
+    console.log(this.testPassForm)
   }
 
   onFinish() {

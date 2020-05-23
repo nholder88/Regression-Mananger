@@ -4,8 +4,8 @@ import { BehaviorSubject, combineLatest, merge, of, Subject } from 'rxjs';
 import { catchError, scan, shareReplay, tap } from 'rxjs/operators';
 import { User } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
-import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
-import { LoginService } from '../../../../Shared/services/login.service';
+import { ErrorHandlingService } from '../../../../../Shared/services/error-handling.service';
+import { LoginService } from '../../../../../Shared/services/login.service';
 
 
 @Injectable({
@@ -19,7 +19,7 @@ export class UserService {
   ) {}
 
   userRoles$ = of([
-    { id: 1, name: 'Admin' },
+    { id: 'Admin', name: 'Admin' },
     { id: 2, name: 'QA' },
     { id: 3, name: 'Tester' },
     { id: 4, name: 'Executive' }
