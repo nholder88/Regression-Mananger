@@ -17,6 +17,7 @@ export interface ITestPass {
 
 export class TestPass implements ITestPass {
   results: IScenarioResult[];
+
   constructor(
     public featureScenarioContainers: FeatureScenarioContainer[],
     public creator: string,
@@ -26,9 +27,10 @@ export class TestPass implements ITestPass {
     public id: string = null,
     public title: string = '',
     public Header: IRegressionHeader = null,
-    public testingLoginUserName: string=null,
-  public  testingRole: string=null
-  ) {}
+    public testingLoginUserName: string = null,
+    public  testingRole: string = null
+  ) {
+  }
 
 
 }

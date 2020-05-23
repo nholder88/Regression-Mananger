@@ -8,14 +8,16 @@ import { map } from 'rxjs/operators';
     <div class="row">
       <div class="clr-col">
         <h2>
-          My Test Passes
+          Current Test Passes
           <qa-regression-test-pass-form></qa-regression-test-pass-form>
         </h2>
-        <clr-spinner  *ngIf="!(testPasses$|async)"></clr-spinner>
+        <clr-spinner *ngIf="!(testPasses$|async)"></clr-spinner>
 
         <clr-datagrid *ngIf="testPasses$|async as testPasses">
           <clr-dg-column [clrDgField]="'title'">Name</clr-dg-column>
-          <clr-dg-column  [clrDgField]="'Header.name'">Regression</clr-dg-column>
+          <clr-dg-column [clrDgField]="'Header.name'">Regression</clr-dg-column>
+          <clr-dg-column [clrDgField]="'Header.name'">Test Role</clr-dg-column>
+          <clr-dg-column [clrDgField]="'Header.name'">Test Username</clr-dg-column>
           <clr-dg-column [clrDgField]="'timeStamp'">Create Date</clr-dg-column>
           <clr-dg-column [clrDgField]="'creator'">Creator</clr-dg-column>
           <clr-dg-column [clrDgField]="'featureScenarioContainers.length'">Test Runs</clr-dg-column>
@@ -27,6 +29,8 @@ import { map } from 'rxjs/operators';
           >
             <clr-dg-cell>{{testPass.title }}</clr-dg-cell>
             <clr-dg-cell>{{testPass.Header?.name}}</clr-dg-cell>
+            <clr-dg-cell>{{testPass.testingRole}}</clr-dg-cell>
+            <clr-dg-cell>{{testPass.testingLoginUserName}}</clr-dg-cell>
             <clr-dg-cell>{{ testPass.timeStamp | date: 'short' }}</clr-dg-cell>
             <clr-dg-cell>{{ testPass.creator }}</clr-dg-cell>
             <clr-dg-cell>{{ testPass.featureScenarioContainers.length }}</clr-dg-cell>

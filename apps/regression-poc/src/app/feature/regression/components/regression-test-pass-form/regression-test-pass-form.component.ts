@@ -31,15 +31,15 @@ import { map } from 'rxjs/operators';
         <p>
         <clr-input-container>
           <label>Test Pass Title</label>
-          <input clrInput placeholder="Test Pass Name" name="name" formControlName="title" />
+          <input clrInput placeholder="Test Pass Name" name="name" formControlName="title" required/>
         </clr-input-container>
           <clr-select-container>
             <label>Role testing </label>
             <select clrSelect name="options" formControlName="testingRole">
-              <option value="">Admin</option>
-              <option value="">Front Desk</option>
-              <option value="">Doctor</option>
-              <option value="">Sys Admin</option>
+              <option value="Admin">Admin</option>
+              <option value="Front Desk">Front Desk</option>
+              <option value="Doctor">Doctor</option>
+              <option value="System Admin">System Admin</option>
             </select>
           </clr-select-container>
           <clr-select-container>
