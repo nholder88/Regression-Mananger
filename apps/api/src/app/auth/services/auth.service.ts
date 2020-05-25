@@ -10,23 +10,27 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService
-  ) {
-  }
+  ) {}
 
   async validateUser(username: string, pass: string): Promise<UserDto> {
     //this is a admin path; yes its not ideal.
-    if(username == environment.admin.username && pass == environment.admin.password){
-      const adminUser= new UserDto()
-      adminUser.username= username;
-      adminUser.email= "admin@admin.com";
-      adminUser.id="admin"
-      return  adminUser;
+    if (
+      username == environment.admin.username &&
+      pass == environment.admin.password
+    ) {
+      const adminUser = new UserDto();
+      adminUser.username = username;
+      adminUser.email = 'admin@admin.com';
+      adminUser.id = 'admin';
+      return adminUser;
     }
 
-
     let returnUser = null;
-    const foundUser = await this.usersService.findOne({username:username});
-    const isCorrectPassword = await this.comparePasswords(pass, foundUser.password);
+    const foundUser = await this.usersService.findOne({ username: username });
+    const isCorrectPassword = await this.comparePasswords(
+      pass,
+      foundUser.password
+    );
     if (isCorrectPassword) {
       returnUser = foundUser;
     }
@@ -45,9 +49,9 @@ export class AuthService {
     };
   }
 
-
   public async comparePasswords(plainTextpass, hash) {
-    return await bcyrpt.compare(plainTextpass, hash)
+    return await bcyrpt
+      .compare(plainTextpass, hash)
       .catch(err => console.log(err));
   }
 }

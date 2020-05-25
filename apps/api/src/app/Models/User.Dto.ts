@@ -17,7 +17,6 @@ export class UserDto implements User {
     type: 'varchar',
     nullable: false
   })
-
   password: string;
 
   @ApiProperty()
@@ -33,11 +32,10 @@ export class UserDto implements User {
     type: 'varchar',
     nullable: false
   })
-
   email: string;
 
-  @BeforeInsert()  async hashPassword() {
-    console.log(this.password)
+  @BeforeInsert() async hashPassword() {
+    console.log(this.password);
     this.password = await bcrypt.hash(this.password, 10);
   }
 }

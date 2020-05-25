@@ -10,8 +10,5 @@ export class UsersService extends TypeOrmCrudService<UserDto> {
 
   constructor(@InjectRepository(UserDto) repository) {
     super(repository);
-
   }
-
-
 }

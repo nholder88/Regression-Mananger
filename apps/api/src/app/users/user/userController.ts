@@ -9,7 +9,7 @@ import { UserDto } from '../../Models/User.Dto';
   model: {
     type: UserDto
   },
-  routes: { exclude: ['replaceOneBase', ] },
+  routes: { exclude: ['replaceOneBase'] },
   params: {
     id: { field: 'username', type: 'string', primary: true }
   },

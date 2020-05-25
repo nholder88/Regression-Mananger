@@ -16,7 +16,9 @@ export class AuthController {
   //  Not going to  use the local strategy here because the user and password have to be in query string.
   @Post('auth/login')
   login(@Body() user: UserDto): Observable<any> {
-    return from(this.authService.validateUser(user.username, user.password)).pipe(
+    return from(
+      this.authService.validateUser(user.username, user.password)
+    ).pipe(
       map(user => {
         if (!user) {
           throw new UnauthorizedException();
