@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppLink } from '../../appLink';
 import { LoginService } from '../../../Shared/services/login.service';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -51,7 +51,7 @@ import { map, } from 'rxjs/operators';
   `,
   styleUrls: ['./application-header.component.css']
 })
-export class ApplicationHeaderComponent implements OnInit {
+export class ApplicationHeaderComponent {
   constructor(private loginService: LoginService) {
   }
 
@@ -128,16 +128,12 @@ export class ApplicationHeaderComponent implements OnInit {
   ]);
   user: string = this.loginService.getCurrentUserName();
 
-  ngOnInit() {
-  }
-
   selectedAreaAction = new BehaviorSubject<AppLink>(null);
   appLinkObservable$ = this.selectedAreaAction.asObservable();
 
   setSelectedArea(area: AppLink) {
     this.selectedAreaAction.next(area);
   }
-
 
   selectedArea$ = combineLatest([this.appAreas$, this.appLinkObservable$])
     .pipe(
