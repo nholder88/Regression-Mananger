@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { BehaviorSubject, merge, Subject } from 'rxjs';
-import { catchError, scan, tap } from 'rxjs/operators';
-import { Test, TestPass } from '@qa/api-interfaces';
+import { catchError, scan } from 'rxjs/operators';
+import { TestPass } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
@@ -33,7 +33,7 @@ export class TestPassService {
   testPassSavedAction$ = this.saveTestPassSubject.asObservable();
 
   testPassesWithAdd$ = merge(this.testPasses$, this.testPassSavedAction$).pipe(
-    scan((acc: TestPass[], value: TestPass) => [...acc, value]),
+    scan((acc: TestPass[], value: TestPass) =>   [...acc, value] ),
     catchError(err => this.errorHandler.handleError(err))
   );
 
@@ -65,11 +65,12 @@ export class TestPassService {
 
   }
 
-  completeTestPass(testPassId: string){
+  completeTestPass(testPassId: string) {
 
-    this.http.patch<TestPass>(`${this.rootUrl}/${testPassId}`, { isComplete:true })
+    // because the reload is trigger when this is called there is no need to emit
+    this.http.patch<TestPass>(`${this.rootUrl}/${testPassId}`, { isComplete: true })
       .pipe(catchError(err => this.errorHandler.handleError(err)))
-      .subscribe(x => this.saveTestPassSubject.next(x));
+      .subscribe();
 
 
   }

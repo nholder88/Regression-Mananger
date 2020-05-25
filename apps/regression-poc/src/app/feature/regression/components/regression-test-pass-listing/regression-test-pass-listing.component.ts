@@ -55,7 +55,7 @@ import { map } from 'rxjs/operators';
 export class RegressionTestPassListingComponent implements OnInit {
 
   testPasses$ = this.testPass.testPassesWithAdd$.pipe(
-    map(x => x.filter(s => !s.Header?.isComplete))
+    map(x => x.filter(s => !s.Header?.isComplete && !s.isComplete))
   );
 
   constructor(private testPass: TestPassService) {
