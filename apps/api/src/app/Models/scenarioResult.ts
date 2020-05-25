@@ -38,15 +38,6 @@ export class ScenarioResultDto implements IScenarioResult{
   @Column()
   bugCreated:boolean;
 
-  @ApiProperty()
-  @IsString()
-  @Column()
-  testingLoginUserName: string;
-
-  @ApiProperty()
-  @IsString()
-  @Column()
-  testingRole: string;
 
   completedSteps:Array<number>
   //Relationships
