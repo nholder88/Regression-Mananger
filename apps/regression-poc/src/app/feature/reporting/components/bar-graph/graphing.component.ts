@@ -10,8 +10,6 @@ import { ScenarioResult } from '@qa/api-interfaces';
   styleUrls: ['./graphing.component.css']
 })
 export class GraphingComponent implements OnInit {
-
-
   @Input()
   gridData: ScenarioResult[];
   // Pie
@@ -19,34 +17,41 @@ export class GraphingComponent implements OnInit {
     responsive: true,
     legend: {
       position: 'top',
-      display:false
+      display: false
     },
     plugins: {
       datalabels: {
         formatter: (value, ctx) => {
           const label = ctx.chart.data.labels[ctx.dataIndex];
           return label;
-        },
-      },
+        }
+      }
     }
   };
-  public pieChartLabels: Label[] = ['Passed','Failed','Skipped','Untested'];
-  public pieChartData: number[] ;
-  public pieChartType: ChartType = "bar";
+  public pieChartLabels: Label[] = ['Passed', 'Failed', 'Skipped', 'Untested'];
+  public pieChartData: number[];
+  public pieChartType: ChartType = 'bar';
   public pieChartLegend = true;
   public pieChartPlugins = [pluginDataLabels];
   public pieChartColors = [
     {
-      backgroundColor: ['rgba(106,255,0,0.3)', 'rgba(227,14,14,0.49)', 'rgba(255,230,0,0.3)', "rgba(0,72,255,0.3)"],
-    },
+      backgroundColor: [
+        'rgba(106,255,0,0.3)',
+        'rgba(227,14,14,0.49)',
+        'rgba(255,230,0,0.3)',
+        'rgba(0,72,255,0.3)'
+      ]
+    }
   ];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    this.pieChartData=[this.gridData?.filter(x=> x.status=="Passed").length,
-      this.gridData?.filter(x=> x.status=="Failed").length,
-      this.gridData?.filter(x=> x.status=="Skipped").length,
-      this.gridData?.filter(x=> x.status=="Untested").length];
+    this.pieChartData = [
+      this.gridData?.filter(x => x.status == 'Passed').length,
+      this.gridData?.filter(x => x.status == 'Failed').length,
+      this.gridData?.filter(x => x.status == 'Skipped').length,
+      this.gridData?.filter(x => x.status == 'Untested').length
+    ];
   }
 }

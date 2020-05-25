@@ -14,10 +14,11 @@ import { environment } from '../../environments/environment';
     PassportModule,
     JwtModule.register({
       secret: environment.jwtConstants.key,
-      signOptions: { expiresIn: '2d' }, verifyOptions:{ }
+      signOptions: { expiresIn: '2d' },
+      verifyOptions: {}
     })
   ],
-  providers: [AuthService,  JwtStrategy],
+  providers: [AuthService, JwtStrategy],
   exports: [AuthService],
   controllers: [AuthController]
 })

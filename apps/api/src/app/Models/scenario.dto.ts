@@ -6,7 +6,6 @@ import { IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 import { Entity } from 'typeorm/decorator/entity/Entity';
 import { StepDto } from './step.dto';
 
-
 @Entity()
 export class ScenarioDto implements IScenario {
   @ApiProperty({ type: 'string' })
@@ -21,7 +20,7 @@ export class ScenarioDto implements IScenario {
 
   @ApiProperty({ type: 'string' })
   @IsString()
-  @Column({default:""})
+  @Column({ default: '' })
   note: string;
 
   @ApiProperty()
@@ -33,11 +32,10 @@ export class ScenarioDto implements IScenario {
   @IsDate()
   @Column({ default: '0001-01-01' })
   timestamp: Date;
-  enable: boolean= false;
+  enable: boolean = false;
 
-  @OneToMany("StepDto", "scenario", {cascade:true, eager:true})
+  @OneToMany('StepDto', 'scenario', { cascade: true, eager: true })
   steps: StepDto[];
-
 
   @ManyToOne('FeatureDto', 'scenarios')
   feature: FeatureDto;

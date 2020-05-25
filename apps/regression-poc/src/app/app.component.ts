@@ -6,16 +6,12 @@ import { LoginService } from '../Shared/services/login.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-
+export class AppComponent implements OnInit {
   loggedIn$ = this.loginService.LoggedOn$;
 
-  constructor(private loginService:LoginService) {
-  }
+  constructor(private loginService: LoginService) {}
 
   ngOnInit(): void {
     this.loginService.isUserLoggedIn();
   }
-
-
 }

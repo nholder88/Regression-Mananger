@@ -9,7 +9,9 @@ describe('Regression Header Controller', () => {
       controllers: [RegressionHeaderController]
     }).compile();
 
-    controller = module.get<RegressionHeaderController>(RegressionHeaderController);
+    controller = module.get<RegressionHeaderController>(
+      RegressionHeaderController
+    );
   });
 
   it('should be defined', () => {

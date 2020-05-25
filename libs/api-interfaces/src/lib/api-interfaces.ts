@@ -1,5 +1,3 @@
-
-
 export interface Test {
   id: number;
   testCases: TestCaseResult[];

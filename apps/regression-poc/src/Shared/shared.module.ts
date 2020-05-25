@@ -6,17 +6,9 @@ import { ApplicationHeaderComponent } from '../app/home/layout/application-heade
 import { LoginComponent } from './login/login.component';
 import { AsyncFormModelDirective } from './directives/async-form-model.directive';
 
-
-
 @NgModule({
-  declarations: [
-    LoginComponent,
-    AsyncFormModelDirective],
-  exports: [
-    LoginComponent
-  ],
-  imports: [
-    CommonModule, ReactiveFormsModule, ClarityModule
-  ]
+  declarations: [LoginComponent, AsyncFormModelDirective],
+  exports: [LoginComponent],
+  imports: [CommonModule, ReactiveFormsModule, ClarityModule]
 })
-export class SharedModule { }
+export class SharedModule {}

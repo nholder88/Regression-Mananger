@@ -19,8 +19,7 @@ export class ScenarioResultService {
     private scenarioService: ScenarioService,
     private formBuilder: FormBuilder,
     private errorHandler: ErrorHandlingService
-  ) {
-  }
+  ) {}
 
   private rootUrl = `${environment.apiUrl}/ScenarioResult`;
 
@@ -34,7 +33,6 @@ export class ScenarioResultService {
     this.testPassService.selectedTestPass$
   ]).pipe(
     map(([scenarioResults, scenarios, testPass]) => {
-
       return scenarios.map(x => {
         // find result that goes with scenario
         const existing = scenarioResults.find(sc => sc.scenario.id == x.id);
@@ -61,28 +59,30 @@ export class ScenarioResultService {
 
   reportData$ = this.http
     .get<ScenarioResult[]>(`${this.rootUrl}?join=scenario&join=testPass`)
-    .pipe(
-      tap(x => console.log('Reporting Data', x))
-    );
+    .pipe(tap(x => console.log('Reporting Data', x)));
 
   selectedTestPassChanged(testPassId: string) {
     if (testPassId) {
-      this.http.get<ScenarioResult[]>(`${this.rootUrl}?join=scenario&join=testPass&filter=testPass.id||$eq||${testPassId}`)
+      this.http
+        .get<ScenarioResult[]>(
+          `${this.rootUrl}?join=scenario&join=testPass&filter=testPass.id||$eq||${testPassId}`
+        )
         .subscribe(testPass => {
           this.testPassChangedSubject.next(testPass);
           this.testPassService.selectedTestPassChanged(testPassId);
         });
-
     } else {
       this.testPassChangedSubject.next(null);
     }
   }
 
   saveResults(data: ScenarioResult[]) {
-    this.http
-      .post(`${this.rootUrl}/bulk`, { bulk: data })
-      .pipe(catchError(err => this.errorHandler.handleError(err)))
-      .subscribe(x => console.log('save results', x));
+    if (data.length > 0) {
+      this.http
+        .post(`${this.rootUrl}/bulk`, { bulk: data })
+        .pipe(catchError(err => this.errorHandler.handleError(err)))
+        .subscribe(x => console.log('save results', x));
+    }
   }
 
   selectedFeatureChanged(featureId: string) {

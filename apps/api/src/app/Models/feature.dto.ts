@@ -7,7 +7,7 @@ import { Entity } from 'typeorm/decorator/entity/Entity';
 import { ScenarioDto } from './scenario.dto';
 
 @Entity()
-export class FeatureDto implements IFeatureScenarioContainer{
+export class FeatureDto implements IFeatureScenarioContainer {
   @ApiProperty({ type: 'string' })
   @IsString()
   @Column()
@@ -15,7 +15,7 @@ export class FeatureDto implements IFeatureScenarioContainer{
 
   @ApiProperty()
   @IsUUID()
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ApiProperty({ type: 'string' })
@@ -23,8 +23,6 @@ export class FeatureDto implements IFeatureScenarioContainer{
   @Column()
   team: string;
 
-  @OneToMany('ScenarioDto', 'feature', { eager: true,cascade:true })
+  @OneToMany('ScenarioDto', 'feature', { eager: true, cascade: true })
   scenarios: ScenarioDto[];
-
-
 }

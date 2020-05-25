@@ -3,9 +3,7 @@ import { AppLink } from '../../appLink';
 import { LoginService } from '../../../Shared/services/login.service';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { Observable, of } from 'rxjs';
-import { map, } from 'rxjs/operators';
-
-
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'qa-application-header',
@@ -19,31 +17,30 @@ import { map, } from 'rxjs/operators';
       </div>
       <div class="header-nav">
         <a
-          *ngFor="let area of appAreas$| async"
+          *ngFor="let area of appAreas$ | async"
           [routerLink]="area.link"
           routerLinkActive="active"
           class="nav-link"
           (click)="setSelectedArea(area)"
-        ><span class="nav-text">{{ area.title }}</span></a
+          ><span class="nav-text">{{ area.title }}</span></a
         >
       </div>
       <div class="header-actions">
         <a href="javascript://" class="nav-link nav-icon-text">
           <clr-icon shape="user"></clr-icon>
 
-          <span class="nav-text">Welcome, {{user}}</span>
-
+          <span class="nav-text">Welcome, {{ user }}</span>
         </a>
       </div>
     </header>
-    <nav class="subnav" *ngIf="  (selectedArea$|async)?.subRoutes as routes">
+    <nav class="subnav" *ngIf="(selectedArea$ | async)?.subRoutes as routes">
       <ul class="nav">
         <li class="nav-item" *ngFor="let subArea of routes">
           <a
             [routerLink]="subArea.link"
             routerLinkActive="active"
             class="nav-link"
-          ><span class="nav-text">{{ subArea.title }}</span></a
+            ><span class="nav-text">{{ subArea.title }}</span></a
           >
         </li>
       </ul>
@@ -52,8 +49,7 @@ import { map, } from 'rxjs/operators';
   styleUrls: ['./application-header.component.css']
 })
 export class ApplicationHeaderComponent {
-  constructor(private loginService: LoginService) {
-  }
+  constructor(private loginService: LoginService) {}
 
   appAreas$: Observable<AppLink[]> = of<AppLink[]>([
     {
@@ -84,13 +80,11 @@ export class ApplicationHeaderComponent {
           subRoutes: null
         },
         {
-
           title: 'History',
           link: 'regression/history',
           summary: '',
           rolesAllowed: ['admin', 'tester', 'qa'],
           subRoutes: null
-
         }
       ],
       rolesAllowed: ['admin', 'tester', 'qa'],
@@ -135,15 +129,13 @@ export class ApplicationHeaderComponent {
     this.selectedAreaAction.next(area);
   }
 
-  selectedArea$ = combineLatest([this.appAreas$, this.appLinkObservable$])
-    .pipe(
-      map(([areas, selectedArea]) => {
-        if (selectedArea) {
-          return selectedArea;
-        } else {
-          return areas[1];
-        }
-      })
-    );
-
+  selectedArea$ = combineLatest([this.appAreas$, this.appLinkObservable$]).pipe(
+    map(([areas, selectedArea]) => {
+      if (selectedArea) {
+        return selectedArea;
+      } else {
+        return areas[1];
+      }
+    })
+  );
 }

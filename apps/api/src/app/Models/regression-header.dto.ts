@@ -6,12 +6,11 @@ import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGenerat
 import { Column, OneToMany } from 'typeorm';
 import { TestPassDto } from './testPass.dto';
 
-
 @Entity()
 export class RegressionHeaderDto implements IRegressionHeader {
   @ApiProperty({ type: 'string' })
   @IsUUID()
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ApiProperty({ type: 'string' })
@@ -44,6 +43,6 @@ export class RegressionHeaderDto implements IRegressionHeader {
   @Column()
   isStarted: boolean;
 
-  @OneToMany('TestPassDto','Header',{cascade:true})
+  @OneToMany('TestPassDto', 'Header', { cascade: true })
   testPasses: TestPassDto[];
 }

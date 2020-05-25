@@ -2,7 +2,7 @@
   <div class="clr-col">
     <h2 *ngIf="testPass$ | async as testPass">
       Current Test - {{ testPass.title }}
-      {{ testPass.creator  }}
+      {{ testPass.creator }}
     </h2>
     <div class="clr-row">
       <div class="clr-col">
@@ -11,17 +11,19 @@
             Scenario Configuration
           </div>
           <div class="card-block" [formGroup]="scenarioConfigForm">
-
             <div class="clr-row">
               <div class="clr-col">
                 <clr-dropdown *ngIf="testPass$ | async as testPass">
-                  <button class="btn btn-outline-primary btn-sm" clrDropdownTrigger>
+                  <button
+                    class="btn btn-outline-primary btn-sm"
+                    clrDropdownTrigger
+                  >
                     Features
                     <clr-icon shape="caret down"></clr-icon>
                   </button>
                   <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
                     <label class="dropdown-header" aria-hidden="true"
-                    >Test Run Features</label
+                      >Test Run Features</label
                     >
                     <div
                       clrDropdownItem
@@ -34,12 +36,19 @@
                 </clr-dropdown>
               </div>
               <div class="clr-col">
-                <button class="btn btn-sm" *ngIf="scenarioResultData$|async as data" (click)="saveScenarioResults()">
+                <button
+                  class="btn btn-sm"
+                  *ngIf="scenarioResultData$ | async as data"
+                  (click)="saveScenarioResults()"
+                >
                   Save Test Results
                 </button>
               </div>
               <div class="clr-col">
-                <button class="btn btn-primary btn-sm" (click)="completeTestRun()">
+                <button
+                  class="btn btn-primary btn-sm"
+                  (click)="completeTestRun()"
+                >
                   Complete Test Run
                 </button>
               </div>
@@ -51,25 +60,33 @@
     <span class="spinner spinner-inverse" *ngIf="!scenarioResultData$">
       Loading...
     </span>
-    <div class="clr-row" >
-      <div class="clr-col" *ngFor="let result of scenarioForm.controls; index as i" >
+    <div class="clr-row">
+      <div
+        class="clr-col"
+        *ngFor="let result of scenarioForm.controls; index as i"
+      >
         <div class="card" [formGroup]="result">
           <div class="card-header">
-            {{ result.get("scenario").value.name}}
+            {{ result.get('scenario').value.name }}
           </div>
           <div class="card-block">
             <div class="card-title">Steps to Test</div>
             <div class="card-text">
               <clr-toggle-wrapper
-                *ngFor="let step of  result?.get('scenario')?.value.steps"
+                *ngFor="let step of result?.get('scenario')?.value.steps"
                 class="wrapper-fix"
               >
-                <input type="checkbox" clrToggle [value]="step.id" [id]="step.id"   />
+                <input
+                  type="checkbox"
+                  clrToggle
+                  [value]="step.id"
+                  [id]="step.id"
+                />
                 <label class="wrapper-fix">{{
                   step.name | slice: 0:100
-                  }}</label>
+                }}</label>
               </clr-toggle-wrapper>
-              <br/>
+              <br />
               <clr-textarea-container>
                 <label>Scenario Notes</label>
                 <textarea
@@ -80,27 +97,24 @@
                   formControlName="notes"
                 ></textarea>
                 <clr-control-helper
-                >Provide Details for status
-                </clr-control-helper
-                >
+                  >Provide Details for status
+                </clr-control-helper>
                 <clr-control-error
-                >You must provide a description!
-                </clr-control-error
-                >
+                  >You must provide a description!
+                </clr-control-error>
               </clr-textarea-container>
             </div>
           </div>
           <div class="card-footer">
             <div class="btn-group btn-sm">
               <div class="radio btn btn-outline-success">
-                <input value="Passed"
-                       type="radio"
-formControlName="status"
-                       id="btn-demo-radio-2_{{ i}}"
+                <input
+                  value="Passed"
+                  type="radio"
+                  formControlName="status"
+                  id="btn-demo-radio-2_{{ i }}"
                 />
-                <label for="btn-demo-radio-2_{{ i}}"
-                >Passed</label
-                >
+                <label for="btn-demo-radio-2_{{ i }}">Passed</label>
               </div>
               <div class="radio btn  btn-outline-danger">
                 <input
@@ -109,9 +123,7 @@ formControlName="status"
                   formControlName="status"
                   id="btn-demo-radio-3_{{ i }}"
                 />
-                <label for="btn-demo-radio-3_{{ i }}"
-                >Failed</label
-                >
+                <label for="btn-demo-radio-3_{{ i }}">Failed</label>
               </div>
               <div class="radio btn  btn-outline">
                 <input
@@ -120,9 +132,7 @@ formControlName="status"
                   formControlName="status"
                   id="btn-demo-radio-1_{{ i }}"
                 />
-                <label for="btn-demo-radio-1_{{ i }}"
-                >Skipped</label
-                >
+                <label for="btn-demo-radio-1_{{ i }}">Skipped</label>
               </div>
               <div class="radio btn  btn-outline">
                 <input
@@ -131,9 +141,7 @@ formControlName="status"
                   formControlName="status"
                   id="btn-demo-radio-4_{{ i }}"
                 />
-                <label for="btn-demo-radio-4_{{ i }}"
-                >Untested</label
-                >
+                <label for="btn-demo-radio-4_{{ i }}">Untested</label>
               </div>
             </div>
           </div>
@@ -141,5 +149,4 @@ formControlName="status"
       </div>
     </div>
   </div>
-
 </div>

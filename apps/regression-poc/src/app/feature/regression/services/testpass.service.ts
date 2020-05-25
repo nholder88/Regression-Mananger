@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { BehaviorSubject, merge, Subject } from 'rxjs';
-import { catchError, scan, tap } from 'rxjs/operators';
+import { catchError, scan } from 'rxjs/operators';
 import { TestPass } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
@@ -22,7 +22,6 @@ export class TestPassService {
     .get<TestPass[]>(`${this.rootUrl}?join=Header`)
     .pipe(catchError(this.errorHandler.handleError));
 
-  //TODO: Make this more robust to not have to hard code string...UGH
   private testPassSelectedSubject = new BehaviorSubject<TestPass>(null);
   testPassSelectedAction$ = this.testPassSelectedSubject.asObservable();
 
@@ -42,13 +41,8 @@ export class TestPassService {
     if (id) {
       // get the scenario results with this test pass
       this.http
-        .get<TestPass>(
-          this.rootUrl + `/${id}?join=results`
-        )
-        .pipe(
-          // shareReplay(1, 150),
-          tap(x => console.log('Selected Test Pass Change retrieval', x))
-        )
+        .get<TestPass>(this.rootUrl + `/${id}?join=results`)
+        .pipe(catchError(err => this.errorHandler.handleError(err)))
         .subscribe(testPass => this.testPassSelectedSubject.next(testPass));
     }
   }
@@ -64,5 +58,13 @@ export class TestPassService {
     saveObservable$
       .pipe(catchError(err => this.errorHandler.handleError(err)))
       .subscribe(x => this.saveTestPassSubject.next(x));
+  }
+
+  completeTestPass(testPassId: string) {
+    // because the reload is trigger when this is called there is no need to emit
+    this.http
+      .patch<TestPass>(`${this.rootUrl}/${testPassId}`, { isComplete: true })
+      .pipe(catchError(err => this.errorHandler.handleError(err)))
+      .subscribe();
   }
 }

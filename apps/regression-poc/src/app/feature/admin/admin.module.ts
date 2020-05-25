@@ -9,7 +9,6 @@ import { UserFormComponent } from './user/components/user-form.component';
 import { UserListingComponent } from './user/components/user-listing.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
 @NgModule({
   declarations: [
     LandingComponent,
@@ -24,7 +23,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       { path: 'users', component: UserContainerComponent }
     ]),
 
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   exports: [UserContainerComponent]
 })
