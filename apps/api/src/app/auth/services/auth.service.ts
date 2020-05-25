@@ -1,33 +1,43 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@qa/api-interfaces';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import * as bcyrpt from 'bcrypt';
+import { UsersService } from '../../users/user/users.service';
+import { environment } from '../../../environments/environment';
+import { UserDto } from '../../Models/User.Dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService
-  ) {}
-
-  validateUser(username: string, pass: string): Observable<User> {
-    return this.usersService.findOne(username).pipe(
-      map(user => {
-        let retVal = null;
-        if (user?.password === pass) retVal = user;
-        return retVal;
-      })
-    );
+  ) {
   }
 
-  login(user: User): any {
+  async validateUser(username: string, pass: string): Promise<UserDto> {
+    //this is a admin path; yes its not ideal.
+    if(username == environment.admin.username && pass == environment.admin.password){
+      const adminUser= new UserDto()
+      adminUser.username= username;
+      adminUser.email= "admin@admin.com";
+      adminUser.id="admin"
+      return  adminUser;
+    }
+
+
+    let returnUser = null;
+    const foundUser = await this.usersService.findOne({username:username});
+    const isCorrectPassword = await this.comparePasswords(pass, foundUser.password);
+    if (isCorrectPassword) {
+      returnUser = foundUser;
+    }
+    return returnUser;
+  }
+
+  login(user: UserDto): any {
     const payload = {
       username: user.username,
       sub: user.id,
-      profile_info: { extra: 'more stufff' }
+      profile_info: { extra: '' }
     };
 
     return {
@@ -35,18 +45,9 @@ export class AuthService {
     };
   }
 
-  public static hashPassword(password: string) {
-    bcyrpt
-      .hash(password, 10)
-      .then(ency => {
-        // save to db
-      })
-      .catch(err => console.log(err));
-  }
 
-  public static async comparePasswords(plainTextpass, hash) {
-    return await bcyrpt
-      .compare(plainTextpass, hash)
+  public async comparePasswords(plainTextpass, hash) {
+    return await bcyrpt.compare(plainTextpass, hash)
       .catch(err => console.log(err));
   }
 }
