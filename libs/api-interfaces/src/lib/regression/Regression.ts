@@ -1,18 +1,17 @@
-import { ITestPass,  } from './TestPass';
+import { ITestPass } from './TestPass';
 //Container for the passes and the root object
 
 export interface IRegression {
-
-     testPasses: ITestPass[],
-     name: string,
-     isComplete: boolean
-     isStarted: boolean
-     releaseName: string
-     startDate: Date
-     endDate: Date
+  testPasses: ITestPass[];
+  name: string;
+  isComplete: boolean;
+  isStarted: boolean;
+  releaseName: string;
+  startDate: Date;
+  endDate: Date;
   id: string;
 }
-export class Regression implements IRegression{
+export class Regression implements IRegression {
   constructor(
     public testPasses: ITestPass[],
     public name: string,

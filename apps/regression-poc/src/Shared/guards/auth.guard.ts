@@ -14,23 +14,28 @@ import { LoginService } from '../services/login.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private loginService:LoginService,
-              private router:Router) {
-  }
+  constructor(private loginService: LoginService, private router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-   if(!this.loginService.isUserLoggedIn()){
-
-     this.router.navigate([{outlets:{primary: "login",  login:'login'}}]);
-
-   }
+    state: RouterStateSnapshot
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    if (!this.loginService.isUserLoggedIn()) {
+      this.router.navigate([{ outlets: { primary: 'login', login: 'login' } }]);
+    }
     return true;
   }
   canActivateChild(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     return true;
   }
-
 }

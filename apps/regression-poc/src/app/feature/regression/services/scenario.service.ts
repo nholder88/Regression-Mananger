@@ -14,37 +14,32 @@ export class ScenarioService {
   constructor(
     private http: HttpClient,
     private errorHandler: ErrorHandlingService
-  ) {
-  }
+  ) {}
 
   private rootUrl = `${environment.apiUrl}/scenario`;
 
   scenarios$ = this.http.get<Scenario[]>(`${this.rootUrl}?join=feature`).pipe(
-    tap(x=> console.log("scenario svc: ", x)),
+    tap(x => console.log('scenario svc: ', x)),
     publishReplay(1),
     refCount(),
     catchError(this.errorHandler.handleError)
   );
 
-
-
   private featureSelectedSubject = new BehaviorSubject<string>('');
   featureSelectedAction$ = this.featureSelectedSubject.asObservable();
-
 
   selectedFeatureScenarios$: Observable<Scenario[]> = combineLatest([
     this.scenarios$,
     this.featureSelectedAction$
   ]).pipe(
     map(([scenarios, featureId]) =>
-      scenarios.filter( x=> x.feature?.id===featureId)
+      scenarios.filter(x => x.feature?.id === featureId)
     )
   );
 
   selectedFeatureChanged(selectedFeatureName: string): void {
     this.featureSelectedSubject.next(selectedFeatureName);
   }
-
 
   /*
     saveScenarioSubject = new Subject<Scenario>();

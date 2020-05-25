@@ -3,5 +3,4 @@ export enum TestStatus {
   Failed = 'Failed',
   UnTested = 'Un-Tested',
   Skipped = 'Skipped'
-
 }

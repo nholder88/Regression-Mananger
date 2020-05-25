@@ -1,19 +1,18 @@
 import { ISteps, Steps } from './Steps';
-import {IFeatureScenarioContainer} from "./FeatureScenarioContainer";
+import { IFeatureScenarioContainer } from './FeatureScenarioContainer';
 
 export interface IScenario {
   //feature: string,
-  name: string,
-  steps: ISteps[],
-  timestamp: Date,
-  note: string,
-  order: number,
-  id: string,
-
+  name: string;
+  steps: ISteps[];
+  timestamp: Date;
+  note: string;
+  order: number;
+  id: string;
 }
 
 export class Scenario implements IScenario {
-  enable: boolean= false;
+  enable: boolean = false;
   constructor(
     public feature: IFeatureScenarioContainer,
     public name: string,
@@ -22,8 +21,6 @@ export class Scenario implements IScenario {
     public timestamp: Date = new Date(),
     public note: string = '',
     public order: number = 0,
-    public id: string = '',
-
-  ) {
-  }
+    public id: string = ''
+  ) {}
 }

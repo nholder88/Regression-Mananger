@@ -5,23 +5,22 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNumber, IsString, IsUUID } from 'class-validator';
 import { IScenarioResult } from '@qa/api-interfaces';
 
-
 @Entity()
-export class ScenarioResultDto implements IScenarioResult{
+export class ScenarioResultDto implements IScenarioResult {
   @ApiProperty({ type: 'string' })
   @IsUUID()
   @PrimaryGeneratedColumn('uuid')
-  id:string;
+  id: string;
 
   @ApiProperty()
   @IsNumber()
   @Column()
-  timestamp:Date;
+  timestamp: Date;
 
   @ApiProperty()
   @IsString()
   @Column()
-  completedBy:string;
+  completedBy: string;
 
   @ApiProperty()
   @IsString()
@@ -31,21 +30,17 @@ export class ScenarioResultDto implements IScenarioResult{
   @ApiProperty()
   @IsString()
   @Column()
-  notes:string;
+  notes: string;
 
   @ApiProperty()
   @IsBoolean()
   @Column()
-  bugCreated:boolean;
+  bugCreated: boolean;
 
-
-  completedSteps:Array<number>
+  completedSteps: Array<number>;
   //Relationships
   @ManyToOne('ScenarioDto', 'results')
-  scenario:ScenarioDto;
+  scenario: ScenarioDto;
   @ManyToOne('TestPassDto', 'results')
-  testPass:TestPassDto;
-
+  testPass: TestPassDto;
 }
-
-

@@ -10,14 +10,14 @@ export class UsersService {
   constructor() {
     this.users = [
       {
-        id: "one",
+        id: 'one',
         username: environment.admin.username,
         password: environment.admin.password
       }
     ];
   }
 
-   findOne(username: string): Observable<User> {
+  findOne(username: string): Observable<User> {
     // Replace with Database backed look up
     return of<User>(this.users.find(user => user.username === username));
   }

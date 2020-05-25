@@ -10,48 +10,48 @@ import { BehaviorSubject, merge, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class FeatureService {
-
   constructor(
     private http: HttpClient,
     private errorHandler: ErrorHandlingService
-  ) { }
+  ) {}
 
+  private rootUrl = `${environment.apiUrl}/feature`;
 
-  private rootUrl = `${environment.apiUrl }/feature`;
-
-  features$ =
-    this.http.get<FeatureScenarioContainer[]>(`${this.rootUrl}?join=scenarios`).pipe(
-      catchError(this.errorHandler.handleError)
-    );
+  features$ = this.http
+    .get<FeatureScenarioContainer[]>(`${this.rootUrl}?join=scenarios`)
+    .pipe(catchError(this.errorHandler.handleError));
 
   saveFeatureSubject = new Subject<FeatureScenarioContainer>();
   featureSavedAction$ = this.saveFeatureSubject.asObservable();
 
-  featureWithAdd$ = merge(
-    this.features$,
-    this.featureSavedAction$
-  ).pipe(
-    scan((acc: FeatureScenarioContainer[], value: FeatureScenarioContainer) => [...acc, value]),
+  featureWithAdd$ = merge(this.features$, this.featureSavedAction$).pipe(
+    scan((acc: FeatureScenarioContainer[], value: FeatureScenarioContainer) => [
+      ...acc,
+      value
+    ]),
     catchError(err => this.errorHandler.handleError(err))
   );
   //TODO: Make this more robust to not have to hard code string...UGH
   private featureSelectedSubject = new BehaviorSubject<string>('Letters');
   featureSelectedAction$ = this.featureSelectedSubject.asObservable();
 
-
   saveFeature(featureScenarioContainer?: FeatureScenarioContainer) {
     if (!featureScenarioContainer.id) {
       featureScenarioContainer.scenarios = [];
       delete featureScenarioContainer.id;
     }
-    const saveObservable$ = featureScenarioContainer.id ? this.http
-      .put<FeatureScenarioContainer>(this.rootUrl, featureScenarioContainer) : this.http
-      .post<FeatureScenarioContainer>(this.rootUrl, featureScenarioContainer);
+    const saveObservable$ = featureScenarioContainer.id
+      ? this.http.put<FeatureScenarioContainer>(
+          this.rootUrl,
+          featureScenarioContainer
+        )
+      : this.http.post<FeatureScenarioContainer>(
+          this.rootUrl,
+          featureScenarioContainer
+        );
 
-    saveObservable$.pipe(
-
-      catchError(err => this.errorHandler.handleError(err)))
-      .subscribe( x=>
-    this.saveFeatureSubject.next(x));
+    saveObservable$
+      .pipe(catchError(err => this.errorHandler.handleError(err)))
+      .subscribe(x => this.saveFeatureSubject.next(x));
   }
 }

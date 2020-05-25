@@ -11,7 +11,6 @@ import { RegressionTestingComponent } from './components/regression-testing/regr
 import { RegressionTestPassListingComponent } from './components/regression-test-pass-listing/regression-test-pass-listing.component';
 import { SharedModule } from '../../../Shared/shared.module';
 
-
 @NgModule({
   declarations: [
     RegressionListingComponent,
@@ -20,7 +19,6 @@ import { SharedModule } from '../../../Shared/shared.module';
 
     RegressionTestingComponent,
     RegressionTestPassListingComponent
-
   ],
   imports: [
     CommonModule,
@@ -33,8 +31,8 @@ import { SharedModule } from '../../../Shared/shared.module';
       },
 
       { path: 'continue/:id', component: RegressionTestingComponent },
-      {path: 'listing', component:RegressionTestPassListingComponent},
-      {path: '', redirectTo: 'history', pathMatch:'full' }
+      { path: 'listing', component: RegressionTestPassListingComponent },
+      { path: '', redirectTo: 'history', pathMatch: 'full' }
     ]),
     SharedModule
   ],

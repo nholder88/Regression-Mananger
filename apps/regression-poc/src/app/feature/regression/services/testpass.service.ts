@@ -14,15 +14,13 @@ export class TestPassService {
   constructor(
     private http: HttpClient,
     private errorHandler: ErrorHandlingService
-  ) {
-  }
+  ) {}
 
   rootUrl: string = `${environment.apiUrl}/TestPass`;
 
   testPasses$ = this.http
     .get<TestPass[]>(`${this.rootUrl}?join=Header`)
     .pipe(catchError(this.errorHandler.handleError));
-
 
   private testPassSelectedSubject = new BehaviorSubject<TestPass>(null);
   testPassSelectedAction$ = this.testPassSelectedSubject.asObservable();
@@ -33,7 +31,7 @@ export class TestPassService {
   testPassSavedAction$ = this.saveTestPassSubject.asObservable();
 
   testPassesWithAdd$ = merge(this.testPasses$, this.testPassSavedAction$).pipe(
-    scan((acc: TestPass[], value: TestPass) =>   [...acc, value] ),
+    scan((acc: TestPass[], value: TestPass) => [...acc, value]),
     catchError(err => this.errorHandler.handleError(err))
   );
 
@@ -43,9 +41,7 @@ export class TestPassService {
     if (id) {
       // get the scenario results with this test pass
       this.http
-        .get<TestPass>(
-          this.rootUrl + `/${id}?join=results`
-        )
+        .get<TestPass>(this.rootUrl + `/${id}?join=results`)
         .pipe(catchError(err => this.errorHandler.handleError(err)))
         .subscribe(testPass => this.testPassSelectedSubject.next(testPass));
     }
@@ -62,16 +58,13 @@ export class TestPassService {
     saveObservable$
       .pipe(catchError(err => this.errorHandler.handleError(err)))
       .subscribe(x => this.saveTestPassSubject.next(x));
-
   }
 
   completeTestPass(testPassId: string) {
-
     // because the reload is trigger when this is called there is no need to emit
-    this.http.patch<TestPass>(`${this.rootUrl}/${testPassId}`, { isComplete: true })
+    this.http
+      .patch<TestPass>(`${this.rootUrl}/${testPassId}`, { isComplete: true })
       .pipe(catchError(err => this.errorHandler.handleError(err)))
       .subscribe();
-
-
   }
 }

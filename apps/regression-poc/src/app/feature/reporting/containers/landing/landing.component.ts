@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ScenarioResultService} from "../../../regression/services/scenario-result.service";
+import { ScenarioResultService } from '../../../regression/services/scenario-result.service';
 
 @Component({
   selector: 'qa-landing',
@@ -7,14 +7,9 @@ import {ScenarioResultService} from "../../../regression/services/scenario-resul
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
+  reportData$ = this.scenarioResultService.reportData$;
 
-  reportData$= this.scenarioResultService.reportData$;
+  constructor(private scenarioResultService: ScenarioResultService) {}
 
-  constructor(private  scenarioResultService: ScenarioResultService) { }
-
-  ngOnInit(): void {
-  }
-
-
-
+  ngOnInit(): void {}
 }

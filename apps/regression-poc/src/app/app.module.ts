@@ -26,12 +26,15 @@ import { JwtInterceptor } from '../Shared/inteceptors/jwt.interceptor';
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    ClarityModule, ReactiveFormsModule,
+    ClarityModule,
+    ReactiveFormsModule,
     SharedModule,
     RegressionModule,
     AdminModule
   ],
-  providers: [{provide : HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi:true}],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

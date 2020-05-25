@@ -5,9 +5,7 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class RoleService {
-
-  constructor() {
-  }
+  constructor() {}
 
   // Todo: Add a back end for these
   roles$ = of([

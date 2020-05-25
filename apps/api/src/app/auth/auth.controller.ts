@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Request, UnauthorizedException, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UnauthorizedException,
+  UseGuards
+} from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -11,13 +19,11 @@ import { map } from 'rxjs/operators';
 @ApiTags('Auth')
 @Controller()
 export class AuthController {
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   //  Not going to  use the local strategy here because the user and password have to be in query string.
   @Post('auth/login')
   login(@Body() user: UserDto): Observable<any> {
-
     return this.authService.validateUser(user.username, user.password).pipe(
       map(user => {
         if (!user) {
@@ -26,7 +32,6 @@ export class AuthController {
         return this.authService.login(user);
       })
     );
-
   }
 
   @UseGuards(JwtAuthGuard)

@@ -13,15 +13,13 @@ export class RegressionHeaderService {
   constructor(
     private http: HttpClient,
     private errorHandler: ErrorHandlingService
-  ) {
-  }
+  ) {}
 
   private rootUrl = `${environment.apiUrl}/header`;
 
-  regressions$ =
-    this.http.get<RegressionHeader[]>(`${this.rootUrl}`).pipe(
-      catchError(this.errorHandler.handleError)
-    );
+  regressions$ = this.http
+    .get<RegressionHeader[]>(`${this.rootUrl}`)
+    .pipe(catchError(this.errorHandler.handleError));
 
   saveRegressionSubject = new Subject<RegressionHeader>();
   regressionSavedAction$ = this.saveRegressionSubject.asObservable();
@@ -47,15 +45,15 @@ export class RegressionHeaderService {
       regression.testPasses = [];
       delete regression.id;
     }
-    const saveObservable$ = regression.id ? this.http
-      .patch<RegressionHeader>(`${this.rootUrl}/${regression.id}`, regression) : this.http
-      .post<RegressionHeader>(this.rootUrl, regression);
+    const saveObservable$ = regression.id
+      ? this.http.patch<RegressionHeader>(
+          `${this.rootUrl}/${regression.id}`,
+          regression
+        )
+      : this.http.post<RegressionHeader>(this.rootUrl, regression);
 
-    saveObservable$.pipe(
-      catchError(err => this.errorHandler.handleError(err)))
+    saveObservable$
+      .pipe(catchError(err => this.errorHandler.handleError(err)))
       .subscribe(reg => this.saveRegressionSubject.next(reg));
-
   }
-
-
 }

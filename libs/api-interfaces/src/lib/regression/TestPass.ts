@@ -1,4 +1,7 @@
-import { FeatureScenarioContainer, IFeatureScenarioContainer } from './FeatureScenarioContainer';
+import {
+  FeatureScenarioContainer,
+  IFeatureScenarioContainer
+} from './FeatureScenarioContainer';
 import { IScenarioResult } from './ScenarioResult';
 import { IRegressionHeader } from './RegressionHeader';
 
@@ -28,9 +31,6 @@ export class TestPass implements ITestPass {
     public title: string = '',
     public Header: IRegressionHeader = null,
     public testingLoginUserName: string = null,
-    public  testingRole: string = null
-  ) {
-  }
-
-
+    public testingRole: string = null
+  ) {}
 }

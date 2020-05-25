@@ -4,10 +4,9 @@ import { IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
 
 export class UserDto implements User {
-
   @ApiProperty({ type: 'number' })
   @IsUUID()
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ApiProperty()

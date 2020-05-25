@@ -5,53 +5,58 @@ import { RegressionHeaderService } from '../../services/regression-header.servic
 
 @Component({
   selector: 'qa-regression-header-create',
-  template: `<button class="btn btn-primary btn-sm" (click)="xlOpen = !xlOpen">
-    Add Regression
-  </button>
+  template: `
+    <button class="btn btn-primary btn-sm" (click)="xlOpen = !xlOpen">
+      Add Regression
+    </button>
 
-  <clr-modal [(clrModalOpen)]="xlOpen" [clrModalSize]="'lg'">
-    <h3 class="modal-title">Add New Regression</h3>
-    <div class="modal-body">
-      <form clrForm [formGroup]="regressionForm" (ngSubmit)="onSubmit()">
-        <div formGroupName="regression">
-          <div class="clr-row">
-            <div class="clr-col">
-              <clr-input-container>
-                <label>Name</label>
-                <input clrInput type="text" formControlName="name" />
-              </clr-input-container>
+    <clr-modal [(clrModalOpen)]="xlOpen" [clrModalSize]="'lg'">
+      <h3 class="modal-title">Add New Regression</h3>
+      <div class="modal-body">
+        <form clrForm [formGroup]="regressionForm" (ngSubmit)="onSubmit()">
+          <div formGroupName="regression">
+            <div class="clr-row">
+              <div class="clr-col">
+                <clr-input-container>
+                  <label>Name</label>
+                  <input clrInput type="text" formControlName="name" />
+                </clr-input-container>
+              </div>
+              <div class="clr-col">
+                <clr-input-container>
+                  <label>Release Name</label>
+                  <input clrInput type="text" formControlName="releaseName" />
+                </clr-input-container>
+              </div>
             </div>
-            <div class="clr-col">
-              <clr-input-container>
-                <label>Release Name</label>
-                <input clrInput type="text" formControlName="releaseName" />
-              </clr-input-container>
+            <div class="clr-row">
+              <div class="clr-col">
+                <clr-date-container>
+                  <label>Start Date</label>
+                  <input clrDate type="date" formControlName="startDate" />
+                </clr-date-container>
+              </div>
+              <div class="clr-col">
+                <clr-date-container>
+                  <label>End Date</label>
+                  <input clrDate type="date" formControlName="endDate" />
+                </clr-date-container>
+              </div>
             </div>
           </div>
-          <div class="clr-row">
-            <div class="clr-col">
-              <clr-date-container>
-                <label>Start Date</label>
-                <input clrDate type="date" formControlName="startDate" />
-              </clr-date-container>
-            </div>
-            <div class="clr-col">
-              <clr-date-container>
-                <label>End Date</label>
-                <input clrDate type="date" formControlName="endDate" />
-              </clr-date-container>
-            </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline"
+              (click)="xlOpen = false"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Ok</button>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline" (click)="xlOpen = false">
-            Cancel
-          </button>
-          <button type="submit" class="btn btn-primary">Ok</button>
-        </div>
-      </form>
-    </div>
-  </clr-modal>
+        </form>
+      </div>
+    </clr-modal>
   `
 })
 export class RegressionHeaderCreateComponent implements OnInit {
@@ -62,7 +67,6 @@ export class RegressionHeaderCreateComponent implements OnInit {
   xlOpen = false;
 
   regressionForm: FormGroup;
-
 
   ngOnInit() {
     this.regressionForm = this.createFormGroupWithBuilderAndModel(

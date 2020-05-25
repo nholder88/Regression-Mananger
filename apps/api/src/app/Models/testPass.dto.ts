@@ -63,11 +63,11 @@ export class TestPassDto implements ITestPass {
 
   @ApiProperty({ type: 'string' })
   @IsString()
-  @Column({default:""})
+  @Column({ default: '' })
   testingLoginUserName: string;
 
   @ApiProperty({ type: 'string' })
   @IsString()
-  @Column({default:""})
+  @Column({ default: '' })
   testingRole: string;
 }

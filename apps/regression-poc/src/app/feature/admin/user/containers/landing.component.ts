@@ -3,25 +3,26 @@ import { AppLink } from '../../../../appLink';
 
 @Component({
   selector: 'qa-landing',
-  template: `<div class="clr-row">
-    <div class="clr-col" *ngFor="let area of adminAreas">
-      <div class="card">
-        <div class="card-block">
-          <div class="card-title">
-            {{ area.title }}
+  template: `
+    <div class="clr-row">
+      <div class="clr-col" *ngFor="let area of adminAreas">
+        <div class="card">
+          <div class="card-block">
+            <div class="card-title">
+              {{ area.title }}
+            </div>
+            <div class="card-text">
+              {{ area.summary }}
+            </div>
           </div>
-          <div class="card-text">
-            {{ area.summary }}
+          <div class="card-footer">
+            <button class="btn btn-sm btn-link" [routerLink]="area.link">
+              View Listing
+            </button>
           </div>
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-sm btn-link" [routerLink]="area.link">
-            View Listing
-          </button>
         </div>
       </div>
     </div>
-  </div>
   `
 })
 export class LandingComponent implements OnInit {

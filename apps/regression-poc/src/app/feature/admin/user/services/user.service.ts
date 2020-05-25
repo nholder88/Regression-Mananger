@@ -7,7 +7,6 @@ import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../../Shared/services/error-handling.service';
 import { LoginService } from '../../../../../Shared/services/login.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -62,7 +61,7 @@ export class UserService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
-  getLoggedInUser(): string  {
+  getLoggedInUser(): string {
     return this.loginService.getCurrentUserName();
   }
 

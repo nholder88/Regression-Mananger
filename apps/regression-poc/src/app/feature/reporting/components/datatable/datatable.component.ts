@@ -7,11 +7,9 @@ import { ScenarioResult } from '@qa/api-interfaces';
   styleUrls: ['./datatable.component.css']
 })
 export class DatatableComponent implements OnInit {
-@Input()
-gridData: ScenarioResult[];
-  constructor() { }
+  @Input()
+  gridData: ScenarioResult[];
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
