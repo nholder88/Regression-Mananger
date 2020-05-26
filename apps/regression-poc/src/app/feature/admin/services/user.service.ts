@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { LoginService } from '../../../../Shared/services/login.service';
 import { RoleService } from './role.service';
+import { environment } from 'apps/regression-poc/src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class UserService {
   });
   userSelectedAction$ = this.selectedUserSubject.asObservable();
 
-  private rootUrl = 'api/user';
+  private rootUrl = `${environment.apiUrl}/user`;
 
   selectedUser$ = combineLatest([this.userSelectedAction$]).pipe(
     tap(selectedUser => console.log('User Selected', selectedUser)),
