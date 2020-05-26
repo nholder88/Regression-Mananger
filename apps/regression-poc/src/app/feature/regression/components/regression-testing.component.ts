@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TestPassService } from '../../services/testpass.service';
+import { TestPassService } from '../services/testpass.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ScenarioResultService } from '../../services/scenario-result.service';
+import { ScenarioResultService } from '../services/scenario-result.service';
 import { FormArray, FormBuilder } from '@angular/forms';
 import { ScenarioResult, Steps } from '@qa/api-interfaces';
 

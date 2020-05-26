@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TestPassService } from '../../services/testpass.service';
+import { TestPassService } from '../services/testpass.service';
 import { map } from 'rxjs/operators';
 
 @Component({
