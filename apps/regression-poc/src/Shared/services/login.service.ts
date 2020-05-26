@@ -6,12 +6,17 @@ import { LoginResult } from '../Models/loginResult';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JwtService } from './jwt.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  constructor(private http: HttpClient, private jwtService: JwtService) {}
+  constructor(
+    private http: HttpClient,
+    private jwtService: JwtService,
+    private router: Router
+  ) {}
   IsLoggedInSubject = new BehaviorSubject<boolean>(false);
   LoggedOn$ = this.IsLoggedInSubject.asObservable();
 
@@ -47,5 +52,6 @@ export class LoginService {
   logout() {
     this.jwtService.clearToken();
     this.IsLoggedInSubject.next(false);
+    this.router.navigate([{ outlets: { primary: 'login', login: 'login' } }]);
   }
 }
