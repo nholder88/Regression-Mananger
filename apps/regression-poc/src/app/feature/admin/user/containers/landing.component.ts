@@ -40,17 +40,25 @@ export class LandingComponent implements OnInit {
         rolesAllowed: ['admin'],
         subRoutes: null
       },
-      {
-        title: 'Logins',
-        link: 'logins',
-        summary: 'Manage Logins ',
-        rolesAllowed: ['admin'],
-        subRoutes: null
-      },
+
       {
         title: 'Teams',
         link: 'teams',
         summary: 'Teams and Membership',
+        rolesAllowed: ['admin'],
+        subRoutes: null
+      },
+      {
+        title: 'Features',
+        link: 'features',
+        summary: 'Manage Features ',
+        rolesAllowed: ['admin'],
+        subRoutes: null
+      },
+      {
+        title: 'Scenarios',
+        link: 'scenarios',
+        summary: 'Manage Scenarios ',
         rolesAllowed: ['admin'],
         subRoutes: null
       }

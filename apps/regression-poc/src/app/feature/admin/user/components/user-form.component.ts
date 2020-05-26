@@ -16,61 +16,60 @@ import { Roles } from '@qa/api-interfaces';
         (ngSubmit)="onSubmit()"
       >
         <div class="card-header">
-          User
+          User - Add New
         </div>
         <div class="card-block">
-          <div class="card-title">
-            Add/Edit
-          </div>
           <div class="card-text">
             <clr-input-container>
-              <label>Name</label>
-              <input clrInput type="text" formControlName="name" />
+              <label>User Name</label>
+              <input clrInput type="text" formControlName="username" />
+              <clr-control-helper>Please enter the username</clr-control-helper>
+              <clr-control-error>Data is invalid</clr-control-error>
+            </clr-input-container>
+
+            <clr-input-container>
+              <label>Email </label>
+              <input clrInput type="text" formControlName="email" />
               <clr-control-helper
-                >Please enter the full name</clr-control-helper
+                >Please enter the email address</clr-control-helper
               >
               <clr-control-error>Data is invalid</clr-control-error>
             </clr-input-container>
+
+            <clr-input-container>
+              <label>Password</label>
+              <input clrInput type="password" formControlName="password" />
+              <clr-control-helper></clr-control-helper>
+              <clr-control-error>Data is invalid</clr-control-error>
+            </clr-input-container>
+
             <clr-input-container>
               <label>Team</label>
-              <select clrInput type="text" formControlName="team">
+              <select clrInput type="text">
                 <option value="-1">No Squad</option>
                 <option *ngFor="let team of vm.teams" [value]="team.id">{{
                   team.name
                 }}</option>
               </select>
-              <clr-control-helper>Please select a team </clr-control-helper>
+              <clr-control-helper>Not Implemented </clr-control-helper>
               <clr-control-error
                 >A team must be selected, you have to know where people
                 belong.</clr-control-error
               >
             </clr-input-container>
-            <clr-checkbox-container clrInline>
-              <label>Roles</label>
-              <clr-checkbox-wrapper *ngFor="let role of vm.roles">
-                <input
-                  type="checkbox"
-                  clrCheckbox
-                  formControlName="roles"
-                  required
-                  [value]="role.id"
-                  (click)="onRoleSelected(role)"
-                />
-                <label>{{ role.name }}</label>
-              </clr-checkbox-wrapper>
+            <clr-input-container clrInline>
+              <label>Role</label>
+              <select clrInput type="text">
+                <option *ngFor="let role of vm.roles" [value]="role.id">
+                  {{ role.name }}</option
+                >
+              </select>
 
-              <clr-control-helper
-                >Select the roles this user will have</clr-control-helper
-              >
+              <clr-control-helper>Not Implemented</clr-control-helper>
               <clr-control-error>This field is required!</clr-control-error>
-            </clr-checkbox-container>
+            </clr-input-container>
           </div>
-        </div>
-        <div class="card-footer">
           <button class="btn btn-sm btn-primary" type="submit">Save</button>
-          <button class="btn btn-sm  btn-danger-outline" type="reset">
-            Cancel
-          </button>
         </div>
       </form>
     </div>
@@ -84,9 +83,9 @@ export class UserFormComponent implements OnInit {
   ) {}
 
   userForm = this.formBuilder.group({
-    userName: ['', Validators.required],
-
-    password: ['', Validators.required]
+    username: ['', Validators.required],
+    email: ['', Validators.required, Validators.email],
+    password: ['']
   });
   user$ = this.userService.selectedUser$.pipe(
     tap(x => {
@@ -100,19 +99,9 @@ export class UserFormComponent implements OnInit {
     map(([user, teams, roles]) => ({ user, teams, roles }))
   );
 
-  ngOnInit() {}
-
   selectedRoles = new Array<Roles>();
 
-  onRoleSelected(role) {
-    let index = this.selectedRoles.findIndex(x => x.id == role.id);
-    if (index === -1) {
-      this.selectedRoles.push(role);
-    } else {
-      this.selectedRoles.splice(index, 1);
-    }
-    console.log(this.selectedRoles);
-  }
+  ngOnInit() {}
 
   onSubmit() {
     console.log('Forms current value', this.userForm.value);

@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     UserFormComponent
   ],
   imports: [
+    ClarityModule,
     CommonModule,
     RouterModule.forChild([
       { path: '', component: LandingComponent },

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { WelcomeComponent } from './home/welcome/welcome.component';
 import { LoginComponent } from '../Shared/login/login.component';
 import { AuthGuard } from '../Shared/guards/auth.guard';
+import { PageNotFoundComponent } from './page-not-found.component';
 
 const routes: Routes = [
   {
@@ -31,10 +32,8 @@ const routes: Routes = [
   { path: 'login', outlet: 'login', component: LoginComponent },
   {
     path: '**',
-    loadChildren: () =>
-      import('./feature/reporting/reporting.module').then(
-        r => r.ReportingModule
-      ),
+    outlet: 'primary',
+    component: PageNotFoundComponent,
     canActivate: [AuthGuard]
   }
 ];

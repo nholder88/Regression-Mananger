@@ -25,12 +25,23 @@ import { map } from 'rxjs/operators';
           ><span class="nav-text">{{ area.title }}</span></a
         >
       </div>
-      <div class="header-actions">
-        <a href="javascript://" class="nav-link nav-icon-text">
-          <clr-icon shape="user"></clr-icon>
 
-          <span class="nav-text">Welcome, {{ user }}</span>
-        </a>
+      <div class="header-actions">
+        <clr-dropdown>
+          <button
+            class="nav-text"
+            clrDropdownTrigger
+            aria-label="open user profile"
+          >
+            {{ user }}
+            <clr-icon shape="caret down"></clr-icon>
+          </button>
+          <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+            <button href="..." (click)="logout()" clrDropdownItem>
+              Log out
+            </button>
+          </clr-dropdown-menu>
+        </clr-dropdown>
       </div>
     </header>
     <nav class="subnav" *ngIf="(selectedArea$ | async)?.subRoutes as routes">
@@ -101,17 +112,25 @@ export class ApplicationHeaderComponent {
           rolesAllowed: ['admin'],
           subRoutes: null
         },
-        {
-          title: 'Logins',
-          link: 'admin/logins',
-          summary: 'Manage Logins ',
-          rolesAllowed: ['admin'],
-          subRoutes: null
-        },
+
         {
           title: 'Teams',
           link: 'admin/teams',
           summary: 'Teams and Membership',
+          rolesAllowed: ['admin'],
+          subRoutes: null
+        },
+        {
+          title: 'Features',
+          link: 'admin/features',
+          summary: 'Manage Features ',
+          rolesAllowed: ['admin'],
+          subRoutes: null
+        },
+        {
+          title: 'Scenarios',
+          link: 'admin/scenarios',
+          summary: 'Manage Scenarios ',
           rolesAllowed: ['admin'],
           subRoutes: null
         }
@@ -125,10 +144,6 @@ export class ApplicationHeaderComponent {
   selectedAreaAction = new BehaviorSubject<AppLink>(null);
   appLinkObservable$ = this.selectedAreaAction.asObservable();
 
-  setSelectedArea(area: AppLink) {
-    this.selectedAreaAction.next(area);
-  }
-
   selectedArea$ = combineLatest([this.appAreas$, this.appLinkObservable$]).pipe(
     map(([areas, selectedArea]) => {
       if (selectedArea) {
@@ -138,4 +153,11 @@ export class ApplicationHeaderComponent {
       }
     })
   );
+
+  setSelectedArea(area: AppLink) {
+    this.selectedAreaAction.next(area);
+  }
+  logout() {
+    this.loginService.logout();
+  }
 }
