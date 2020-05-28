@@ -66,10 +66,9 @@ export class ScenarioService {
       return;
     }
 
-    const saveObservable$ =
-      scenario.id.length > 0
-        ? this.http.put<Scenario>(`${this.rootUrl}/${scenario.id}`, scenario)
-        : this.http.post<Scenario>(this.rootUrl, scenario);
+    const saveObservable$ = scenario.id
+      ? this.http.put<Scenario>(`${this.rootUrl}/${scenario.id}`, scenario)
+      : this.http.post<Scenario>(this.rootUrl, scenario);
 
     saveObservable$.subscribe(x => this.saveScenarioSubject.next(x));
   }

@@ -38,10 +38,7 @@ import { FeatureService } from '../../regression/services/feature.service';
                 >
               </select>
               <clr-control-helper>Not Implemented </clr-control-helper>
-              <clr-control-error
-                >A team must be selected, you have to know where people
-                belong.</clr-control-error
-              >
+              <clr-control-error>A team must be selected.</clr-control-error>
             </clr-input-container>
           </div>
           <button class="btn btn-sm btn-primary" type="submit">Save</button>
