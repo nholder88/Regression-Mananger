@@ -31,9 +31,6 @@ export class FeatureService {
     ]),
     catchError(err => this.errorHandler.handleError(err))
   );
-  //TODO: Make this more robust to not have to hard code string...UGH
-  private featureSelectedSubject = new BehaviorSubject<string>('Letters');
-  featureSelectedAction$ = this.featureSelectedSubject.asObservable();
 
   saveFeature(featureScenarioContainer?: FeatureScenarioContainer) {
     if (!featureScenarioContainer.id) {
@@ -42,7 +39,7 @@ export class FeatureService {
     }
     const saveObservable$ = featureScenarioContainer.id
       ? this.http.put<FeatureScenarioContainer>(
-          this.rootUrl,
+          `${this.rootUrl}/${featureScenarioContainer.id}`,
           featureScenarioContainer
         )
       : this.http.post<FeatureScenarioContainer>(
