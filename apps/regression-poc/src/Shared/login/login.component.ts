@@ -45,8 +45,7 @@ import { ActivatedRoute, Router } from '@angular/router';
         </div>
       </form>
     </div>
-  `,
-  styleUrls: ['./login.component.css']
+  `
 })
 export class LoginComponent implements OnInit {
   @Output()

@@ -1,4 +1,9 @@
-<div class="clr-row">
+import { Component, Input, OnInit } from '@angular/core';
+import { ScenarioResult } from '@qa/api-interfaces';
+
+@Component({
+  selector: 'qa-datatable',
+  template: `<div class="clr-row">
   <div class="clr-col">
     <div class="card">
       <div class="card-header">
@@ -45,3 +50,12 @@
     </div>
   </div>
 </div>
+`
+})
+export class DatatableComponent implements OnInit {
+  @Input()
+  gridData: ScenarioResult[];
+  constructor() {}
+
+  ngOnInit(): void {}
+}

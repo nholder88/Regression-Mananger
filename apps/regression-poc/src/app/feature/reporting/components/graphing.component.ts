@@ -6,8 +6,57 @@ import { ScenarioResult } from '@qa/api-interfaces';
 
 @Component({
   selector: 'qa-graph',
-  templateUrl: './graphing.component.html',
-  styleUrls: ['./graphing.component.css']
+  template: `<div class="clr-row">
+  <div class="clr-col">
+    <div class="card">
+      <div class="card-header">
+        Bar Graph
+      </div>
+      <div class="card-block">
+        <div class="card-text">
+          <div class="chart">
+            <canvas
+              baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"
+              [options]="pieChartOptions"
+              [plugins]="pieChartPlugins"
+              [colors]="pieChartColors"
+              [legend]="pieChartLegend"
+            >
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clr-col">
+    <div class="card">
+      <div class="card-header">
+        Pie Chart
+      </div>
+      <div class="card-block">
+        <div class="card-text">
+          <div class="chart">
+            <canvas
+              baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="'pie'"
+              [options]="pieChartOptions"
+              [plugins]="pieChartPlugins"
+              [colors]="pieChartColors"
+              [legend]="pieChartLegend"
+            >
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
 })
 export class GraphingComponent implements OnInit {
   @Input()

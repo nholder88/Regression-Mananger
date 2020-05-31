@@ -56,8 +56,8 @@ import { map } from 'rxjs/operators';
         </li>
       </ul>
     </nav>
-  `,
-  styleUrls: ['./application-header.component.css']
+  `
+
 })
 export class ApplicationHeaderComponent {
   constructor(private loginService: LoginService) {}
