@@ -43,9 +43,9 @@ import { Roles } from '@qa/api-interfaces';
               <clr-control-error>Data is invalid</clr-control-error>
             </clr-input-container>
 
-            <clr-input-container>
+            <clr-select-container>
               <label>Team</label>
-              <select clrInput type="text">
+              <select clrSelect type="text">
                 <option value="-1">No Squad</option>
                 <option *ngFor="let team of vm.teams" [value]="team.id">{{
                   team.name
@@ -56,10 +56,10 @@ import { Roles } from '@qa/api-interfaces';
                 >A team must be selected, you have to know where people
                 belong.</clr-control-error
               >
-            </clr-input-container>
-            <clr-input-container clrInline>
+            </clr-select-container>
+            <clr-select-container >
               <label>Role</label>
-              <select clrInput type="text">
+              <select clrSelect type="text">
                 <option *ngFor="let role of vm.roles" [value]="role.id">
                   {{ role.name }}</option
                 >
@@ -67,7 +67,7 @@ import { Roles } from '@qa/api-interfaces';
 
               <clr-control-helper>Not Implemented</clr-control-helper>
               <clr-control-error>This field is required!</clr-control-error>
-            </clr-input-container>
+            </clr-select-container>
           </div>
           <button class="btn btn-sm btn-primary" type="submit">Save</button>
         </div>

@@ -27,9 +27,9 @@ import { FeatureService } from '../../regression/services/feature.service';
               <clr-control-error>Data is invalid</clr-control-error>
             </clr-input-container>
 
-            <clr-input-container>
+            <clr-select-container>
               <label>Owning Team</label>
-              <select clrInput formControlName="team">
+              <select clrSelect formControlName="team">
                 <option value="-1">No Squad</option>
                 <option
                   *ngFor="let team of teamOptions$ | async"
@@ -37,9 +37,9 @@ import { FeatureService } from '../../regression/services/feature.service';
                   >{{ team.name }}</option
                 >
               </select>
-              <clr-control-helper>Not Implemented </clr-control-helper>
+
               <clr-control-error>A team must be selected.</clr-control-error>
-            </clr-input-container>
+            </clr-select-container>
           </div>
           <button class="btn btn-sm btn-primary" type="submit">Save</button>
         </div>

@@ -15,7 +15,7 @@ import { ScenarioService } from './scenario.service';
     id: { field: 'id', type: 'string', primary: true }
   },
   query: {
-    join: { steps: { eager: true }, feature: {} },
+    join: { steps: { eager: true }, feature: {eager:true} },
     sort: [
       { field: 'order', order: 'ASC' },
       { field: 'steps.order', order: 'ASC' }

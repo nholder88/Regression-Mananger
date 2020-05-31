@@ -32,10 +32,9 @@ export class ScenarioService {
   private rootUrl = `${environment.apiUrl}/scenario`;
 
   scenarios$ = this.http
-    .get<Scenario[]>(`${this.rootUrl}?join=feature`)
+    .get<Scenario[]>(`${this.rootUrl}`)
     .pipe(
-      publishReplay(1),
-      refCount(),
+
       catchError(this.errorHandler.handleError)
     );
   saveScenarioSubject = new Subject<Scenario>();
