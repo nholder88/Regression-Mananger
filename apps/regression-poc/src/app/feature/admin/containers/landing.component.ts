@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppLink } from '../../../../appLink';
+import { AppLink } from '../../../appLink';
 
 @Component({
   selector: 'qa-landing',

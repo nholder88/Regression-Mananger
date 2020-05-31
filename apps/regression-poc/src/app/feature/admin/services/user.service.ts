@@ -4,9 +4,10 @@ import { BehaviorSubject, combineLatest, merge, of, Subject } from 'rxjs';
 import { catchError, scan, shareReplay, tap } from 'rxjs/operators';
 import { User } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
-import { ErrorHandlingService } from '../../../../../Shared/services/error-handling.service';
-import { LoginService } from '../../../../../Shared/services/login.service';
+import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
+import { LoginService } from '../../../../Shared/services/login.service';
 import { RoleService } from './role.service';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +22,16 @@ export class UserService {
 
   userRoles$ = this.roleService.roles$;
   teams$ = of([
-    { id: 1, name: 'Best squad' },
-    { id: 2, name: 'Ok  squad' },
-    { id: 3, name: 'Salt squad' },
+    { id: 1, name: 'OD' },
+    { id: 2, name: 'OS' },
+    { id: 3, name: 'OU' },
     {
       id: 4,
-      name: 'Fury Squad'
+      name: 'Pinnacle'
+    },
+    {
+      id: 5,
+      name: 'Alpha'
     }
   ]);
 
@@ -38,7 +43,7 @@ export class UserService {
   });
   userSelectedAction$ = this.selectedUserSubject.asObservable();
 
-  private rootUrl = 'api/user';
+  private rootUrl = `${environment.apiUrl}/user`;
 
   selectedUser$ = combineLatest([this.userSelectedAction$]).pipe(
     tap(selectedUser => console.log('User Selected', selectedUser)),

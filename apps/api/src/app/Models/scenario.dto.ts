@@ -1,6 +1,12 @@
 import { IScenario } from '@qa/api-interfaces';
 import { FeatureDto } from './feature.dto';
-import { Column, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Generated
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 import { Entity } from 'typeorm/decorator/entity/Entity';
@@ -25,7 +31,8 @@ export class ScenarioDto implements IScenario {
 
   @ApiProperty()
   @IsNumber()
-  @Column()
+  @Column({ default: 0 })
+  @Generated('rowid')
   order: number;
 
   @ApiProperty()

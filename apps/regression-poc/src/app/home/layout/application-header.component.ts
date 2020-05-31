@@ -112,7 +112,6 @@ export class ApplicationHeaderComponent {
           rolesAllowed: ['admin'],
           subRoutes: null
         },
-
         {
           title: 'Teams',
           link: 'admin/teams',

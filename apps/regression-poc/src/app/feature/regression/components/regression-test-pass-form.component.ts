@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClrWizard } from '@clr/angular';
-import { UserService } from '../../../admin/user/services/user.service';
-import { RegressionHeaderService } from '../../services/regression-header.service';
-import { TestPassService } from '../../services/testpass.service';
-import { FeatureService } from '../../services/feature.service';
+import { UserService } from '../../admin/services/user.service';
+import { RegressionHeaderService } from '../services/regression-header.service';
+import { TestPassService } from '../services/testpass.service';
+import { FeatureService } from '../services/feature.service';
 import { FeatureScenarioContainer, TestPass } from '@qa/api-interfaces';
 import { map } from 'rxjs/operators';
-import { RoleService } from '../../../admin/user/services/role.service';
+import { RoleService } from '../../admin/services/role.service';
 
 @Component({
   selector: 'qa-regression-test-pass-form',

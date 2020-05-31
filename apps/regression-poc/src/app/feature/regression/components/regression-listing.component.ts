@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RegressionHeaderService } from '../../services/regression-header.service';
+import { RegressionHeaderService } from '../services/regression-header.service';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RegressionHeader } from '@qa/api-interfaces';
@@ -111,7 +111,13 @@ import { RegressionHeader } from '@qa/api-interfaces';
       </div>
     </div>
   `,
-  styleUrls: ['./regression-listing.component.css']
+  styles: [
+    `
+      .add-regression-button {
+        float: right;
+      }
+    `
+  ]
 })
 export class RegressionListingComponent implements OnInit {
   constructor(private service: RegressionHeaderService) {}

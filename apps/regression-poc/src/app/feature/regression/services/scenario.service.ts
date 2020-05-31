@@ -1,7 +1,20 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  Subject,
+  merge
+} from 'rxjs';
 
-import { catchError, map, publishReplay, refCount, tap } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  publishReplay,
+  refCount,
+  tap,
+  scan
+} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { Scenario } from '@qa/api-interfaces';
@@ -18,13 +31,19 @@ export class ScenarioService {
 
   private rootUrl = `${environment.apiUrl}/scenario`;
 
-  scenarios$ = this.http.get<Scenario[]>(`${this.rootUrl}?join=feature`).pipe(
-    tap(x => console.log('scenario svc: ', x)),
-    publishReplay(1),
-    refCount(),
-    catchError(this.errorHandler.handleError)
-  );
+  scenarios$ = this.http
+    .get<Scenario[]>(`${this.rootUrl}`)
+    .pipe(
 
+      catchError(this.errorHandler.handleError)
+    );
+  saveScenarioSubject = new Subject<Scenario>();
+  scenarioSavedAction$ = this.saveScenarioSubject.asObservable();
+
+  scenarioWithAdd$ = merge(this.scenarios$, this.scenarioSavedAction$).pipe(
+    scan((acc: Scenario[], value: Scenario) => [...acc, value]),
+    catchError(err => this.errorHandler.handleError(err))
+  );
   private featureSelectedSubject = new BehaviorSubject<string>('');
   featureSelectedAction$ = this.featureSelectedSubject.asObservable();
 
@@ -41,30 +60,15 @@ export class ScenarioService {
     this.featureSelectedSubject.next(selectedFeatureName);
   }
 
-  /*
-    saveScenarioSubject = new Subject<Scenario>();
-    scenarioSavedAction$ = this.saveScenarioSubject.asObservable();
-
-    scenarioWithAdd$ = merge(this.scenarios$, this.scenarioSavedAction$).pipe(
-      tap(data => console.log(data)),
-      scan((acc: Scenario[], value: Scenario) => [...acc, value]),
-      catchError(err => this.errorHandler.handleError(err))
-    );
-
-    saveScenario(scenario?: Scenario) {
-      if (scenario === null || scenario === undefined) {
-        return;
-      }
-
-      let saveObservable$ = scenario.id.length > 0 ?
-        this.http.put<Scenario>(this.rootUrl, scenario)
-        : this.http.post<Scenario>(this.rootUrl, scenario);
-
-
-      saveObservable$.pipe(tap(scenario => console.log(scenario)))
-        .subscribe(x =>
-          this.saveScenarioSubject.next(x));
+  saveScenario(scenario?: Scenario) {
+    if (scenario === null || scenario === undefined) {
+      return;
     }
 
-  */
+    const saveObservable$ = scenario.id
+      ? this.http.put<Scenario>(`${this.rootUrl}/${scenario.id}`, scenario)
+      : this.http.post<Scenario>(this.rootUrl, scenario);
+
+    saveObservable$.subscribe(x => this.saveScenarioSubject.next(x));
+  }
 }

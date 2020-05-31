@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegressionTestingComponent } from '../regression-testing.component';
+import { FeatureFormComponent } from '../feature-form.component';
 
-describe('RegressionTestingComponent', () => {
-  let component: RegressionTestingComponent;
-  let fixture: ComponentFixture<RegressionTestingComponent>;
+describe('FeatureFormComponent', () => {
+  let component: FeatureFormComponent;
+  let fixture: ComponentFixture<FeatureFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RegressionTestingComponent]
+      declarations: [FeatureFormComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegressionTestingComponent);
+    fixture = TestBed.createComponent(FeatureFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegressionTestingComponent } from '../regression-testing.component';
+import { ScenarioListingComponent } from '../scenario-listing.component';
 
-describe('RegressionTestingComponent', () => {
-  let component: RegressionTestingComponent;
-  let fixture: ComponentFixture<RegressionTestingComponent>;
+describe('ScenarioListingComponent', () => {
+  let component: ScenarioListingComponent;
+  let fixture: ComponentFixture<ScenarioListingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RegressionTestingComponent]
+      declarations: [ScenarioListingComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegressionTestingComponent);
+    fixture = TestBed.createComponent(ScenarioListingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
