@@ -14,7 +14,7 @@ This project was generated using [Nx](https://nx.dev).
 
 - If you have docker locally you can run docker compose on the API to address the MySQL dependency it has
 - If you have MySQL installed locally you should be able to follow the below steps with no issues
-  - There may be an issue with the ORM and the user password encryption if you are using the most recent version of MySQL; there is some documentation on what command to run locally to address it [here](https://stackoverflow.com/questions/2101694/how-to-set-root-password-to-null/36234358#36234358).
+  - There may be an issue with the ORM and the user password encryption if you are using the most recent version of MySQL; there is some documentation on what command to run locally to address it [here](https://stackoverflow.com/questions/51008807/nodejs-mysql-client-does-not-support-authentication-protocol?noredirect=1&lq=1).
 
 Run `cd qa; npm install; npm run dev;` to run the API and UI at the same time on first pull of Repo
 
