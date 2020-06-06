@@ -49,15 +49,16 @@ import { Roles } from '@qa/api-interfaces';
                 <option value="-1">No Squad</option>
                 <option *ngFor="let team of vm.teams" [value]="team.id">{{
                   team.name
-                }}</option>
+                  }}</option>
               </select>
-              <clr-control-helper>Not Implemented </clr-control-helper>
+              <clr-control-helper>Not Implemented</clr-control-helper>
               <clr-control-error
-                >A team must be selected, you have to know where people
-                belong.</clr-control-error
+              >A team must be selected, you have to know where people
+                belong.
+              </clr-control-error
               >
             </clr-select-container>
-            <clr-select-container >
+            <clr-select-container>
               <label>Role</label>
               <select clrSelect type="text">
                 <option *ngFor="let role of vm.roles" [value]="role.id">

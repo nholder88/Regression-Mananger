@@ -1,15 +1,27 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- **/
-
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app/app.module';
-
 import * as helmet from 'helmet';
 import * as rateLimit from 'express-rate-limit';
+import { AppModule } from './app/app.module';
+//import { CrudConfigService } from '@nestjsx/crud';
 
+/*
+//this Config is not being loaded for some reason. See This for more information
+//:https://github.com/nestjsx/crud/blob/master/integration/crud-typeorm/main.ts
+CrudConfigService.load({
+  auth: {
+    property: 'user'
+  },
+  params: {
+    id: { field: 'id', type: 'string', primary: true }
+  },
+  routes: {
+    exclude: ['createManyBase', 'replaceOneBase']
+  },
+  query: {
+    maxLimit: 100
+  }
+});*/
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';

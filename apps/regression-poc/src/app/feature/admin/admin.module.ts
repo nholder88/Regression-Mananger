@@ -11,9 +11,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FeatureContainerComponent } from './containers/feature-container.component';
 import { ScenarioContainerComponent } from './containers/scenario-container.component';
 import { FeatureFormComponent } from './components/feature-form.component';
-import { ScenarioFormComponent } from './components/scenario-form.component';;
-import { FeatureListingComponent } from './components/feature-listing.component';
-import { ScenarioListingComponent } from './components/scenario-listing.component'
+import { ScenarioFormComponent } from './components/scenario-form.component';
+import { FeatureListingComponent } from './components/feature-listing.component';
+import { ScenarioListingComponent } from './components/scenario-listing.component';
 
 @NgModule({
   declarations: [
@@ -24,10 +24,10 @@ import { ScenarioListingComponent } from './components/scenario-listing.componen
     FeatureContainerComponent,
     ScenarioContainerComponent,
     FeatureFormComponent,
-    ScenarioFormComponent,
-    FeatureListingComponent
-,
-    ScenarioListingComponent  ],
+    ScenarioFormComponent,
+    FeatureListingComponent,
+    ScenarioListingComponent
+  ],
   imports: [
     ClarityModule,
     CommonModule,

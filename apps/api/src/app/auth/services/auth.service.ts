@@ -15,8 +15,8 @@ export class AuthService {
   async validateUser(username: string, pass: string): Promise<UserDto> {
     //this is a admin path; yes its not ideal.
     if (
-      username == environment.admin.username &&
-      pass == environment.admin.password
+      username === environment.admin.username &&
+      pass === environment.admin.password
     ) {
       const adminUser = new UserDto();
       adminUser.username = username;

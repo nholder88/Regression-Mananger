@@ -84,7 +84,8 @@ export class RegressionHeaderCreateComponent implements OnInit {
       isStarted: this.regressionForm.get('regression.isStarted').value,
       name: this.regressionForm.get('regression.name').value,
       releaseName: this.regressionForm.get('regression.releaseName').value,
-      testPasses: null
+      testPasses: null,
+      userId: ''
     });
     this.xlOpen = false;
   }

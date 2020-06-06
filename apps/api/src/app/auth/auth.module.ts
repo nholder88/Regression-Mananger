@@ -11,7 +11,7 @@ import { environment } from '../../environments/environment';
 @Module({
   imports: [
     UsersModule,
-    PassportModule,
+    PassportModule.register({ property: 'user' }),
     JwtModule.register({
       secret: environment.jwtConstants.key,
       signOptions: { expiresIn: '2d' },

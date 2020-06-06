@@ -1,20 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  Subject,
-  merge
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 
-import {
-  catchError,
-  map,
-  publishReplay,
-  refCount,
-  tap,
-  scan
-} from 'rxjs/operators';
+import { catchError, map, scan } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { Scenario } from '@qa/api-interfaces';
@@ -33,10 +20,7 @@ export class ScenarioService {
 
   scenarios$ = this.http
     .get<Scenario[]>(`${this.rootUrl}`)
-    .pipe(
-
-      catchError(this.errorHandler.handleError)
-    );
+    .pipe(catchError(this.errorHandler.handleError));
   saveScenarioSubject = new Subject<Scenario>();
   scenarioSavedAction$ = this.saveScenarioSubject.asObservable();
 

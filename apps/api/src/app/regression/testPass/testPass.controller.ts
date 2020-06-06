@@ -1,27 +1,38 @@
-﻿import { Crud } from '@nestjsx/crud';
+﻿import { Crud, CrudAuth } from '@nestjsx/crud';
 import { ApiTags } from '@nestjs/swagger';
 import { Controller, UseGuards } from '@nestjs/common';
 import { TestPassService } from './testPass.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { TestPassDto } from '../../Models/testPass.dto';
+import { UserDto } from '../../Models/User.Dto';
 
 @Crud({
   model: {
     type: TestPassDto
   },
-  routes: { exclude: ['createManyBase', 'replaceOneBase', 'replaceOneBase'] },
+
   params: {
     id: { field: 'id', type: 'string', primary: true }
   },
+  routes: {
+    exclude: ['createManyBase', 'replaceOneBase']
+  },
+
   query: {
     join: {
       Header: { eager: false },
       featureScenarioContainers: { eager: true },
       results: { eager: false },
-      'results.scenario': { eager: false, alias: 'scenario' }
-    },
-    maxLimit: 100
+      'results.scenario': { eager: false, alias: 'scenario' },
+      user: {
+        exclude: ['password']
+      }
+    }
   }
+})
+@CrudAuth({
+  property: 'user',
+  persist: (user: UserDto) => ({ userId: user.id })
 })
 @ApiTags('TestPass')
 @Controller('TestPass')
