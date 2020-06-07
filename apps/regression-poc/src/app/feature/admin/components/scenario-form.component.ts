@@ -15,7 +15,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
         (ngSubmit)="onSubmit()"
       >
         <div class="card-header">
-          Feature - Add New
+          Scenario - Add New
         </div>
         <div class="card-block">
           <div class="card-text">
@@ -46,7 +46,9 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
             </clr-select-container>
             <br/>
             <clr-stack-view>
-              <clr-stack-block [clrStackViewLevel]="1">
+
+              <clr-stack-block [clrStackViewLevel]="1" [clrSbExpanded]="hasStep">
+
                 <clr-stack-label>Steps</clr-stack-label>
 
                 <clr-stack-block
@@ -69,32 +71,34 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
                     </clr-input-container>
                   </clr-stack-label>
                   <clr-stack-content [formGroupName]="i">
-                    <clr-input-container>
-                      <label> Instruction </label>
-                      <input clrInput type="text" formControlName="name"/>
 
-                      <clr-control-error *clrIfError="'required'"
-                      >Data is invalid
-                      </clr-control-error
-                      >
-                    </clr-input-container>
+                    <clr-textarea-container>
+
+                      <label> Instruction </label>
+                      <textarea clrTextarea type="text" formControlName="name"></textarea>
+
+
+                      <clr-control-error *clrIfError="'required'">Data is invalid</clr-control-error>
+                    </clr-textarea-container>
+
                   </clr-stack-content>
                 </clr-stack-block>
               </clr-stack-block>
             </clr-stack-view>
+
           </div>
-          <button
-            type="button"
-            class="btn btn-sm btn-primary-outline"
-            (click)="addStep()"
-          >
-            Add Step
-          </button>
-          <button class="btn btn-sm btn-primary" type="submit">Save</button>
+
+          <div class="btn-group btn-primary-outline btn-sm">
+            <button type="button" class="btn" (click)="addStep()">Add Step</button>
+            <button  type="button"  class="btn  btn-danger-outline" (click)="removeStep()">Remove Step</button>
+
+          </div>
+          <button class="btn btn-sm btn-primary" type="submit" >Save</button>
         </div>
       </form>
     </div>
   `
+
 })
 export class ScenarioFormComponent {
   constructor(
@@ -104,6 +108,7 @@ export class ScenarioFormComponent {
   ) {
   }
 
+  hasStep = false;
   features$ = this.featureService.featureWithAdd$;
 
   scenarioForm = this.formBuilder.group({
@@ -113,10 +118,19 @@ export class ScenarioFormComponent {
   });
 
   addStep(): void {
-    let steps = this.scenarioForm.get('steps') as FormArray;
+    const steps = this.scenarioForm.get('steps') as FormArray;
     const order = steps.length + 1;
+    this.hasStep = true;
     steps.push(this.createItem(order));
   }
+
+  removeStep(): void {
+    const steps = this.scenarioForm.get('steps') as FormArray;
+    const lastIndex = steps.length - 1;
+    this.hasStep = lastIndex > -1;
+    steps.removeAt(lastIndex);
+  }
+
 
   createItem(order: number): FormGroup {
     return this.formBuilder.group({
