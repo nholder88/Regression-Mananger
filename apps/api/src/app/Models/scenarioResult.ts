@@ -1,6 +1,13 @@
 import { ScenarioDto } from './scenario.dto';
 import { TestPassDto } from './testPass.dto';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNumber, IsString, IsUUID } from 'class-validator';
 import { IScenarioResult } from '@qa/api-interfaces';
@@ -46,8 +53,8 @@ export class ScenarioResultDto implements IScenarioResult {
 
   completedSteps: Array<number>;
   //Relationships
-  @ManyToOne('ScenarioDto', 'results')
+  @ManyToOne('ScenarioDto', 'results', { onDelete: 'CASCADE' })
   scenario: ScenarioDto;
-  @ManyToOne('TestPassDto', 'results')
+  @ManyToOne('TestPassDto', 'results', { onDelete: 'CASCADE' })
   testPass: TestPassDto;
 }

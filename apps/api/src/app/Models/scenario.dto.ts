@@ -1,6 +1,14 @@
 import { IScenario } from '@qa/api-interfaces';
 import { FeatureDto } from './feature.dto';
-import { Column, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Generated,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 import { Entity } from 'typeorm/decorator/entity/Entity';
@@ -45,6 +53,6 @@ export class ScenarioDto implements IScenario {
   @OneToMany('StepDto', 'scenario', { cascade: true, eager: true })
   steps: StepDto[];
 
-  @ManyToOne('FeatureDto', 'scenarios')
+  @ManyToOne('FeatureDto', 'scenarios', { onDelete: 'CASCADE' })
   feature: FeatureDto;
 }

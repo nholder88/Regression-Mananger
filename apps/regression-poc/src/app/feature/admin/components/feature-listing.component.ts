@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FeatureService } from '../../regression/services/feature.service';
+import { FeatureScenarioContainer } from '@qa/api-interfaces';
 
 @Component({
   selector: 'qa-feature-listing',
@@ -18,6 +19,7 @@ import { FeatureService } from '../../regression/services/feature.service';
                       >Owning Team</clr-dg-column
                     >
                     <clr-dg-column>Number of Scenarios</clr-dg-column>
+                    <clr-dg-column></clr-dg-column>
                     <clr-dg-placeholder
                       >We couldn't find any Features!</clr-dg-placeholder
                     >
@@ -25,6 +27,12 @@ import { FeatureService } from '../../regression/services/feature.service';
                       <clr-dg-cell>{{ feature.name }}</clr-dg-cell>
                       <clr-dg-cell>{{ feature.team }}</clr-dg-cell>
                       <clr-dg-cell>{{ feature.scenarios?.length }}</clr-dg-cell>
+                      <clr-dg-cell>
+                        <button class="btn btn-sm btn-outline-danger">
+                          <clr-icon shape="trash"></clr-icon>
+                          Remove
+                        </button></clr-dg-cell
+                      >
                     </clr-dg-row>
                   </clr-datagrid>
                 </div>
@@ -40,4 +48,7 @@ export class FeatureListingComponent {
   constructor(private featureService: FeatureService) {}
 
   features$ = this.featureService.featureWithAdd$;
+  deleteFeature(feature: FeatureScenarioContainer) {
+    this.featureService.deleteFeature(feature.id);
+  }
 }

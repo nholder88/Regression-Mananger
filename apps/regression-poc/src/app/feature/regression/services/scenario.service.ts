@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  merge,
+  Observable,
+  Subject
+} from 'rxjs';
 
 import { catchError, map, scan } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -54,5 +60,9 @@ export class ScenarioService {
       : this.http.post<Scenario>(this.rootUrl, scenario);
 
     saveObservable$.subscribe(x => this.saveScenarioSubject.next(x));
+  }
+
+  deleteScenario(id: string) {
+    this.http.delete<Scenario>(`${this.rootUrl}/${id}`);
   }
 }

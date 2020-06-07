@@ -51,4 +51,8 @@ export class FeatureService {
       .pipe(catchError(err => this.errorHandler.handleError(err)))
       .subscribe(x => this.saveFeatureSubject.next(x));
   }
+
+  deleteFeature(id: string) {
+    this.http.delete<FeatureScenarioContainer>(`${this.rootUrl}/${id}`);
+  }
 }
