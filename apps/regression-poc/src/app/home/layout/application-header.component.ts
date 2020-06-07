@@ -57,7 +57,6 @@ import { map } from 'rxjs/operators';
       </ul>
     </nav>
   `
-
 })
 export class ApplicationHeaderComponent {
   constructor(private loginService: LoginService) {}

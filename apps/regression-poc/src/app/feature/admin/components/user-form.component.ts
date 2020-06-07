@@ -57,7 +57,7 @@ import { Roles } from '@qa/api-interfaces';
                 belong.</clr-control-error
               >
             </clr-select-container>
-            <clr-select-container >
+            <clr-select-container>
               <label>Role</label>
               <select clrSelect type="text">
                 <option *ngFor="let role of vm.roles" [value]="role.id">

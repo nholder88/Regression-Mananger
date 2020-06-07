@@ -33,10 +33,7 @@ export class ScenarioService {
 
   scenarios$ = this.http
     .get<Scenario[]>(`${this.rootUrl}`)
-    .pipe(
-
-      catchError(this.errorHandler.handleError)
-    );
+    .pipe(catchError(this.errorHandler.handleError));
   saveScenarioSubject = new Subject<Scenario>();
   scenarioSavedAction$ = this.saveScenarioSubject.asObservable();
 
