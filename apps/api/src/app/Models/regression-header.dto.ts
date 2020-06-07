@@ -3,7 +3,7 @@ import { IRegressionHeader } from '@qa/api-interfaces';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsString, IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
-import { Column, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { Column, JoinColumn, OneToMany, OneToOne, ManyToOne } from 'typeorm';
 import { TestPassDto } from './testPass.dto';
 import { UserDto } from './User.Dto';
 
@@ -46,7 +46,7 @@ export class RegressionHeaderDto implements IRegressionHeader {
 
   @Column({ nullable: true })
   userId: string;
-  @OneToOne('UserDto')
+  @ManyToOne('UserDto')
   @JoinColumn()
   user: UserDto;
 

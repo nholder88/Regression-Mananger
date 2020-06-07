@@ -47,7 +47,7 @@ export class ScenarioResultDto implements IScenarioResult {
 
   @Column({ nullable: true })
   userId: string;
-  @OneToOne('UserDto')
+  @ManyToOne('UserDto')
   @JoinColumn()
   user: UserDto;
 

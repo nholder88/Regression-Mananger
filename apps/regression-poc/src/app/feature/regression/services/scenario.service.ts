@@ -7,7 +7,7 @@ import {
   Subject
 } from 'rxjs';
 
-import { catchError, map, scan } from 'rxjs/operators';
+import { catchError, map, scan, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { Scenario } from '@qa/api-interfaces';
@@ -27,13 +27,26 @@ export class ScenarioService {
   scenarios$ = this.http
     .get<Scenario[]>(`${this.rootUrl}`)
     .pipe(catchError(this.errorHandler.handleError));
+
   saveScenarioSubject = new Subject<Scenario>();
   scenarioSavedAction$ = this.saveScenarioSubject.asObservable();
+
+  deleteScenarioSubject = new Subject<string>();
+  deletedScenarioAction$ = this.deleteScenarioSubject.asObservable();
 
   scenarioWithAdd$ = merge(this.scenarios$, this.scenarioSavedAction$).pipe(
     scan((acc: Scenario[], value: Scenario) => [...acc, value]),
     catchError(err => this.errorHandler.handleError(err))
   );
+
+  scenarioWithDelete$ = merge(
+    this.scenarioWithAdd$,
+    this.deletedScenarioAction$
+  ).pipe(
+    scan((acc: Scenario[], value: string) => acc.filter(x => x.id !== value)),
+    catchError(err => this.errorHandler.handleError(err))
+  );
+
   private featureSelectedSubject = new BehaviorSubject<string>('');
   featureSelectedAction$ = this.featureSelectedSubject.asObservable();
 
@@ -63,6 +76,8 @@ export class ScenarioService {
   }
 
   deleteScenario(id: string) {
-    this.http.delete<Scenario>(`${this.rootUrl}/${id}`);
+    this.http
+      .delete<Scenario>(`${this.rootUrl}/${id}`)
+      .subscribe(() => this.deleteScenarioSubject.next(id));
   }
 }

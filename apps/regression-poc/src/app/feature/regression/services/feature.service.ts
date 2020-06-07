@@ -32,6 +32,19 @@ export class FeatureService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
+  deleteFeatureSubject = new Subject<string>();
+  deletedFeatureAction$ = this.deleteFeatureSubject.asObservable();
+
+  featureWithDelete$ = merge(
+    this.featureWithAdd$,
+    this.deletedFeatureAction$
+  ).pipe(
+    scan((acc: FeatureScenarioContainer[], value: string) =>
+      acc.filter(x => x.id !== value)
+    ),
+    catchError(err => this.errorHandler.handleError(err))
+  );
+
   saveFeature(featureScenarioContainer?: FeatureScenarioContainer) {
     if (!featureScenarioContainer.id) {
       featureScenarioContainer.scenarios = [];
@@ -53,6 +66,8 @@ export class FeatureService {
   }
 
   deleteFeature(id: string) {
-    this.http.delete<FeatureScenarioContainer>(`${this.rootUrl}/${id}`);
+    this.http
+      .delete<FeatureScenarioContainer>(`${this.rootUrl}/${id}`)
+      .subscribe(() => this.deleteFeatureSubject.next(id));
   }
 }

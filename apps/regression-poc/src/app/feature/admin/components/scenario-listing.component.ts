@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ScenarioService } from '../../regression/services/scenario.service';
 import { Scenario } from '@qa/api-interfaces';
+import { race } from 'rxjs';
 
 @Component({
   selector: 'qa-scenario-listing',
@@ -33,7 +34,10 @@ import { Scenario } from '@qa/api-interfaces';
                       <clr-dg-cell>{{ scenario.name }}</clr-dg-cell>
                       <clr-dg-cell>{{ scenario.steps?.length }}</clr-dg-cell>
                       <clr-dg-cell>
-                        <button class="btn btn-sm btn-outline-danger">
+                        <button
+                          class="btn btn-sm btn-outline-danger"
+                          (click)="deleteScenario(scenario)"
+                        >
                           <clr-icon shape="trash"></clr-icon>
                           Remove
                         </button></clr-dg-cell
@@ -51,7 +55,10 @@ import { Scenario } from '@qa/api-interfaces';
 })
 export class ScenarioListingComponent {
   constructor(private scenarioService: ScenarioService) {}
-  scenarios$ = this.scenarioService.scenarioWithAdd$;
+  scenarios$ = race(
+    this.scenarioService.scenarioWithDelete$,
+    this.scenarioService.scenarioWithAdd$
+  );
 
   deleteScenario(scenario: Scenario) {
     this.scenarioService.deleteScenario(scenario.id);

@@ -31,7 +31,7 @@ export class StepDto implements ISteps {
 
   @Column({ nullable: true })
   userId: string;
-  @OneToOne('UserDto')
+  @ManyToOne('UserDto')
   @JoinColumn()
   user: UserDto;
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FeatureService } from '../../regression/services/feature.service';
 import { FeatureScenarioContainer } from '@qa/api-interfaces';
+import { race } from 'rxjs';
 
 @Component({
   selector: 'qa-feature-listing',
@@ -28,7 +29,11 @@ import { FeatureScenarioContainer } from '@qa/api-interfaces';
                       <clr-dg-cell>{{ feature.team }}</clr-dg-cell>
                       <clr-dg-cell>{{ feature.scenarios?.length }}</clr-dg-cell>
                       <clr-dg-cell>
-                        <button class="btn btn-sm btn-outline-danger">
+                        <button
+                          class="btn btn-sm btn-outline-danger"
+                          (click)="deleteFeature(feature)"
+                          [disabled]="feature.scenarios?.length > 0"
+                        >
                           <clr-icon shape="trash"></clr-icon>
                           Remove
                         </button></clr-dg-cell
@@ -47,7 +52,10 @@ import { FeatureScenarioContainer } from '@qa/api-interfaces';
 export class FeatureListingComponent {
   constructor(private featureService: FeatureService) {}
 
-  features$ = this.featureService.featureWithAdd$;
+  features$ = race(
+    this.featureService.featureWithDelete$,
+    this.featureService.featureWithAdd$
+  );
   deleteFeature(feature: FeatureScenarioContainer) {
     this.featureService.deleteFeature(feature.id);
   }
