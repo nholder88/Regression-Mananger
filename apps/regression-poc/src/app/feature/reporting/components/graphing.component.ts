@@ -8,7 +8,7 @@ import { ScenarioResult } from '@qa/api-interfaces';
   selector: 'qa-graph',
   template: `
     <div class="clr-row">
-      <div class="clr-col">
+      <div class="clr-col-6">
         <div class="card">
           <div class="card-header">
             Bar Graph
@@ -33,7 +33,7 @@ import { ScenarioResult } from '@qa/api-interfaces';
         </div>
       </div>
 
-      <div class="clr-col">
+      <div class="clr-col-6">
         <div class="card">
           <div class="card-header">
             Pie Chart
