@@ -3,8 +3,9 @@ import { IRegressionHeader } from '@qa/api-interfaces';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsString, IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
-import { Column, OneToMany } from 'typeorm';
+import { Column, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { TestPassDto } from './testPass.dto';
+import { UserDto } from './User.Dto';
 
 @Entity()
 export class RegressionHeaderDto implements IRegressionHeader {
@@ -42,6 +43,12 @@ export class RegressionHeaderDto implements IRegressionHeader {
   @IsBoolean()
   @Column()
   isStarted: boolean;
+
+  @Column({ nullable: true })
+  userId: string;
+  @OneToOne('UserDto')
+  @JoinColumn()
+  user: UserDto;
 
   @OneToMany('TestPassDto', 'Header', { cascade: true })
   testPasses: TestPassDto[];

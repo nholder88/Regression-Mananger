@@ -19,11 +19,11 @@ export class AuthController {
     return from(
       this.authService.validateUser(user.username, user.password)
     ).pipe(
-      map(user => {
-        if (!user) {
+      map(userModel => {
+        if (!userModel) {
           throw new UnauthorizedException();
         }
-        return this.authService.login(user);
+        return this.authService.login(userModel);
       })
     );
   }

@@ -11,6 +11,7 @@ export interface IRegressionHeader {
   startDate: Date;
   endDate: Date;
   id: string;
+  userId: string;
 }
 export class RegressionHeader implements IRegressionHeader {
   constructor(
@@ -22,5 +23,7 @@ export class RegressionHeader implements IRegressionHeader {
     public startDate: Date = new Date(),
     public endDate: Date = new Date()
   ) {}
+
   id: string;
+  userId: string;
 }

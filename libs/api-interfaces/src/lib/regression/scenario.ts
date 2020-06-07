@@ -9,6 +9,7 @@ export interface IScenario {
   note: string;
   order: number;
   id: string;
+  userId: string;
 }
 
 export class Scenario implements IScenario {
@@ -23,4 +24,6 @@ export class Scenario implements IScenario {
     public order: number = 0,
     public id: string = ''
   ) {}
+
+  userId: string;
 }
