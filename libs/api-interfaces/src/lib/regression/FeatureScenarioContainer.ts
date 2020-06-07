@@ -7,6 +7,7 @@ export interface IFeatureScenarioContainer {
   name: string;
   team: string;
   scenarios: IScenario[];
+  userId: string;
 }
 
 export class FeatureScenarioContainer implements IFeatureScenarioContainer {
@@ -18,4 +19,5 @@ export class FeatureScenarioContainer implements IFeatureScenarioContainer {
   public enable: boolean;
 
   team: string;
+  userId: string;
 }

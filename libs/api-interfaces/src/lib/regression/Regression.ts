@@ -1,4 +1,5 @@
 import { ITestPass } from './TestPass';
+
 //Container for the passes and the root object
 
 export interface IRegression {
@@ -10,6 +11,7 @@ export interface IRegression {
   startDate: Date;
   endDate: Date;
   id: string;
+  userId: string;
 }
 export class Regression implements IRegression {
   constructor(
@@ -21,5 +23,7 @@ export class Regression implements IRegression {
     public startDate: Date = new Date(),
     public endDate: Date = new Date()
   ) {}
+
   id: string;
+  userId: string;
 }

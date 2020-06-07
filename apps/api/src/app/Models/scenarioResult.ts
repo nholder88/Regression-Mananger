@@ -1,9 +1,10 @@
 import { ScenarioDto } from './scenario.dto';
 import { TestPassDto } from './testPass.dto';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNumber, IsString, IsUUID } from 'class-validator';
 import { IScenarioResult } from '@qa/api-interfaces';
+import { UserDto } from './User.Dto';
 
 @Entity()
 export class ScenarioResultDto implements IScenarioResult {
@@ -36,6 +37,12 @@ export class ScenarioResultDto implements IScenarioResult {
   @IsBoolean()
   @Column()
   bugCreated: boolean;
+
+  @Column({ nullable: true })
+  userId: string;
+  @OneToOne('UserDto')
+  @JoinColumn()
+  user: UserDto;
 
   completedSteps: Array<number>;
   //Relationships

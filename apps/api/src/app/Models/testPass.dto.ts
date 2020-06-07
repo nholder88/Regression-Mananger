@@ -1,12 +1,5 @@
 import { ITestPass } from '@qa/api-interfaces';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany
-} from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
@@ -14,6 +7,7 @@ import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGenerat
 import { RegressionHeaderDto } from './regression-header.dto';
 import { FeatureDto } from './feature.dto';
 import { ScenarioResultDto } from './scenarioResult';
+import { UserDto } from './User.Dto';
 
 @Entity()
 export class TestPassDto implements ITestPass {
@@ -70,4 +64,10 @@ export class TestPassDto implements ITestPass {
   @IsString()
   @Column({ default: '' })
   testingRole: string;
+
+  @Column({ nullable: true })
+  userId: string;
+  @OneToOne('UserDto')
+  @JoinColumn()
+  user: UserDto;
 }
