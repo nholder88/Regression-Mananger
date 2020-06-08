@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { environment } from '../../../../environments/environment';
 import { FeatureScenarioContainer } from '@qa/api-interfaces';
-import { catchError, scan } from 'rxjs/operators';
-import { BehaviorSubject, merge, Subject } from 'rxjs';
+import { catchError, map, scan } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,8 @@ export class FeatureService {
   constructor(
     private http: HttpClient,
     private errorHandler: ErrorHandlingService
-  ) {}
+  ) {
+  }
 
   private rootUrl = `${environment.apiUrl}/feature`;
 
@@ -32,16 +33,14 @@ export class FeatureService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
-  deleteFeatureSubject = new Subject<string>();
+  deleteFeatureSubject = new BehaviorSubject<string>('');
   deletedFeatureAction$ = this.deleteFeatureSubject.asObservable();
 
-  featureWithDelete$ = merge(
+  featureWithDelete$ = combineLatest(
     this.featureWithAdd$,
     this.deletedFeatureAction$
   ).pipe(
-    scan((acc: FeatureScenarioContainer[], value: string) =>
-      acc.filter(x => x.id !== value)
-    ),
+    map(([arr, id]) => arr.filter(x => x.id !== id)),
     catchError(err => this.errorHandler.handleError(err))
   );
 
@@ -52,13 +51,13 @@ export class FeatureService {
     }
     const saveObservable$ = featureScenarioContainer.id
       ? this.http.put<FeatureScenarioContainer>(
-          `${this.rootUrl}/${featureScenarioContainer.id}`,
-          featureScenarioContainer
-        )
+        `${this.rootUrl}/${featureScenarioContainer.id}`,
+        featureScenarioContainer
+      )
       : this.http.post<FeatureScenarioContainer>(
-          this.rootUrl,
-          featureScenarioContainer
-        );
+        this.rootUrl,
+        featureScenarioContainer
+      );
 
     saveObservable$
       .pipe(catchError(err => this.errorHandler.handleError(err)))

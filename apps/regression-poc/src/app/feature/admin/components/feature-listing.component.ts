@@ -15,14 +15,16 @@ import { race } from 'rxjs';
               <div class="clr-row">
                 <div class="clr-col-md">
                   <clr-datagrid>
-                    <clr-dg-column [clrDgField]="'name'">Name </clr-dg-column>
+                    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
                     <clr-dg-column [clrDgField]="'team'"
-                      >Owning Team</clr-dg-column
+                    >Owning Team
+                    </clr-dg-column
                     >
                     <clr-dg-column>Number of Scenarios</clr-dg-column>
                     <clr-dg-column></clr-dg-column>
                     <clr-dg-placeholder
-                      >We couldn't find any Features!</clr-dg-placeholder
+                    >We couldn't find any Features!
+                    </clr-dg-placeholder
                     >
                     <clr-dg-row *ngFor="let feature of features$ | async">
                       <clr-dg-cell>{{ feature.name }}</clr-dg-cell>
@@ -30,13 +32,14 @@ import { race } from 'rxjs';
                       <clr-dg-cell>{{ feature.scenarios?.length }}</clr-dg-cell>
                       <clr-dg-cell>
                         <button
-                          class="btn btn-sm btn-outline-danger"
+                          class="btn btn-sm btn-outline-danger" type="button"
                           (click)="deleteFeature(feature)"
                           [disabled]="feature.scenarios?.length > 0"
                         >
                           <clr-icon shape="trash"></clr-icon>
                           Remove
-                        </button></clr-dg-cell
+                        </button>
+                      </clr-dg-cell
                       >
                     </clr-dg-row>
                   </clr-datagrid>
@@ -50,12 +53,13 @@ import { race } from 'rxjs';
   `
 })
 export class FeatureListingComponent {
-  constructor(private featureService: FeatureService) {}
+  constructor(private featureService: FeatureService) {
+  }
 
-  features$ = race(
-    this.featureService.featureWithDelete$,
-    this.featureService.featureWithAdd$
-  );
+  features$ =
+    this.featureService.featureWithDelete$;
+
+
   deleteFeature(feature: FeatureScenarioContainer) {
     this.featureService.deleteFeature(feature.id);
   }

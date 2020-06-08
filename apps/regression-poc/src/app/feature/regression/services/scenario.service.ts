@@ -31,7 +31,7 @@ export class ScenarioService {
   saveScenarioSubject = new Subject<Scenario>();
   scenarioSavedAction$ = this.saveScenarioSubject.asObservable();
 
-  deleteScenarioSubject = new Subject<string>();
+  deleteScenarioSubject = new BehaviorSubject<string>("");
   deletedScenarioAction$ = this.deleteScenarioSubject.asObservable();
 
   scenarioWithAdd$ = merge(this.scenarios$, this.scenarioSavedAction$).pipe(
@@ -39,11 +39,11 @@ export class ScenarioService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
-  scenarioWithDelete$ = merge(
+  scenarioWithDelete$ = combineLatest(
     this.scenarioWithAdd$,
     this.deletedScenarioAction$
   ).pipe(
-    scan((acc: Scenario[], value: string) => acc.filter(x => x.id !== value)),
+    map(([arr, id]) => arr.filter(x => x.id !== id)),
     catchError(err => this.errorHandler.handleError(err))
   );
 
