@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { environment } from '../../../../environments/environment';
 import { FeatureScenarioContainer } from '@qa/api-interfaces';
-import { catchError, map, scan } from 'rxjs/operators';
+import { catchError, map, scan, tap } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
 
 @Injectable({
@@ -13,8 +13,7 @@ export class FeatureService {
   constructor(
     private http: HttpClient,
     private errorHandler: ErrorHandlingService
-  ) {
-  }
+  ) {}
 
   private rootUrl = `${environment.apiUrl}/feature`;
 
@@ -36,12 +35,27 @@ export class FeatureService {
   deleteFeatureSubject = new BehaviorSubject<string>('');
   deletedFeatureAction$ = this.deleteFeatureSubject.asObservable();
 
-  featureWithDelete$ = combineLatest(
+  featureWithDelete$ = merge(
     this.featureWithAdd$,
     this.deletedFeatureAction$
   ).pipe(
-    map(([arr, id]) => arr.filter(x => x.id !== id)),
-    catchError(err => this.errorHandler.handleError(err))
+    scan(
+      (
+        acc: FeatureScenarioContainer[],
+        value: string | FeatureScenarioContainer[]
+      ) => {
+        let result = [];
+        if (typeof value === 'string') {
+          result = [...acc].filter(x => x.id !== value);
+        } else {
+          result = [...value];
+        }
+        return result;
+      }
+    ),
+    catchError(err => {
+      return this.errorHandler.handleError(err);
+    })
   );
 
   saveFeature(featureScenarioContainer?: FeatureScenarioContainer) {
@@ -51,13 +65,13 @@ export class FeatureService {
     }
     const saveObservable$ = featureScenarioContainer.id
       ? this.http.put<FeatureScenarioContainer>(
-        `${this.rootUrl}/${featureScenarioContainer.id}`,
-        featureScenarioContainer
-      )
+          `${this.rootUrl}/${featureScenarioContainer.id}`,
+          featureScenarioContainer
+        )
       : this.http.post<FeatureScenarioContainer>(
-        this.rootUrl,
-        featureScenarioContainer
-      );
+          this.rootUrl,
+          featureScenarioContainer
+        );
 
     saveObservable$
       .pipe(catchError(err => this.errorHandler.handleError(err)))

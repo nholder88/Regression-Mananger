@@ -10,7 +10,7 @@ import {
 import { catchError, map, scan, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
-import { Scenario } from '@qa/api-interfaces';
+import { FeatureScenarioContainer, Scenario } from '@qa/api-interfaces';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -31,7 +31,7 @@ export class ScenarioService {
   saveScenarioSubject = new Subject<Scenario>();
   scenarioSavedAction$ = this.saveScenarioSubject.asObservable();
 
-  deleteScenarioSubject = new BehaviorSubject<string>("");
+  deleteScenarioSubject = new BehaviorSubject<string>('');
   deletedScenarioAction$ = this.deleteScenarioSubject.asObservable();
 
   scenarioWithAdd$ = merge(this.scenarios$, this.scenarioSavedAction$).pipe(
@@ -39,11 +39,19 @@ export class ScenarioService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
-  scenarioWithDelete$ = combineLatest(
+  scenarioWithDelete$ = merge(
     this.scenarioWithAdd$,
     this.deletedScenarioAction$
   ).pipe(
-    map(([arr, id]) => arr.filter(x => x.id !== id)),
+    scan((acc: Scenario[], value: string | Scenario[]) => {
+      let result = [];
+      if (typeof value === 'string') {
+        result = [...acc].filter(x => x.id !== value);
+      } else {
+        result = [...value];
+      }
+      return result;
+    }),
     catchError(err => this.errorHandler.handleError(err))
   );
 

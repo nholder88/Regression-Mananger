@@ -19,7 +19,9 @@ import { UserDto } from '../../Models/User.Dto';
 
   query: {
     join: {
-      scenario: {}, testPass: {}, user: {
+      scenario: {},
+      testPass: {},
+      user: {
         exclude: ['password']
       }
     }

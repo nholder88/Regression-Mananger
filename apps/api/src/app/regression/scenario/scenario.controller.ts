@@ -18,7 +18,9 @@ import { UserDto } from '../../Models/User.Dto';
   routes: { exclude: ['replaceOneBase'] },
   query: {
     join: {
-      steps: { eager: true }, feature: { eager: true }, user: {
+      steps: { eager: true },
+      feature: { eager: true },
+      user: {
         exclude: ['password']
       }
     },

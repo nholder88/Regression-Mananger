@@ -28,7 +28,7 @@ import { FeatureService } from '../../regression/services/feature.service';
             </clr-input-container>
 
             <clr-select-container>
-              <label>Owning Team</label>
+              <label>Owner</label>
               <select clrSelect formControlName="team">
                 <option value="-1">No Squad</option>
                 <option

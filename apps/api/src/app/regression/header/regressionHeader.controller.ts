@@ -21,7 +21,8 @@ import { UserDto } from '../../Models/User.Dto';
     join: {
       testPasses: {
         eager: true
-      }, user: {
+      },
+      user: {
         exclude: ['password']
       }
     }
