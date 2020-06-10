@@ -21,12 +21,11 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
           <div class="card-text">
             <clr-input-container>
               <label> Name</label>
-              <input clrInput type="text" formControlName="name"/>
+              <input clrInput type="text" formControlName="name" />
 
               <clr-control-error *clrIfError="'required'"
-              >Data is invalid
-              </clr-control-error
-              >
+                >Data is invalid
+              </clr-control-error>
             </clr-input-container>
 
             <clr-select-container>
@@ -35,20 +34,20 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
                 <option
                   *ngFor="let feature of features$ | async"
                   [value]="feature.id"
-                >{{ feature.name }}</option
+                  >{{ feature.name }}</option
                 >
               </select>
 
               <clr-control-error *clrIfError="'required'"
-              >A Feature must be selected.
-              </clr-control-error
-              >
+                >A Feature must be selected.
+              </clr-control-error>
             </clr-select-container>
-            <br/>
+            <br />
             <clr-stack-view>
-
-              <clr-stack-block [clrStackViewLevel]="1" [clrSbExpanded]="hasStep">
-
+              <clr-stack-block
+                [clrStackViewLevel]="1"
+                [clrSbExpanded]="hasStep"
+              >
                 <clr-stack-label>Steps</clr-stack-label>
 
                 <clr-stack-block
@@ -62,51 +61,56 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
                   <clr-stack-label [formGroupName]="i">
                     <clr-input-container>
                       <label> Order</label>
-                      <input clrInput type="number" formControlName="order"/>
+                      <input clrInput type="number" formControlName="order" />
 
                       <clr-control-error *clrIfError="'required'"
-                      >Data is invalid
-                      </clr-control-error
-                      >
+                        >Data is invalid
+                      </clr-control-error>
                     </clr-input-container>
                   </clr-stack-label>
                   <clr-stack-content [formGroupName]="i">
-
                     <clr-textarea-container>
-
                       <label> Instruction </label>
-                      <textarea clrTextarea type="text" formControlName="name"></textarea>
+                      <textarea
+                        clrTextarea
+                        type="text"
+                        formControlName="name"
+                      ></textarea>
 
-
-                      <clr-control-error *clrIfError="'required'">Data is invalid</clr-control-error>
+                      <clr-control-error *clrIfError="'required'"
+                        >Data is invalid</clr-control-error
+                      >
                     </clr-textarea-container>
-
                   </clr-stack-content>
                 </clr-stack-block>
               </clr-stack-block>
             </clr-stack-view>
-
           </div>
 
           <div class="btn-group btn-primary-outline btn-sm">
-            <button type="button" class="btn" (click)="addStep()">Add Step</button>
-            <button  type="button"  class="btn  btn-danger-outline" (click)="removeStep()">Remove Step</button>
-
+            <button type="button" class="btn" (click)="addStep()">
+              Add Step
+            </button>
+            <button
+              type="button"
+              class="btn  btn-danger-outline"
+              (click)="removeStep()"
+            >
+              Remove Step
+            </button>
           </div>
-          <button class="btn btn-sm btn-primary" type="submit" >Save</button>
+          <button class="btn btn-sm btn-primary" type="submit">Save</button>
         </div>
       </form>
     </div>
   `
-
 })
 export class ScenarioFormComponent {
   constructor(
     private scenarioService: ScenarioService,
     private featureService: FeatureService,
     private formBuilder: FormBuilder
-  ) {
-  }
+  ) {}
 
   hasStep = false;
   features$ = this.featureService.featureWithAdd$;
@@ -130,7 +134,6 @@ export class ScenarioFormComponent {
     this.hasStep = lastIndex > -1;
     steps.removeAt(lastIndex);
   }
-
 
   createItem(order: number): FormGroup {
     return this.formBuilder.group({

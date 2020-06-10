@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  merge,
+  Observable,
+  Subject
+} from 'rxjs';
 
-import { catchError, map, scan } from 'rxjs/operators';
+import { catchError, map, scan, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
-import { Scenario } from '@qa/api-interfaces';
+import { FeatureScenarioContainer, Scenario } from '@qa/api-interfaces';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -21,13 +27,34 @@ export class ScenarioService {
   scenarios$ = this.http
     .get<Scenario[]>(`${this.rootUrl}`)
     .pipe(catchError(this.errorHandler.handleError));
+
   saveScenarioSubject = new Subject<Scenario>();
   scenarioSavedAction$ = this.saveScenarioSubject.asObservable();
+
+  deleteScenarioSubject = new BehaviorSubject<string>('');
+  deletedScenarioAction$ = this.deleteScenarioSubject.asObservable();
 
   scenarioWithAdd$ = merge(this.scenarios$, this.scenarioSavedAction$).pipe(
     scan((acc: Scenario[], value: Scenario) => [...acc, value]),
     catchError(err => this.errorHandler.handleError(err))
   );
+
+  scenarioWithDelete$ = merge(
+    this.scenarioWithAdd$,
+    this.deletedScenarioAction$
+  ).pipe(
+    scan((acc: Scenario[], value: string | Scenario[]) => {
+      let result = [];
+      if (typeof value === 'string') {
+        result = [...acc].filter(x => x.id !== value);
+      } else {
+        result = [...value];
+      }
+      return result;
+    }),
+    catchError(err => this.errorHandler.handleError(err))
+  );
+
   private featureSelectedSubject = new BehaviorSubject<string>('');
   featureSelectedAction$ = this.featureSelectedSubject.asObservable();
 
@@ -54,5 +81,11 @@ export class ScenarioService {
       : this.http.post<Scenario>(this.rootUrl, scenario);
 
     saveObservable$.subscribe(x => this.saveScenarioSubject.next(x));
+  }
+
+  deleteScenario(id: string) {
+    this.http
+      .delete<Scenario>(`${this.rootUrl}/${id}`)
+      .subscribe(() => this.deleteScenarioSubject.next(id));
   }
 }

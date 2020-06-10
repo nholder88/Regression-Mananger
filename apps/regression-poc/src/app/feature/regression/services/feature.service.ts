@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { environment } from '../../../../environments/environment';
 import { FeatureScenarioContainer } from '@qa/api-interfaces';
-import { catchError, scan } from 'rxjs/operators';
-import { BehaviorSubject, merge, Subject } from 'rxjs';
+import { catchError, map, scan, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,32 @@ export class FeatureService {
     catchError(err => this.errorHandler.handleError(err))
   );
 
+  deleteFeatureSubject = new BehaviorSubject<string>('');
+  deletedFeatureAction$ = this.deleteFeatureSubject.asObservable();
+
+  featureWithDelete$ = merge(
+    this.featureWithAdd$,
+    this.deletedFeatureAction$
+  ).pipe(
+    scan(
+      (
+        acc: FeatureScenarioContainer[],
+        value: string | FeatureScenarioContainer[]
+      ) => {
+        let result = [];
+        if (typeof value === 'string') {
+          result = [...acc].filter(x => x.id !== value);
+        } else {
+          result = [...value];
+        }
+        return result;
+      }
+    ),
+    catchError(err => {
+      return this.errorHandler.handleError(err);
+    })
+  );
+
   saveFeature(featureScenarioContainer?: FeatureScenarioContainer) {
     if (!featureScenarioContainer.id) {
       featureScenarioContainer.scenarios = [];
@@ -50,5 +76,11 @@ export class FeatureService {
     saveObservable$
       .pipe(catchError(err => this.errorHandler.handleError(err)))
       .subscribe(x => this.saveFeatureSubject.next(x));
+  }
+
+  deleteFeature(id: string) {
+    this.http
+      .delete<FeatureScenarioContainer>(`${this.rootUrl}/${id}`)
+      .subscribe(() => this.deleteFeatureSubject.next(id));
   }
 }

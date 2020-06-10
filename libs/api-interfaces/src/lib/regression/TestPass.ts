@@ -1,4 +1,7 @@
-import { FeatureScenarioContainer, IFeatureScenarioContainer } from './FeatureScenarioContainer';
+import {
+  FeatureScenarioContainer,
+  IFeatureScenarioContainer
+} from './FeatureScenarioContainer';
 import { IScenarioResult } from './ScenarioResult';
 import { IRegressionHeader } from './RegressionHeader';
 

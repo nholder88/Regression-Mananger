@@ -7,7 +7,6 @@ import { FeatureService } from './feature.service';
 import { FeatureDto } from '../../Models/feature.dto';
 import { UserDto } from '../../Models/User.Dto';
 
-
 @Crud({
   model: {
     type: FeatureDto

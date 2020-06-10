@@ -1,7 +1,14 @@
 import { ISteps } from '@qa/api-interfaces';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString, IsUUID } from 'class-validator';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 
 import { ScenarioDto } from './scenario.dto';
 import { UserDto } from './User.Dto';
@@ -24,10 +31,10 @@ export class StepDto implements ISteps {
 
   @Column({ nullable: true })
   userId: string;
-  @OneToOne('UserDto')
+  @ManyToOne('UserDto')
   @JoinColumn()
   user: UserDto;
 
-  @ManyToOne('ScenarioDto', 'steps')
+  @ManyToOne('ScenarioDto', 'steps', { onDelete: 'CASCADE' })
   scenario: ScenarioDto;
 }
