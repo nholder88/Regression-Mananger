@@ -11,14 +11,16 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.MYSQL_INSTANCE ?? 'localhost',
-      port: +process.env.MYSQL_INSTANCE_PORT ?? 3306,
-      username: process.env.MYSQL_INSTANCE_USER ?? 'root',
-      password: process.env.MYSQL_INSTANCE_PASSWORD ?? 'root',
-      database: process.env.MYSQL_INSTANCE_DBNAME ?? 'dev',
+      type: 'mssql',
+      host: process.env.SQL_INSTANCE ?? 'localhost',
+     port: +process.env.SQL_INSTANCE_PORT ?? 1433,
+     username: process.env.SQL_INSTANCE_USER ?? 'root',
+      password: process.env.SQL_INSTANCE_PASSWORD ?? 'root',
+      database: process.env.SQL_INSTANCE_DBNAME ?? 'dev',
       entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
-      synchronize: true
+      synchronize: true,
+      cli:{migrationsDir: "src/migration"}
+
     }),
     RegressionModule,
     AuthModule
