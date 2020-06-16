@@ -10,24 +10,11 @@ import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs
   providedIn: 'root'
 })
 export class FeatureService {
-  featureWithAdd$ = merge(this.features$, this.featureSavedAction$).pipe(
-    scan((acc: FeatureScenarioContainer[], value: FeatureScenarioContainer) => {
-
-      if (acc.findIndex(x => x.id === value.id) > -1) {
-        const array = acc.splice(acc.findIndex(x => x.id === value.id), 1, value);
-        console.log('in scan', array);
-        return acc;
-      } else
-        return [
-          ...acc,
-          value
-        ];
-    }),
-    catchError(err => {
-      console.log(err);
-      return this.errorHandler.handleError(err);
-    })
-  );
+  constructor(
+    private http: HttpClient,
+    private errorHandler: ErrorHandlingService
+  ) {
+  }
 
   private rootUrl = `${environment.apiUrl}/feature`;
 
@@ -37,6 +24,29 @@ export class FeatureService {
 
   saveFeatureSubject = new Subject<FeatureScenarioContainer>();
   featureSavedAction$ = this.saveFeatureSubject.asObservable();
+
+  featureWithAdd$ = merge(this.features$, this.featureSavedAction$).pipe(
+    scan((acc: FeatureScenarioContainer[], value: FeatureScenarioContainer) => {
+
+      if (acc.findIndex(x => x.id === value.id) > -1) {
+        acc.splice(acc.findIndex(x => x.id === value.id), 1, value);
+        return acc;
+      } else
+        return [
+          ...acc,
+          value
+        ];
+    }),
+    catchError(err => {
+      return this.errorHandler.handleError(err);
+    })
+  );
+
+
+
+  deleteFeatureSubject = new BehaviorSubject<string>('');
+  deletedFeatureAction$ = this.deleteFeatureSubject.asObservable();
+
   featureWithDelete$: Observable<FeatureScenarioContainer[]> = merge(
     this.featureWithAdd$,
     this.deletedFeatureAction$
@@ -60,29 +70,23 @@ export class FeatureService {
     })
   );
 
-  deleteFeatureSubject = new BehaviorSubject<string>('');
-  deletedFeatureAction$ = this.deleteFeatureSubject.asObservable();
+
+  private featureSelectedSubject = new BehaviorSubject<string>('');
+  featureSelectedAction$ = this.featureSelectedSubject.asObservable();
+
   selectedFeature$: Observable<FeatureScenarioContainer> = combineLatest([
     this.featureWithDelete$,
     this.featureSelectedAction$
   ]).pipe(
-    tap(c => console.log(c)),
     map(([features, featureId]) => {
         if (features?.length > 1) {
           return features?.find(x => x.id === featureId);
         } else return null;
       }
-    ),
-    tap(c => console.log(c))
+    )
   );
-  private featureSelectedSubject = new BehaviorSubject<string>('');
-  featureSelectedAction$ = this.featureSelectedSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private errorHandler: ErrorHandlingService
-  ) {
-  }
+
 
   saveFeature(featureScenarioContainer?: FeatureScenarioContainer) {
     if (!featureScenarioContainer.id) {

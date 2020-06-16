@@ -15,7 +15,8 @@ import { map, tap } from 'rxjs/operators';
         (ngSubmit)="onSubmit(featureForm.value)"
       >
         <div class="card-header">
-          Feature - Add New
+          <span *ngIf="!featureForm.contains('id')">Add</span>
+          <span *ngIf="featureForm.contains('id')">Edit</span> Feature
         </div>
         <div class="card-block">
           <div class="card-text">
@@ -51,8 +52,6 @@ import { map, tap } from 'rxjs/operators';
 })
 export class FeatureFormComponent {
 
-  currentFeatureId = '';
-
   featureForm = this.formBuilder.group({
     name: ['', Validators.required],
     team: ['', Validators.required]
@@ -68,7 +67,7 @@ export class FeatureFormComponent {
             team: ['', Validators.required]
           });
       }
-    ), tap(f => console.log(f, 'form')));
+    ));
 
   constructor(
     private userService: UserService,
@@ -78,10 +77,7 @@ export class FeatureFormComponent {
   }
 
   onSubmit(formValue) {
-    // let formValue= null;
     this.featureService.saveFeature(formValue);
     this.featureForm.reset();
-
-
   }
 }

@@ -42,7 +42,7 @@ export class TestPassDto implements ITestPass {
 
   @ApiProperty()
   @IsDate()
-  @Column({ default: '0001-01-01' })
+  @Column({ default:new Date().toISOString() })
   timeStamp: Date;
 
   @ApiProperty({ type: 'string' })

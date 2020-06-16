@@ -26,12 +26,12 @@ export class RegressionHeaderDto implements IRegressionHeader {
 
   @ApiProperty()
   @IsDate()
-  @Column({ default: '0001-01-01' })
+  @Column({ default: new Date().toISOString() })
   startDate: Date;
 
   @ApiProperty()
   @IsDate()
-  @Column({ default: '0001-01-01' })
+  @Column({ default: new Date().toISOString() })
   endDate: Date;
 
   @ApiProperty({ type: 'boolean' })

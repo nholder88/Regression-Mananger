@@ -40,7 +40,7 @@ export class ScenarioDto implements IScenario {
 
   @ApiProperty()
   @IsDate()
-  @Column({ default: '0001-01-01' })
+  @Column({ default: new Date().toISOString() })
   timestamp: Date;
 
   @Column({ nullable: true })
