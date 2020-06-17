@@ -20,7 +20,7 @@ steps:
       npm install npx
       npm install
       npx ng build --prod
-      npx ng build api -- prod
+      npx ng build api --prod
 
     displayName: 'Build'
 
