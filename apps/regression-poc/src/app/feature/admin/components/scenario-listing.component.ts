@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ScenarioService } from '../../regression/services/scenario.service';
 import { Scenario } from '@qa/api-interfaces';
-import { race } from 'rxjs';
 
 @Component({
   selector: 'qa-scenario-listing',
@@ -18,29 +17,41 @@ import { race } from 'rxjs';
                     <clr-dg-column [clrDgField]="'feature.name'"
                       >Feature</clr-dg-column
                     >
-                    <clr-dg-column [clrDgField]="'name'">Name </clr-dg-column>
+                    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
 
                     <clr-dg-column>Number of Steps</clr-dg-column>
                     <clr-dg-column></clr-dg-column>
                     <clr-dg-placeholder
-                      >We couldn't find any scenarios!</clr-dg-placeholder
+                    >We couldn't find any scenarios!
+                    </clr-dg-placeholder
                     >
                     <clr-dg-row *ngFor="let scenario of scenarios$ | async">
                       <clr-dg-cell
-                        >{{ scenario?.feature?.name }} ({{
-                          scenario?.feature?.team
-                        }})</clr-dg-cell
+                      >{{ scenario?.feature?.name }} ({{
+                        scenario?.feature?.team
+                        }})
+                      </clr-dg-cell
                       >
                       <clr-dg-cell>{{ scenario.name }}</clr-dg-cell>
                       <clr-dg-cell>{{ scenario.steps?.length }}</clr-dg-cell>
                       <clr-dg-cell>
+                        <button
+                          class="btn btn-sm btn-outline"
+                          type="button"
+                          (click)="selectScenario(scenario)"
+
+                        >
+                          <clr-icon shape="pencil"></clr-icon>
+                          Edit
+                        </button>
                         <button
                           class="btn btn-sm btn-outline-danger"
                           (click)="deleteScenario(scenario)"
                         >
                           <clr-icon shape="trash"></clr-icon>
                           Remove
-                        </button></clr-dg-cell
+                        </button>
+                      </clr-dg-cell
                       >
                     </clr-dg-row>
                   </clr-datagrid>
@@ -54,13 +65,17 @@ import { race } from 'rxjs';
   `
 })
 export class ScenarioListingComponent {
-  constructor(private scenarioService: ScenarioService) {}
-  scenarios$ = race(
-    this.scenarioService.scenarioWithDelete$,
-    this.scenarioService.scenarioWithAdd$
-  );
+  scenarios$ = this.scenarioService.scenarioWithDelete$;
+
+  constructor(private scenarioService: ScenarioService) {
+  }
 
   deleteScenario(scenario: Scenario) {
     this.scenarioService.deleteScenario(scenario.id);
+  }
+
+  selectScenario(scenario: Scenario) {
+    this.scenarioService.selectedScenarioChanged(scenario.id);
+
   }
 }
