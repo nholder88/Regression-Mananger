@@ -1,4 +1,5 @@
 export interface ISteps {
+  id: string
   name: string;
   order: number;
   userId: string;
@@ -7,5 +8,6 @@ export interface ISteps {
 export class Steps implements ISteps {
   constructor(public name: string, public order: number) {}
 
+  public id: string;
   public userId: string;
 }

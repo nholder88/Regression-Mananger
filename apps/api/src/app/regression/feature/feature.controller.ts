@@ -15,7 +15,7 @@ import { UserDto } from '../../Models/User.Dto';
     id: { field: 'id', type: 'string', primary: true }
   },
   routes: {
-    exclude: ['createManyBase', 'replaceOneBase']
+    exclude: ['createManyBase']
   },
 
   query: {

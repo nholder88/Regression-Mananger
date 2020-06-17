@@ -4,7 +4,7 @@ import { ErrorHandlingService } from '../../../../Shared/services/error-handling
 import { environment } from '../../../../environments/environment';
 import { FeatureScenarioContainer } from '@qa/api-interfaces';
 import { catchError, map, scan, tap } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,8 @@ export class FeatureService {
   constructor(
     private http: HttpClient,
     private errorHandler: ErrorHandlingService
-  ) {}
+  ) {
+  }
 
   private rootUrl = `${environment.apiUrl}/feature`;
 
@@ -25,17 +26,28 @@ export class FeatureService {
   featureSavedAction$ = this.saveFeatureSubject.asObservable();
 
   featureWithAdd$ = merge(this.features$, this.featureSavedAction$).pipe(
-    scan((acc: FeatureScenarioContainer[], value: FeatureScenarioContainer) => [
-      ...acc,
-      value
-    ]),
-    catchError(err => this.errorHandler.handleError(err))
+    scan((acc: FeatureScenarioContainer[], value: FeatureScenarioContainer) => {
+
+      if (acc.findIndex(x => x.id === value.id) > -1) {
+        acc.splice(acc.findIndex(x => x.id === value.id), 1, value);
+        return acc;
+      } else
+        return [
+          ...acc,
+          value
+        ];
+    }),
+    catchError(err => {
+      return this.errorHandler.handleError(err);
+    })
   );
+
+
 
   deleteFeatureSubject = new BehaviorSubject<string>('');
   deletedFeatureAction$ = this.deleteFeatureSubject.asObservable();
 
-  featureWithDelete$ = merge(
+  featureWithDelete$: Observable<FeatureScenarioContainer[]> = merge(
     this.featureWithAdd$,
     this.deletedFeatureAction$
   ).pipe(
@@ -58,6 +70,24 @@ export class FeatureService {
     })
   );
 
+
+  private featureSelectedSubject = new BehaviorSubject<string>('');
+  featureSelectedAction$ = this.featureSelectedSubject.asObservable();
+
+  selectedFeature$: Observable<FeatureScenarioContainer> = combineLatest([
+    this.featureWithDelete$,
+    this.featureSelectedAction$
+  ]).pipe(
+    map(([features, featureId]) => {
+        if (features?.length > 1) {
+          return features?.find(x => x.id === featureId);
+        } else return null;
+      }
+    )
+  );
+
+
+
   saveFeature(featureScenarioContainer?: FeatureScenarioContainer) {
     if (!featureScenarioContainer.id) {
       featureScenarioContainer.scenarios = [];
@@ -65,13 +95,13 @@ export class FeatureService {
     }
     const saveObservable$ = featureScenarioContainer.id
       ? this.http.put<FeatureScenarioContainer>(
-          `${this.rootUrl}/${featureScenarioContainer.id}`,
-          featureScenarioContainer
-        )
+        `${this.rootUrl}/${featureScenarioContainer.id}`,
+        featureScenarioContainer
+      )
       : this.http.post<FeatureScenarioContainer>(
-          this.rootUrl,
-          featureScenarioContainer
-        );
+        this.rootUrl,
+        featureScenarioContainer
+      );
 
     saveObservable$
       .pipe(catchError(err => this.errorHandler.handleError(err)))
@@ -82,5 +112,9 @@ export class FeatureService {
     this.http
       .delete<FeatureScenarioContainer>(`${this.rootUrl}/${id}`)
       .subscribe(() => this.deleteFeatureSubject.next(id));
+  }
+
+  selectedFeatureChanged(featureId: string) {
+    this.featureSelectedSubject.next(featureId);
   }
 }
