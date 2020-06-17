@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FeatureService } from '../../regression/services/feature.service';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'qa-feature-form',
@@ -12,7 +12,7 @@ import { map, tap } from 'rxjs/operators';
         clrForm
         clrLayout="horizontal"
         [formGroup]="featureForm"
-        (ngSubmit)="onSubmit(featureForm.value)"
+        (ngSubmit)="onSubmit(featureForm)"
       >
         <div class="card-header">
           <span *ngIf="!featureForm.contains('id')">Add</span>
@@ -76,8 +76,9 @@ export class FeatureFormComponent {
   ) {
   }
 
-  onSubmit(formValue) {
-    this.featureService.saveFeature(formValue);
-    this.featureForm.reset();
+  onSubmit(form) {
+    this.featureService.saveFeature(form.value);
+    form.reset();
+    this.featureService.selectedFeatureChanged('');
   }
 }

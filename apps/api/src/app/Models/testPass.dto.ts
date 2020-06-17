@@ -1,14 +1,5 @@
 import { ITestPass } from '@qa/api-interfaces';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  OneToOne
-} from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
@@ -61,7 +52,7 @@ export class TestPassDto implements ITestPass {
   // There are multiple feature-scenarios tied to each test pass.
   featureScenarioContainers: FeatureDto[];
 
-  @OneToMany('ScenarioResultDto', 'testPass')
+  @OneToMany('ScenarioResultDto', 'testPass', { onDelete: 'CASCADE' })
   results: ScenarioResultDto[];
 
   @ApiProperty({ type: 'string' })

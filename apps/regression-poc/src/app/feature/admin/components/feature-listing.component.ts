@@ -30,6 +30,7 @@ import { FeatureScenarioContainer } from '@qa/api-interfaces';
                           class="btn btn-sm btn-outline"
                           type="button"
                           (click)="selectFeature(feature)"
+                          [disabled]="feature.scenarios?.length > 0"
                         >
                           <clr-icon shape="pencil"></clr-icon>
                           Edit
