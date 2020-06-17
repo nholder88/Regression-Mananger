@@ -10,11 +10,11 @@ This project was generated using [Nx](https://nx.dev).
 
 ## Project Specific Quick Start
 
-### Prerequistes
+### Prerequisites
 
-- If you have docker locally you can run docker compose on the API to address the MySQL dependency it has
-- If you have MySQL installed locally you should be able to follow the below steps with no issues
-  - There may be an issue with the ORM and the user password encryption if you are using the most recent version of MySQL; there is some documentation on what command to run locally to address it [here](https://stackoverflow.com/questions/51008807/nodejs-mysql-client-does-not-support-authentication-protocol?noredirect=1&lq=1).
+- For use of SQL Server you may have to create a user called `root` and then create the `dev` database manually. 
+- You will also have to turn on the TCP/IP options in the protocols for your local instance of SQL server [See here](https://github.com/typeorm/typeorm/issues/2133)
+- To use migrations for you will need to follow the directions [here](https://typeorm.io/#/using-cli/installing-cli)
 
 Run `cd qa; npm install; npm run dev;` to run the API and UI at the same time on first pull of Repo
 

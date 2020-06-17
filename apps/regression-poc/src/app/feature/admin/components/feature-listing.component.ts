@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FeatureService } from '../../regression/services/feature.service';
 import { FeatureScenarioContainer } from '@qa/api-interfaces';
-import { race } from 'rxjs';
 
 @Component({
   selector: 'qa-feature-listing',
@@ -20,13 +19,22 @@ import { race } from 'rxjs';
                     <clr-dg-column>Number of Scenarios</clr-dg-column>
                     <clr-dg-column></clr-dg-column>
                     <clr-dg-placeholder
-                      >We couldn't find any Features!
+                    >We couldn't find any Features!
                     </clr-dg-placeholder>
                     <clr-dg-row *ngFor="let feature of features$ | async">
                       <clr-dg-cell>{{ feature.name }}</clr-dg-cell>
                       <clr-dg-cell>{{ feature.team }}</clr-dg-cell>
                       <clr-dg-cell>{{ feature.scenarios?.length }}</clr-dg-cell>
                       <clr-dg-cell>
+                        <button
+                          class="btn btn-sm btn-outline"
+                          type="button"
+                          (click)="selectFeature(feature)"
+                          [disabled]="feature.scenarios?.length > 0"
+                        >
+                          <clr-icon shape="pencil"></clr-icon>
+                          Edit
+                        </button>
                         <button
                           class="btn btn-sm btn-outline-danger"
                           type="button"
@@ -49,11 +57,16 @@ import { race } from 'rxjs';
   `
 })
 export class FeatureListingComponent {
-  constructor(private featureService: FeatureService) {}
+  constructor(private featureService: FeatureService) {
+  }
 
   features$ = this.featureService.featureWithDelete$;
 
   deleteFeature(feature: FeatureScenarioContainer) {
     this.featureService.deleteFeature(feature.id);
+  }
+
+  selectFeature(feature: FeatureScenarioContainer) {
+    this.featureService.selectedFeatureChanged(feature.id);
   }
 }

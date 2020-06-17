@@ -1,28 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FeatureService } from '../../regression/services/feature.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'qa-feature-form',
   template: `
-    <div class="card">
+    <div class="card" *ngIf="featureForm$| async as featureForm">
       <form
         clrForm
         clrLayout="horizontal"
         [formGroup]="featureForm"
-        (ngSubmit)="onSubmit()"
+        (ngSubmit)="onSubmit(featureForm)"
       >
         <div class="card-header">
-          Feature - Add New
+          <span *ngIf="!featureForm.contains('id')">Add</span>
+          <span *ngIf="featureForm.contains('id')">Edit</span> Feature
         </div>
         <div class="card-block">
           <div class="card-text">
             <clr-input-container>
               <label> Name</label>
-              <input clrInput type="text" formControlName="name" />
+              <input clrInput type="text" formControlName="name"/>
               <clr-control-helper
-                >Please enter the feature name</clr-control-helper
+              >Please enter the feature name
+              </clr-control-helper
               >
               <clr-control-error>Data is invalid</clr-control-error>
             </clr-input-container>
@@ -34,7 +37,7 @@ import { FeatureService } from '../../regression/services/feature.service';
                 <option
                   *ngFor="let team of teamOptions$ | async"
                   [value]="team.name"
-                  >{{ team.name }}</option
+                >{{ team.name }}</option
                 >
               </select>
 
@@ -48,21 +51,34 @@ import { FeatureService } from '../../regression/services/feature.service';
   `
 })
 export class FeatureFormComponent {
-  constructor(
-    private userService: UserService,
-    private formBuilder: FormBuilder,
-    private featureService: FeatureService
-  ) {}
 
   featureForm = this.formBuilder.group({
     name: ['', Validators.required],
     team: ['', Validators.required]
   });
-
   teamOptions$ = this.userService.teams$;
+  featureForm$ = this.featureService.selectedFeature$.pipe(
+    map(feat => {
+        if (feat)
+          return this.formBuilder.group(feat);
+        else
+          return this.formBuilder.group({
+            name: ['', Validators.required],
+            team: ['', Validators.required]
+          });
+      }
+    ));
 
-  onSubmit() {
-    this.featureService.saveFeature(this.featureForm.value);
-    this.featureForm.reset();
+  constructor(
+    private userService: UserService,
+    private formBuilder: FormBuilder,
+    private featureService: FeatureService
+  ) {
+  }
+
+  onSubmit(form) {
+    this.featureService.saveFeature(form.value);
+    form.reset();
+    this.featureService.selectedFeatureChanged('');
   }
 }
