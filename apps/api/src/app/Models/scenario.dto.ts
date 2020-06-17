@@ -42,7 +42,7 @@ export class ScenarioDto implements IScenario {
   @JoinColumn()
   user: UserDto;
 
-  @OneToMany('StepDto', 'scenario', { onDelete: 'CASCADE', eager: true, onUpdate: 'NO ACTION' })
+  @OneToMany('StepDto', 'scenario', { onDelete: 'CASCADE', eager: true, cascade: true })
   steps: StepDto[];
 
   @ManyToOne('FeatureDto', 'scenarios', { onDelete: 'CASCADE', onUpdate: 'NO ACTION' })
