@@ -2,7 +2,7 @@ import { ITestPass } from './TestPass';
 
 //Container for the passes and the root object
 
-export interface IRegression {
+export interface IRegression extends BaseModel {
   testPasses: ITestPass[];
   name: string;
   isComplete: boolean;

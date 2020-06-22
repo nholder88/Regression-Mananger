@@ -1,5 +1,5 @@
 import { User } from '@qa/api-interfaces';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 
@@ -33,26 +33,26 @@ import { UserService } from '../services/user.service';
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let user of users$ | async">
-                        <td class="left">{{ user.username }}</td>
-                        <td class="left">
-                          <div>{{ user.email }}</div>
-                        </td>
-                        <td></td>
-                        <td>
-                          <button class="btn btn-sm" disabled>
-                            <clr-icon shape="pencil "></clr-icon>
-                            Edit
-                          </button>
-                          <button
-                            disabled
-                            class="btn btn-sm btn-outline-danger"
-                          >
-                            <clr-icon shape="trash"></clr-icon>
-                            Remove
-                          </button>
-                        </td>
-                      </tr>
+                    <tr *ngFor="let user of users$ | async">
+                      <td class="left">{{ user.username }}</td>
+                      <td class="left">
+                        <div>{{ user.email }}</div>
+                      </td>
+                      <td></td>
+                      <td>
+                        <button class="btn btn-sm" (click)="userSelected(user)">
+                          <clr-icon shape="pencil "></clr-icon>
+                          Edit
+                        </button>
+                        <button
+                          (click)="deleteUser(user)"
+                          class="btn btn-sm btn-outline-danger"
+                        >
+                          <clr-icon shape="trash"></clr-icon>
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
                     </tbody>
                   </table>
                 </div>
@@ -65,8 +65,19 @@ import { UserService } from '../services/user.service';
   `
 })
 export class UserListingComponent implements OnInit {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) {
+  }
 
-  users$: Observable<User[]> = this.userService.usersWithAdd$;
-  ngOnInit() {}
+  users$: Observable<User[]> = this.userService.modelWithDelete$;
+
+  userSelected(user: User) {
+    this.userService.selectedModelChanged(user.id);
+  }
+
+  deleteUser(user: User) {
+    this.userService.deleteModel(user.id);
+  }
+
+  ngOnInit() {
+  }
 }

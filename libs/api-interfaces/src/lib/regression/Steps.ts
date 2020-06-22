@@ -1,4 +1,4 @@
-export interface ISteps {
+export interface ISteps extends BaseModel {
   id: string
   name: string;
   order: number;

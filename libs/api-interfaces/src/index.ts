@@ -8,3 +8,4 @@ export * from './lib/regression/testStatus';
 export * from './lib/regression/ScenarioResult';
 export * from './lib/api-interfaces';
 export * from './lib/api-interfaces';
+export * from './lib/regression/baseModel';
