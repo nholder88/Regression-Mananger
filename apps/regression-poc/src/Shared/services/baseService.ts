@@ -58,8 +58,7 @@ export class BaseModelService<T extends BaseModel> {
   ]).pipe(
     map(([models, modelId]) => {
         if (models?.length > 1) {
-          // @ts-ignore
-          return models?.find(x => x.id === modelId);
+            return models?.find(x => x.id === modelId);
         } else return null;
       }
     )

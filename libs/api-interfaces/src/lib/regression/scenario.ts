@@ -1,5 +1,6 @@
 import { ISteps, Steps } from './Steps';
 import { IFeatureScenarioContainer } from './FeatureScenarioContainer';
+import { BaseModel } from './baseModel';
 
 export interface IScenario extends BaseModel {
   //feature: string,

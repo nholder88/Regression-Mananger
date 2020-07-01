@@ -1,4 +1,5 @@
 import { ITestPass } from './TestPass';
+import { BaseModel } from './baseModel';
 
 //Container for the passes and the root object
 

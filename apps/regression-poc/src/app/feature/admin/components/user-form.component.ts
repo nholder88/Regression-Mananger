@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
@@ -76,7 +76,7 @@ import { Roles } from '@qa/api-interfaces';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent {
   constructor(
     private userService: UserService,
     private formBuilder: FormBuilder
@@ -108,8 +108,6 @@ export class UserFormComponent implements OnInit {
   roles$ = this.userService.userRoles$;
   selectedRoles = new Array<Roles>();
 
-  ngOnInit() {
-  }
 
   onSubmit(userForm) {
     this.userService.saveModel(userForm.value);
