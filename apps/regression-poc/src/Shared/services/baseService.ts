@@ -52,19 +52,20 @@ export class BaseModelService<T extends BaseModel> {
       return this.errorHandler.handleError(err);
     })
   );
+  private modelSelectedSubject = new BehaviorSubject<string>('');
+  modelSelectedAction$ = this.modelSelectedSubject.asObservable();
   selectedModel$: Observable<T> = combineLatest([
     this.modelWithDelete$,
     this.modelSelectedAction$
   ]).pipe(
     map(([models, modelId]) => {
         if (models?.length > 1) {
-            return models?.find(x => x.id === modelId);
+          return models?.find(x => x.id === modelId);
         } else return null;
       }
     )
   );
-  private modelSelectedSubject = new BehaviorSubject<string>('');
-  modelSelectedAction$ = this.modelSelectedSubject.asObservable();
+
 
   constructor(
     public http: HttpClient,
@@ -79,7 +80,7 @@ export class BaseModelService<T extends BaseModel> {
       delete model.id;
     }
     const saveObservable$ = model.id
-      ? this.http.put<T>(
+      ? this.http.patch<T>(
         `${this.rootUrl}/${model.id}`,
         model
       )

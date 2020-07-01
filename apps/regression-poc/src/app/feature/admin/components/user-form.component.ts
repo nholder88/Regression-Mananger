@@ -30,14 +30,15 @@ import { Roles } from '@qa/api-interfaces';
 
             <clr-input-container>
               <label>Email </label>
-              <input clrInput type="text" formControlName="email" />
+              <input clrInput type="text" formControlName="email"/>
               <clr-control-helper
-                >Please enter the email address</clr-control-helper
+              >Please enter the email address
+              </clr-control-helper
               >
               <clr-control-error>Data is invalid</clr-control-error>
             </clr-input-container>
 
-            <clr-input-container>
+            <clr-input-container *ngIf="userForm.contains('password')">
               <label>Password</label>
               <input clrInput type="password" formControlName="password"/>
               <clr-control-helper></clr-control-helper>
@@ -70,6 +71,7 @@ import { Roles } from '@qa/api-interfaces';
             </clr-select-container>
           </div>
           <button class="btn btn-sm btn-primary" type="submit">Save</button>
+          <button class="btn btn-sm btn-primary-outline" type="button" (click)="cancel()">Cancel</button>
         </div>
       </form>
     </div>
@@ -87,19 +89,15 @@ export class UserFormComponent {
   userForm$ = this.userService.selectedModel$.pipe(
     tap(u => console.log(u)),
     map(user => {
-        if (user)
-          return this.formBuilder.group({
-            id: [user.id],
-            username: [user.username, Validators.required],
-            email: [user.email, Validators.required, Validators.email],
-            password: ['']
-          });
-        else
-          return this.formBuilder.group({
-            username: ['', Validators.required],
-            email: ['', Validators.required, Validators.email],
-            password: ['']
-          });
+      if (user)
+        return this.formBuilder.group(user
+        );
+      else
+        return this.formBuilder.group({
+          username: ['', Validators.required],
+          email: ['', Validators.required, Validators.email],
+          password: ['', Validators.required]
+        });
       }
     ),
     tap(u => console.log(u)));
@@ -113,5 +111,9 @@ export class UserFormComponent {
     this.userService.saveModel(userForm.value);
     this.selectedRoles = [];
     userForm.reset();
+  }
+
+  cancel() {
+    this.userService.selectedModelChanged('');
   }
 }
