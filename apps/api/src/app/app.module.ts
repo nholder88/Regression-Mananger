@@ -15,7 +15,7 @@ import { AuthModule } from './auth/auth.module';
       host: process.env.SQL_INSTANCE ?? 'localhost',
      port: +process.env.SQL_INSTANCE_PORT ?? 1433,
      username: process.env.SQL_INSTANCE_USER ?? 'root',
-      password: process.env.SQL_INSTANCE_PASSWORD ?? 'password',
+      password: process.env.SQL_INSTANCE_PASSWORD ?? 'root',
       database: process.env.SQL_INSTANCE_DBNAME ?? 'dev',
       entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
       synchronize: true,
