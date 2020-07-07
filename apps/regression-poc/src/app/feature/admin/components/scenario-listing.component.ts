@@ -65,17 +65,17 @@ import { Scenario } from '@qa/api-interfaces';
   `
 })
 export class ScenarioListingComponent {
-  scenarios$ = this.scenarioService.scenarioWithDelete$;
+  scenarios$ = this.scenarioService.modelWithDelete$;
 
   constructor(private scenarioService: ScenarioService) {
   }
 
   deleteScenario(scenario: Scenario) {
-    this.scenarioService.deleteScenario(scenario.id);
+    this.scenarioService.deleteModel(scenario.id);
   }
 
   selectScenario(scenario: Scenario) {
-    this.scenarioService.selectedScenarioChanged(scenario.id);
+    this.scenarioService.selectedModelChanged(scenario.id);
 
   }
 }
