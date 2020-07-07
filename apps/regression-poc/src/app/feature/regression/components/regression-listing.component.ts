@@ -122,7 +122,7 @@ import { RegressionHeader } from '@qa/api-interfaces';
 export class RegressionListingComponent implements OnInit {
   constructor(private service: RegressionHeaderService) {}
 
-  regression$ = this.service.regressionWithAdd$;
+  regression$ = this.service.modelWithDelete$;
   selected;
 
   vm$ = combineLatest([this.regression$]).pipe(
@@ -143,6 +143,6 @@ export class RegressionListingComponent implements OnInit {
 
   completeRegression(regression: RegressionHeader) {
     regression.isComplete = true;
-    this.service.saveRegression(regression);
+    this.service.saveModel(regression);
   }
 }

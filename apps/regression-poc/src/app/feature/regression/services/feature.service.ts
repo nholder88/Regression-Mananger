@@ -12,7 +12,7 @@ export class FeatureService extends BaseModelService<FeatureScenarioContainer>{
     private httpClient: HttpClient,
     private errorHandlerService: ErrorHandlingService,
   ) {
-    super(httpClient, errorHandlerService, 'feature', '?join=scenarios`');
+    super(httpClient, errorHandlerService, 'feature', '?join=scenarios');
   }
 
 
