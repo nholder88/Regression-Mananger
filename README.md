@@ -13,7 +13,7 @@ This project was generated using [Nx](https://nx.dev).
 ### Prerequisites
 
 - For use of SQL Server you may have to create a user called `root` and then create the `dev` database manually. 
-- You will also have to turn on the TCP/IP options in the protocols for your local instance of SQL server [See here](https://github.com/typeorm/typeorm/issues/2133)
+- You will also have to turn on the TCP/IP options in the protocols for your local instance of SQL server [See here](https://github.com/typeorm/typeorm/issues/2133) Or [here](http://127.0.0.1:63343/help/db-tutorial-connecting-to-ms-sql-server.html)
 - To use migrations for you will need to follow the directions [here](https://typeorm.io/#/using-cli/installing-cli)
 
 Run `cd qa; npm install; npm run dev;` to run the API and UI at the same time on first pull of Repo

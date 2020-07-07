@@ -74,7 +74,7 @@ export class RegressionHeaderCreateComponent implements OnInit {
     );
   }
   onSubmit() {
-    this.regressionService.saveRegression({
+    this.regressionService.saveModel({
       endDate: new Date(this.regressionForm.get('regression.endDate').value),
       startDate: new Date(
         this.regressionForm.get('regression.startDate').value

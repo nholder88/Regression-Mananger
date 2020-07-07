@@ -6,21 +6,19 @@ import { catchError, scan } from 'rxjs/operators';
 import { TestPass } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { BaseModelService } from '../../../../Shared/services/baseService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TestPassService {
+export class TestPassService extends BaseModelService<TestPass> {
   constructor(
-    private http: HttpClient,
-    private errorHandler: ErrorHandlingService
-  ) {}
+    private httpClient: HttpClient,
+    private errorHandlerService: ErrorHandlingService,
+  ) {
+    super(httpClient, errorHandlerService, 'TestPass', '?join=Header');
 
-  rootUrl: string = `${environment.apiUrl}/TestPass`;
-
-  testPasses$ = this.http
-    .get<TestPass[]>(`${this.rootUrl}?join=Header`)
-    .pipe(catchError(this.errorHandler.handleError));
+  }
 
   private testPassSelectedSubject = new BehaviorSubject<TestPass>(null);
   testPassSelectedAction$ = this.testPassSelectedSubject.asObservable();
@@ -30,7 +28,7 @@ export class TestPassService {
   saveTestPassSubject = new Subject<TestPass>();
   testPassSavedAction$ = this.saveTestPassSubject.asObservable();
 
-  testPassesWithAdd$ = merge(this.testPasses$, this.testPassSavedAction$).pipe(
+  testPassesWithAdd$ = merge(this.models$, this.testPassSavedAction$).pipe(
     scan((acc: TestPass[], value: TestPass) => [...acc, value]),
     catchError(err => this.errorHandler.handleError(err))
   );
@@ -47,18 +45,6 @@ export class TestPassService {
     }
   }
 
-  saveTestPass(testPass?: TestPass) {
-    if (!testPass.id) {
-      delete testPass.id;
-    }
-    const saveObservable$ = testPass.id
-      ? this.http.put<TestPass>(this.rootUrl, testPass)
-      : this.http.post<TestPass>(this.rootUrl, testPass);
-
-    saveObservable$
-      .pipe(catchError(err => this.errorHandler.handleError(err)))
-      .subscribe(x => this.saveTestPassSubject.next(x));
-  }
 
   completeTestPass(testPassId: string) {
     // because the reload is trigger when this is called there is no need to emit

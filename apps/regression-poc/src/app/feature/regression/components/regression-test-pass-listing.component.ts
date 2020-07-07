@@ -11,9 +11,9 @@ import { map } from 'rxjs/operators';
           Current Test Passes
           <qa-regression-test-pass-form></qa-regression-test-pass-form>
         </h2>
-        <clr-spinner *ngIf="!(testPasses$ | async)"></clr-spinner>
 
-        <clr-datagrid *ngIf="testPasses$ | async as testPasses">
+
+        <clr-datagrid *ngIf="testPasses$ | async as testPasses;else spinner">
           <clr-dg-column [clrDgField]="'title'">Name</clr-dg-column>
           <clr-dg-column [clrDgField]="'Header.name'">Regression</clr-dg-column>
           <clr-dg-column [clrDgField]="'Header.name'">Test Role</clr-dg-column>
@@ -51,6 +51,9 @@ import { map } from 'rxjs/operators';
 
           <clr-dg-footer>{{ testPasses?.length }} Test Pass(es) </clr-dg-footer>
         </clr-datagrid>
+
+        <ng-template #spinner>  <clr-spinner ></clr-spinner>
+        </ng-template>
       </div>
     </div>
   `

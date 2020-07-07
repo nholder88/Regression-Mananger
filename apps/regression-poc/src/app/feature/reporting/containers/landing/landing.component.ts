@@ -3,8 +3,15 @@ import { ScenarioResultService } from '../../../regression/services/scenario-res
 
 @Component({
   selector: 'qa-landing',
-  templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.css']
+  template: `<h2>Regression Overview</h2>
+  <ng-container *ngIf="reportData$ | async as reportData;else spinner">
+    <qa-graph [gridData]="reportData"></qa-graph>
+    <qa-datatable [gridData]="reportData"></qa-datatable>
+  </ng-container>
+  <ng-template #spinner><span class="spinner spinner-inverse">
+  Loading...
+</span>
+  </ng-template>`
 })
 export class LandingComponent implements OnInit {
   reportData$ = this.scenarioResultService.reportData$;

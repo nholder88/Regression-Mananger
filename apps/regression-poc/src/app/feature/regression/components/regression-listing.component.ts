@@ -7,11 +7,8 @@ import { RegressionHeader } from '@qa/api-interfaces';
 @Component({
   selector: 'qa-regression-listing',
   template: `
-    <span class="spinner" *ngIf="!(vm$ | async)">
-      Loading...
-    </span>
 
-    <div class="card" *ngIf="vm$ | async as vm">
+    <div class="card" *ngIf="vm$ | async as vm; else spinner">
       <div class="card-header">
         History
         <qa-regression-header-create
@@ -110,6 +107,10 @@ import { RegressionHeader } from '@qa/api-interfaces';
         </div>
       </div>
     </div>
+    <ng-template #spinner> <span class="spinner"  >
+      Loading...
+    </span></ng-template>
+
   `,
   styles: [
     `
@@ -122,7 +123,7 @@ import { RegressionHeader } from '@qa/api-interfaces';
 export class RegressionListingComponent implements OnInit {
   constructor(private service: RegressionHeaderService) {}
 
-  regression$ = this.service.regressionWithAdd$;
+  regression$ = this.service.models$;
   selected;
 
   vm$ = combineLatest([this.regression$]).pipe(
@@ -143,6 +144,6 @@ export class RegressionListingComponent implements OnInit {
 
   completeRegression(regression: RegressionHeader) {
     regression.isComplete = true;
-    this.service.saveRegression(regression);
+    this.service.saveModel(regression);
   }
 }

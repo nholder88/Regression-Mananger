@@ -57,7 +57,7 @@ export class FeatureFormComponent {
     team: ['', Validators.required]
   });
   teamOptions$ = this.userService.teams$;
-  featureForm$ = this.featureService.selectedFeature$.pipe(
+  featureForm$ = this.featureService.selectedModel$.pipe(
     map(feat => {
         if (feat)
           return this.formBuilder.group(feat);
@@ -77,8 +77,8 @@ export class FeatureFormComponent {
   }
 
   onSubmit(form) {
-    this.featureService.saveFeature(form.value);
+    this.featureService.saveModel(form.value);
     form.reset();
-    this.featureService.selectedFeatureChanged('');
+    this.featureService.selectedModelChanged('');
   }
 }

@@ -110,7 +110,7 @@ import { map } from 'rxjs/operators';
 })
 export class ScenarioFormComponent {
   hasStep = false;
-  scenarioForm$ = this.scenarioService.selectedScenario$.pipe(
+  scenarioForm$ = this.scenarioService.selectedModel$.pipe(
     map(scenario => {
         this.hasStep = false;
         if (scenario) {
@@ -134,7 +134,7 @@ export class ScenarioFormComponent {
       }
     )
   );
-  features$ = this.featureService.featureWithAdd$;
+  features$ = this.featureService.modelWithDelete$;
 
   constructor(
     private scenarioService: ScenarioService,
@@ -165,10 +165,8 @@ export class ScenarioFormComponent {
   }
 
   onSubmit(form) {
-
-    this.scenarioService.saveScenario(form.value);
-
-    this.scenarioService.selectedScenarioChanged('');
+    this.scenarioService.saveModel(form.value);
+    this.scenarioService.selectedModelChanged('');
     form.reset();
 
   }

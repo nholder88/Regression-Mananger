@@ -8,20 +8,23 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ScenarioResult } from '@qa/api-interfaces';
 import { FormArray, FormBuilder } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
+import { BaseModelService } from '../../../../Shared/services/baseService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ScenarioResultService {
+export class ScenarioResultService extends BaseModelService<ScenarioResult>{
   constructor(
-    private http: HttpClient,
-    private testPassService: TestPassService,
+    private httpClient: HttpClient,
+    private errorHandlerService: ErrorHandlingService,
     private scenarioService: ScenarioService,
     private formBuilder: FormBuilder,
-    private errorHandler: ErrorHandlingService
-  ) {}
+    private testPassService: TestPassService
+  ) {
+    super(httpClient, errorHandlerService, 'ScenarioResult', '');
+  }
 
-  private rootUrl = `${environment.apiUrl}/ScenarioResult`;
+
 
   private testPassChangedSubject = new BehaviorSubject<ScenarioResult[]>(null);
   testPassSelectedAction$ = this.testPassChangedSubject.asObservable();
@@ -50,7 +53,6 @@ export class ScenarioResultService {
       });
     }),
     map(x => {
-      console.log('form input', x);
       const formGroups = x.map(s => this.formBuilder.group(s));
       return this.formBuilder.array(formGroups);
     }),
