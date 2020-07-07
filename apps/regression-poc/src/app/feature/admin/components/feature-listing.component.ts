@@ -60,13 +60,13 @@ export class FeatureListingComponent {
   constructor(private featureService: FeatureService) {
   }
 
-  features$ = this.featureService.featureWithDelete$;
+  features$ = this.featureService.modelWithDelete$;
 
   deleteFeature(feature: FeatureScenarioContainer) {
-    this.featureService.deleteFeature(feature.id);
+    this.featureService.deleteModel(feature.id);
   }
 
   selectFeature(feature: FeatureScenarioContainer) {
-    this.featureService.selectedFeatureChanged(feature.id);
+    this.featureService.selectedModelChanged(feature.id);
   }
 }

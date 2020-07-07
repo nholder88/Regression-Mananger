@@ -115,7 +115,7 @@ export class RegressionTestPassFormComponent implements OnInit {
   regressions$ = this.regressionService.regressionWithAdd$.pipe(
     map(x => x.filter(s => !s.isComplete))
   );
-  features$ = this.featureService.featureWithAdd$;
+  features$ = this.featureService.modelWithDelete$;
   features: FeatureScenarioContainer[];
   roles$ = this.roleService.roles$;
 

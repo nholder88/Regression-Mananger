@@ -134,7 +134,7 @@ export class ScenarioFormComponent {
       }
     )
   );
-  features$ = this.featureService.featureWithAdd$;
+  features$ = this.featureService.modelWithDelete$;
 
   constructor(
     private scenarioService: ScenarioService,
