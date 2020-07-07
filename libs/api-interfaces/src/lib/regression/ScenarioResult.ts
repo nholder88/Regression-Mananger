@@ -1,6 +1,6 @@
-import { IScenario, ITestPass, Scenario } from '@qa/api-interfaces';
+import { BaseModel, IScenario, ITestPass, Scenario } from '@qa/api-interfaces';
 
-export interface IScenarioResult {
+export interface IScenarioResult extends BaseModel {
   id: string;
   timestamp: Date;
   completedBy: string;

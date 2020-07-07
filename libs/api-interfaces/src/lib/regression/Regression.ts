@@ -1,8 +1,9 @@
 import { ITestPass } from './TestPass';
+import { BaseModel } from '@qa/api-interfaces';
 
 //Container for the passes and the root object
 
-export interface IRegression {
+export interface IRegression extends BaseModel {
   testPasses: ITestPass[];
   name: string;
   isComplete: boolean;

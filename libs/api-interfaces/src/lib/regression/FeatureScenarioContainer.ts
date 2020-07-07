@@ -1,8 +1,9 @@
 import { IScenario, Scenario } from './scenario';
+import { BaseModel } from './baseModel';
 ///These can be accordion headers
 /// These are created based on the features selected in wizard on the server this logic is hidden from UI
 
-export interface IFeatureScenarioContainer {
+export interface IFeatureScenarioContainer extends BaseModel {
   id: string;
   name: string;
   team: string;

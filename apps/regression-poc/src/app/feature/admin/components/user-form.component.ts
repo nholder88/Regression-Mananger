@@ -1,44 +1,46 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
 import { Roles } from '@qa/api-interfaces';
 
 @Component({
   selector: 'qa-user-form',
   template: `
-    <div class="card" *ngIf="vm$ | async as vm">
+    <div class="card" *ngIf="userForm$ | async as userForm">
       <form
         clrForm
         clrLayout="horizontal"
         [formGroup]="userForm"
-        (ngSubmit)="onSubmit()"
+        (ngSubmit)="onSubmit(userForm)"
       >
         <div class="card-header">
-          User - Add New
+          <span *ngIf="!userForm.contains('id')">Add</span>
+          <span *ngIf="userForm.contains('id')">Edit</span>
+          User
         </div>
         <div class="card-block">
           <div class="card-text">
             <clr-input-container>
               <label>User Name</label>
-              <input clrInput type="text" formControlName="username" />
+              <input clrInput type="text" formControlName="username"/>
               <clr-control-helper>Please enter the username</clr-control-helper>
               <clr-control-error>Data is invalid</clr-control-error>
             </clr-input-container>
 
             <clr-input-container>
               <label>Email </label>
-              <input clrInput type="text" formControlName="email" />
+              <input clrInput type="text" formControlName="email"/>
               <clr-control-helper
-                >Please enter the email address</clr-control-helper
+              >Please enter the email address
+              </clr-control-helper
               >
               <clr-control-error>Data is invalid</clr-control-error>
             </clr-input-container>
 
-            <clr-input-container>
+            <clr-input-container *ngIf="userForm.contains('password')">
               <label>Password</label>
-              <input clrInput type="password" formControlName="password" />
+              <input clrInput type="password" formControlName="password"/>
               <clr-control-helper></clr-control-helper>
               <clr-control-error>Data is invalid</clr-control-error>
             </clr-input-container>
@@ -47,19 +49,19 @@ import { Roles } from '@qa/api-interfaces';
               <label>Team</label>
               <select clrSelect type="text">
                 <option value="-1">No Squad</option>
-                <option *ngFor="let team of vm.teams" [value]="team.id">{{
+                <option *ngFor="let team of teams$| async" [value]="team.id">{{
                   team.name
-                }}</option>
+                  }}</option>
               </select>
               <clr-control-helper>Not Implemented</clr-control-helper>
               <clr-control-error
-                >A team must be selected, you have to know where people belong.
+              >A team must be selected.
               </clr-control-error>
             </clr-select-container>
             <clr-select-container>
               <label>Role</label>
               <select clrSelect type="text">
-                <option *ngFor="let role of vm.roles" [value]="role.id">
+                <option *ngFor="let role of roles$|async" [value]="role.id">
                   {{ role.name }}</option
                 >
               </select>
@@ -69,43 +71,49 @@ import { Roles } from '@qa/api-interfaces';
             </clr-select-container>
           </div>
           <button class="btn btn-sm btn-primary" type="submit">Save</button>
+          <button class="btn btn-sm btn-primary-outline" type="button" (click)="cancel()">Cancel</button>
         </div>
       </form>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent {
   constructor(
     private userService: UserService,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+  }
 
-  userForm = this.formBuilder.group({
-    username: ['', Validators.required],
-    email: ['', Validators.required, Validators.email],
-    password: ['']
-  });
-  user$ = this.userService.selectedUser$.pipe(
-    tap(x => {
-      console.log(x);
-    })
-  );
-  teamOptions$ = this.userService.teams$;
-  roleOptions$ = this.userService.userRoles$;
 
-  vm$ = combineLatest([this.user$, this.teamOptions$, this.roleOptions$]).pipe(
-    map(([user, teams, roles]) => ({ user, teams, roles }))
-  );
+  userForm$ = this.userService.selectedModel$.pipe(
+    tap(u => console.log(u)),
+    map(user => {
+      if (user)
+        return this.formBuilder.group(user
+        );
+      else
+        return this.formBuilder.group({
+          username: ['', Validators.required],
+          email: ['', Validators.required, Validators.email],
+          password: ['', Validators.required]
+        });
+      }
+    ),
+    tap(u => console.log(u)));
 
+  teams$ = this.userService.teams$;
+  roles$ = this.userService.userRoles$;
   selectedRoles = new Array<Roles>();
 
-  ngOnInit() {}
 
-  onSubmit() {
-    console.log('Forms current value', this.userForm.value);
-    this.userService.saveUser(this.userForm.value);
+  onSubmit(userForm) {
+    this.userService.saveModel(userForm.value);
     this.selectedRoles = [];
-    this.userForm.reset();
+    userForm.reset();
+  }
+
+  cancel() {
+    this.userService.selectedModelChanged('');
   }
 }

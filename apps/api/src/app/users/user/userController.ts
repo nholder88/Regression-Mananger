@@ -11,7 +11,7 @@ import { UserDto } from '../../Models/User.Dto';
   },
   routes: { exclude: ['replaceOneBase'] },
   params: {
-    id: { field: 'username', type: 'string', primary: true }
+    id: { field: 'id', type: 'string', primary: true }
   },
   query: { join: {}, maxLimit: 100, exclude: ['password'] }
 })

@@ -1,12 +1,10 @@
-import {
-  FeatureScenarioContainer,
-  IFeatureScenarioContainer
-} from './FeatureScenarioContainer';
+import { FeatureScenarioContainer, IFeatureScenarioContainer } from './FeatureScenarioContainer';
 import { IScenarioResult } from './ScenarioResult';
 import { IRegressionHeader } from './RegressionHeader';
+import { BaseModel } from './baseModel';
 
 //This is the listing in the regression that we look at to see the test passes that are done
-export interface ITestPass {
+export interface ITestPass extends BaseModel {
   featureScenarioContainers: IFeatureScenarioContainer[];
   creator: string;
   timeStamp: Date;

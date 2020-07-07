@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 import { environment } from '../../../../environments/environment';
 import { FeatureScenarioContainer } from '@qa/api-interfaces';
-import { catchError, map, scan, tap } from 'rxjs/operators';
+import { catchError, map, scan } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 
 @Injectable({
@@ -41,8 +41,6 @@ export class FeatureService {
       return this.errorHandler.handleError(err);
     })
   );
-
-
 
   deleteFeatureSubject = new BehaviorSubject<string>('');
   deletedFeatureAction$ = this.deleteFeatureSubject.asObservable();
