@@ -24,6 +24,13 @@ steps:
 
     displayName: 'Build'
 
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: 'node_modules'
+      Contents: '**'
+      TargetFolder: 'dist/apps/api/node_modules'
+    displayName: 'Copy node_modules for API'
+
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: 'dist/apps/regression-poc'
@@ -32,6 +39,7 @@ steps:
     displayName: 'Publish Web Artifacts'
 
   - task: PublishBuildArtifacts@1
+
     inputs:
       PathtoPublish: 'dist/apps/api'
       ArtifactName: 'api'
