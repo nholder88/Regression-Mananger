@@ -6,7 +6,7 @@ import { BaseModel } from './baseModel';
 //This is the listing in the regression that we look at to see the test passes that are done
 export interface ITestPass extends BaseModel {
   featureScenarioContainers: IFeatureScenarioContainer[];
-  creator: string;
+
   timeStamp: Date;
   isComplete: boolean;
   isStarted: boolean;
@@ -22,7 +22,7 @@ export class TestPass implements ITestPass {
 
   constructor(
     public featureScenarioContainers: FeatureScenarioContainer[],
-    public creator: string,
+
     public timeStamp: Date,
     public isComplete: boolean,
     public isStarted: boolean,

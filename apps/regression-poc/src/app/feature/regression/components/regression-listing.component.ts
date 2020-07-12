@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RegressionHeaderService } from '../services/regression-header.service';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RegressionHeader } from '@qa/api-interfaces';
+
 
 @Component({
   selector: 'qa-regression-listing',
@@ -11,9 +12,9 @@ import { RegressionHeader } from '@qa/api-interfaces';
     <div class="card" *ngIf="vm$ | async as vm; else spinner">
       <div class="card-header">
         History
-        <qa-regression-header-create
-          class="add-regression-button"
-        ></qa-regression-header-create>
+        <button class="btn btn-sm btn-primary add-regression-button" (click)="  addNewRegression()">
+          Add Regression
+        </button>
       </div>
       <div class="card-block">
         <div class="card-title">
@@ -46,15 +47,17 @@ import { RegressionHeader } from '@qa/api-interfaces';
               </clr-dg-cell>
 
               <clr-dg-cell>
+                <button class="btn btn-sm btn-primary" (click)="editRegression(regression)">
+                  Edit Regression
+                </button>
+
                 <button
                   class="btn btn-sm btn-info"
                   (click)="completeRegression(regression)"
                 >
                   Complete Regression
                 </button>
-                <button class="btn btn-sm btn-info-outline">
-                  Test Passes
-                </button>
+
               </clr-dg-cell>
             </clr-dg-row>
 
@@ -111,6 +114,9 @@ import { RegressionHeader } from '@qa/api-interfaces';
       Loading...
     </span></ng-template>
 
+
+    <qa-regression-header-modal
+    > </qa-regression-header-modal>
   `,
   styles: [
     `
@@ -120,20 +126,21 @@ import { RegressionHeader } from '@qa/api-interfaces';
     `
   ]
 })
-export class RegressionListingComponent implements OnInit {
+export class RegressionListingComponent {
   constructor(private service: RegressionHeaderService) {}
 
-  regression$ = this.service.models$;
+  regression$ = this.service.modelWithDelete$;
   selected;
 
   vm$ = combineLatest([this.regression$]).pipe(
     map(([regressions]) => ({
-      ActiveRegressions: regressions.filter(x => x.isComplete === false),
-      CompletedRegressions: regressions.filter(r => r.isComplete === true)
+
+      ActiveRegressions: Array.isArray(regressions)?regressions.filter(x => x.isComplete === false):[],
+      CompletedRegressions:Array.isArray(regressions)? regressions.filter(r => r.isComplete === true):[]
     }))
   );
 
-  ngOnInit() {}
+
 
   onViewResultsClick(regression) {
     window.open(
@@ -145,5 +152,17 @@ export class RegressionListingComponent implements OnInit {
   completeRegression(regression: RegressionHeader) {
     regression.isComplete = true;
     this.service.saveModel(regression);
+  }
+
+  editRegression(regression: RegressionHeader) {
+    this.service.selectedModelChanged(regression.id)
+    this.service.modalOpenStateChange(true);
+
+
+  }
+
+  addNewRegression() {
+    this.service.selectedModelChanged(null);
+    this.service.modalOpenStateChange(true);
   }
 }

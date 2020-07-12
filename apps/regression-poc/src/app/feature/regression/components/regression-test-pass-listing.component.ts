@@ -21,7 +21,7 @@ import { map } from 'rxjs/operators';
             >Test Username</clr-dg-column
           >
           <clr-dg-column [clrDgField]="'timeStamp'">Create Date</clr-dg-column>
-          <clr-dg-column [clrDgField]="'creator'">Creator</clr-dg-column>
+
           <clr-dg-column [clrDgField]="'featureScenarioContainers.length'"
             >Test Runs</clr-dg-column
           >
@@ -36,7 +36,7 @@ import { map } from 'rxjs/operators';
             <clr-dg-cell>{{ testPass.testingRole }}</clr-dg-cell>
             <clr-dg-cell>{{ testPass.testingLoginUserName }}</clr-dg-cell>
             <clr-dg-cell>{{ testPass.timeStamp | date: 'short' }}</clr-dg-cell>
-            <clr-dg-cell>{{ testPass.creator }}</clr-dg-cell>
+
             <clr-dg-cell>{{
               testPass.featureScenarioContainers.length
             }}</clr-dg-cell>
@@ -58,12 +58,10 @@ import { map } from 'rxjs/operators';
     </div>
   `
 })
-export class RegressionTestPassListingComponent implements OnInit {
-  testPasses$ = this.testPass.testPassesWithAdd$.pipe(
-    map(x => x.filter(s => !s.Header?.isComplete && !s.isComplete))
+export class RegressionTestPassListingComponent   {
+  testPasses$ = this.testPass.modelWithDelete$.pipe(
+    map(x => Array.isArray(x)? x.filter(s => !s.Header?.isComplete && !s.isComplete):[])
   );
-
   constructor(private testPass: TestPassService) {}
 
-  ngOnInit() {}
 }

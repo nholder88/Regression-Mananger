@@ -11,10 +11,7 @@ import { UserDto } from './User.Dto';
 
 @Entity()
 export class TestPassDto implements ITestPass {
-  @ApiProperty({ type: 'string' })
-  @IsString()
-  @Column()
-  creator: string;
+
 
   @ApiProperty()
   @IsUUID()

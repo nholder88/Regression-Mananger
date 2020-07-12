@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegressionHeaderCreateComponent } from '../regression-header-create.component';
+import { RegressionHeaderModalComponent } from '../regression-header-modal.component';
 
 describe('RegressionCreateComponent', () => {
-  let component: RegressionHeaderCreateComponent;
-  let fixture: ComponentFixture<RegressionHeaderCreateComponent>;
+  let component: RegressionHeaderModalComponent;
+  let fixture: ComponentFixture<RegressionHeaderModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RegressionHeaderCreateComponent]
+      declarations: [RegressionHeaderModalComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegressionHeaderCreateComponent);
+    fixture = TestBed.createComponent(RegressionHeaderModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

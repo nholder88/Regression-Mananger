@@ -2,30 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { RegressionHeaderService } from '../services/regression-header.service';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'qa-regression-header-create',
+  selector: 'qa-regression-header-modal',
   template: `
-    <button class="btn btn-primary btn-sm" (click)="xlOpen = !xlOpen">
-      Add Regression
-    </button>
+    <clr-modal [clrModalOpen]="xlOpen$|async" [clrModalSize]="'lg'" [clrModalClosable]="false" *ngIf="regressionForm$|async as regressionForm ">
+      <h3 class="modal-title">
 
-    <clr-modal [(clrModalOpen)]="xlOpen" [clrModalSize]="'lg'">
-      <h3 class="modal-title">Add New Regression</h3>
+       {{regressionForm.get('id').value!==0? "Edit":"Add"}} Regression</h3>
       <div class="modal-body">
-        <form clrForm [formGroup]="regressionForm" (ngSubmit)="onSubmit()">
-          <div formGroupName="regression">
+        <form clrForm [formGroup]="regressionForm" (ngSubmit)="onSubmit(regressionForm)">
+          <div >
             <div class="clr-row">
               <div class="clr-col">
                 <clr-input-container>
                   <label>Name</label>
-                  <input clrInput type="text" formControlName="name" />
+                  <input clrInput type="text" formControlName="name"/>
                 </clr-input-container>
               </div>
               <div class="clr-col">
                 <clr-input-container>
                   <label>Release Name</label>
-                  <input clrInput type="text" formControlName="releaseName" />
+                  <input clrInput type="text" formControlName="releaseName"/>
                 </clr-input-container>
               </div>
             </div>
@@ -33,13 +32,13 @@ import { RegressionHeaderService } from '../services/regression-header.service';
               <div class="clr-col">
                 <clr-date-container>
                   <label>Start Date</label>
-                  <input clrDate type="date" formControlName="startDate" />
+                  <input  type="date" clrDate formControlName="startDate"/>
                 </clr-date-container>
               </div>
               <div class="clr-col">
                 <clr-date-container>
                   <label>End Date</label>
-                  <input clrDate type="date" formControlName="endDate" />
+                  <input  type="date" clrDate formControlName="endDate"/>
                 </clr-date-container>
               </div>
             </div>
@@ -48,7 +47,7 @@ import { RegressionHeaderService } from '../services/regression-header.service';
             <button
               type="button"
               class="btn btn-outline"
-              (click)="xlOpen = false"
+              (click)="closeModal()"
             >
               Cancel
             </button>
@@ -59,40 +58,37 @@ import { RegressionHeaderService } from '../services/regression-header.service';
     </clr-modal>
   `
 })
-export class RegressionHeaderCreateComponent implements OnInit {
+export class RegressionHeaderModalComponent {
   constructor(
     private formBuilder: FormBuilder,
     private regressionService: RegressionHeaderService
-  ) {}
-  xlOpen = false;
-
-  regressionForm: FormGroup;
-
-  ngOnInit() {
-    this.regressionForm = this.createFormGroupWithBuilderAndModel(
-      this.formBuilder
-    );
-  }
-  onSubmit() {
-    this.regressionService.saveModel({
-      endDate: new Date(this.regressionForm.get('regression.endDate').value),
-      startDate: new Date(
-        this.regressionForm.get('regression.startDate').value
-      ),
-      id: null,
-      isComplete: this.regressionForm.get('regression.isComplete').value,
-      isStarted: this.regressionForm.get('regression.isStarted').value,
-      name: this.regressionForm.get('regression.name').value,
-      releaseName: this.regressionForm.get('regression.releaseName').value,
-      testPasses: null,
-      userId: ''
-    });
-    this.xlOpen = false;
+  ) {
   }
 
-  private createFormGroupWithBuilderAndModel(formBuilder: FormBuilder) {
-    return formBuilder.group({
-      regression: formBuilder.group({
+  xlOpen$ = this.regressionService.modalOpenState$;
+  regressionForm$ = this.regressionService.selectedModel$.pipe(
+    map(data => {
+      if (data) {
+        return this.formBuilder.group(data);
+      } else {
+        return this.createFormGroupWithBuilderAndModel(
+
+        );
+      }
+    }), tap(x=> console.log(x)));
+
+closeModal(){
+  this.regressionService.modalOpenStateChange( false);
+}
+  onSubmit(form) {
+    this.regressionService.saveModel(form.value);
+    form.reset();
+    this.regressionService.modalOpenStateChange( false);
+  }
+
+  private createFormGroupWithBuilderAndModel() {
+    return this.formBuilder.group({
+
         //I need to explain this here: Clarity when using reactive forms tries to treat the date as a string, when using forms its ok but reactive
         //there was no way around it other than creating a model that is nearly identical then wrappping the dates in new Date()....
         endDate: '',
@@ -103,7 +99,7 @@ export class RegressionHeaderCreateComponent implements OnInit {
         name: '',
         releaseName: '',
         testPasses: []
-      })
+
     });
   }
 }
