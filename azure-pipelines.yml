@@ -20,6 +20,7 @@ steps:
       npm install npx
       npm install
       npx ng build --prod
+      npx ng build api --prod
 
     displayName: 'Build'
 
@@ -28,5 +29,12 @@ steps:
       PathtoPublish: 'dist/apps/regression-poc'
       ArtifactName: 'web-app'
       publishLocation: 'Container'
-    displayName: 'Publish Artifacts'
+    displayName: 'Publish Web Artifacts'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: 'dist/apps/api'
+      ArtifactName: 'api'
+      publishLocation: 'Container'
+    displayName: 'Publish API Artifacts'
 
