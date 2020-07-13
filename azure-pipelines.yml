@@ -26,7 +26,7 @@ steps:
 
   - task: CopyFiles@2
     inputs:
-      SourceFolder: '/'
+      SourceFolder: ''
       Contents: 'package.json'
       TargetFolder: 'dist/apps/api'
     displayName: 'Copy package json for API'
