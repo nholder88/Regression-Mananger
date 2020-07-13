@@ -26,10 +26,10 @@ steps:
 
   - task: CopyFiles@2
     inputs:
-      SourceFolder: 'node_modules'
-      Contents: '**'
-      TargetFolder: 'dist/apps/api/node_modules'
-    displayName: 'Copy node_modules for API'
+      SourceFolder: '/'
+      Contents: 'package.json'
+      TargetFolder: 'dist/apps/api'
+    displayName: 'Copy package json for API'
 
   - task: PublishBuildArtifacts@1
     inputs:
