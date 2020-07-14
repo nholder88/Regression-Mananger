@@ -6,9 +6,10 @@ import { RouterModule } from '@angular/router';
 import { LandingComponent } from './containers/landing/landing.component';
 import { ChartsModule } from 'ng2-charts';
 import { ClarityModule, ClrSpinnerModule } from '@clr/angular';
+import { ReportingFilterComponent } from './components/datatable/reporting-filter/reporting-filter.component';
 
 @NgModule({
-  declarations: [DatatableComponent, GraphingComponent, LandingComponent],
+  declarations: [DatatableComponent, GraphingComponent, LandingComponent, ReportingFilterComponent],
   imports: [
     CommonModule,
     ChartsModule,

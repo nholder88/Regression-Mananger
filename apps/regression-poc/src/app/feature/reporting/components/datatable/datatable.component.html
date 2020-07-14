@@ -11,7 +11,11 @@
               >Test Pass</clr-dg-column
             >
             <clr-dg-column [clrDgField]="'scenario.name'"
-              >Scenario</clr-dg-column
+              >Scenario
+              <clr-dg-filter>
+                <qa-reporting-filter></qa-reporting-filter>
+              </clr-dg-filter>
+            </clr-dg-column
             >
             <clr-dg-column [clrDgField]="'timestamp'">Test Date</clr-dg-column>
             <clr-dg-column [clrDgField]="'status'">Status</clr-dg-column>
@@ -20,7 +24,7 @@
             </clr-dg-column>
 
             <clr-dg-row *clrDgItems="let result of gridData">
-              <clr-dg-cell>{{ result.testPass.title }}</clr-dg-cell>
+                       <clr-dg-cell>{{ result.testPass.title }}</clr-dg-cell>
               <clr-dg-cell>{{ result.scenario.name }}</clr-dg-cell>
               <clr-dg-cell>{{ result.timestamp | date: 'medium' }}</clr-dg-cell>
               <clr-dg-cell>{{ result.status }}</clr-dg-cell>
