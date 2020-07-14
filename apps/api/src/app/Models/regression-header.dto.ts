@@ -46,10 +46,10 @@ export class RegressionHeaderDto implements IRegressionHeader {
 
   @Column({ nullable: true })
   userId: string;
-  @ManyToOne('UserDto')
+  @ManyToOne('UserDto', { onUpdate: 'NO ACTION' } )
   @JoinColumn()
   user: UserDto;
 
-  @OneToMany('TestPassDto', 'Header', { onDelete: 'CASCADE' })
+  @OneToMany('TestPassDto', 'Header', { onDelete: 'CASCADE',onUpdate: 'NO ACTION', })
   testPasses: TestPassDto[];
 }

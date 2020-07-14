@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RegressionListingComponent } from './components/regression-listing.component';
 import { RouterModule } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
-import { RegressionHeaderCreateComponent } from './components/regression-header-create.component';
+import { RegressionHeaderModalComponent } from './components/regression-header-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegressionTestPassFormComponent } from './components/regression-test-pass-form.component';
 import { RegressionTestingComponent } from './components/regression-testing.component';
@@ -14,7 +14,7 @@ import { SharedModule } from '../../../Shared/shared.module';
 @NgModule({
   declarations: [
     RegressionListingComponent,
-    RegressionHeaderCreateComponent,
+    RegressionHeaderModalComponent,
     RegressionTestPassFormComponent,
 
     RegressionTestingComponent,

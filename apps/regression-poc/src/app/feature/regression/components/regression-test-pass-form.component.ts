@@ -112,7 +112,7 @@ export class RegressionTestPassFormComponent implements OnInit {
   @ViewChild('wizardxl') wizardExtraLarge: ClrWizard;
   xlOpen = false;
   testPassForm: FormGroup;
-  regressions$ = this.regressionService.modelWithDelete$.pipe(
+  regressions$ = this.regressionService.models$.pipe(
     map(x => x.filter(s => !s.isComplete))
   );
   features$ = this.featureService.modelWithDelete$;
@@ -125,7 +125,6 @@ export class RegressionTestPassFormComponent implements OnInit {
     this.testPassForm = this.formBuilder.group(
       new TestPass(
         [],
-        this.userService.getLoggedInUser(),
         new Date(),
         false,
         false
