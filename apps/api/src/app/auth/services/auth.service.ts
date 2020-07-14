@@ -29,11 +29,12 @@ export class AuthService {
     const foundUser = await this.usersService.findOne({ username: username });
     const isCorrectPassword = await this.comparePasswords(
       pass,
-      foundUser.password
+      foundUser?.password
     );
     if (isCorrectPassword) {
       returnUser = foundUser;
     }
+
     return returnUser;
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {  RegressionHeader } from '@qa/api-interfaces';
+import { RegressionHeader } from '@qa/api-interfaces';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../../Shared/services/error-handling.service';
 
@@ -17,11 +17,15 @@ export class RegressionHeaderService extends BaseModelService<RegressionHeader> 
     super(httpClient, errorHandlerService, 'Header', '');
   }
 
+  saveModel(header:RegressionHeader){
+    delete header.testPasses;
+    super.saveModel(header);
+  }
+
   modalOpenStateSubject= new BehaviorSubject<boolean>(false);
   modalOpenState$= this.modalOpenStateSubject.asObservable();
 
   modalOpenStateChange(isOpen:boolean){
-  console.log("modalOpenState", isOpen);
   this.modalOpenStateSubject.next(isOpen);
   }
 

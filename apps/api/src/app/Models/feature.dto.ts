@@ -9,6 +9,8 @@ import { UserDto } from './User.Dto';
 
 @Entity()
 export class FeatureDto implements IFeatureScenarioContainer {
+
+
   @ApiProperty({ type: 'string' })
   @IsString()
   @Column()
