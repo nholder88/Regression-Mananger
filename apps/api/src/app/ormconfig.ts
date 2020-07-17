@@ -18,7 +18,7 @@ import { ConnectionOptions, getMetadataArgsStorage } from 'typeorm';
   password: process.env.SQL_INSTANCE_PASSWORD ?? 'root',
   database: process.env.SQL_INSTANCE_DBNAME ?? 'dev4',
      entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
-  migrationsTableName: "custom_migration_table",
+  migrationsTableName: "migrations_log",
 
   // We are using migrations, synchronize should be set to false.
   synchronize: false,

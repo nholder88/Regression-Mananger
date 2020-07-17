@@ -18,6 +18,25 @@ This project was generated using [Nx](https://nx.dev).
 
 Run `cd qa; npm install; npm run dev;` to run the API and UI at the same time on first pull of Repo
 
+## Database Instructions
+
+Using nest js and TypeOrm required a bit of massaging found this reasource to get this working [here](https://github.com/ambroiseRabier/typeorm-nestjs-migration-example)
+
+Main Content From : https://raw.githubusercontent.com/ambroiseRabier/typeorm-nestjs-migration-example/master/README.md
+
+#### Usage
+1. `npm run typeorm:migrate <myEntity-migration>`
+2. Check your migration queries in `src/migrations`
+3. `npm run start:dev` or `npm run start:prod` or `npm run typeorm:run`
+
+If everything went well, you have up to date entites and a `migrations` table listing applied migrations.
+
+#### Additional information
+- If you set `migrationsRun` to false in ormconfig.ts, you will have to use `npm run typeorm:run` to apply the migration, otherwise all migrations are applied automatically at application start.
+- If you do not set `--config` parameter typeorm seek a valid configuration file at the root of the project.
+- You do not want `ormconfig.ts` at the root of the project, otherwise it change /dist structure, you would have to change `start:prod: node dist/main.js` to `start:prod: node dist/src/main.js`.
+
+
 ## Roadmap
 
 ### Phase I
