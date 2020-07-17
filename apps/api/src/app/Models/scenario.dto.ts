@@ -5,7 +5,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 import { Entity } from 'typeorm/decorator/entity/Entity';
 import { StepDto } from './step.dto';
-import { UserDto } from './User.Dto';
+import { UserDto } from './User.dto';
 
 @Entity()
 export class ScenarioDto implements IScenario {

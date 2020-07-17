@@ -1,27 +1,27 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RegressionModule } from './regression/regression.module';
 
-import { getMetadataArgsStorage } from 'typeorm';
+
 import { AuthModule } from './auth/auth.module';
+import * as ormconfig from './ormconfig';
+
+export function DatabaseOrmModule(): DynamicModule {
+  // we could load the configuration from dotEnv here,
+  // but typeORM cli would not be able to find the configuration file.
+
+  // @ts-ignore
+  return TypeOrmModule.forRoot(ormconfig);
+}
+
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mssql',
-      host: process.env.SQL_INSTANCE ?? 'localhost',
-     port: +process.env.SQL_INSTANCE_PORT ?? 1433,
-     username: process.env.SQL_INSTANCE_USER ?? 'root',
-      password: process.env.SQL_INSTANCE_PASSWORD ?? 'root',
-      database: process.env.SQL_INSTANCE_DBNAME ?? 'dev',
-      entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
-      synchronize: true,
-      cli:{migrationsDir: "src/migration"}
-
-    }),
+    // @ts-ignore
+    TypeOrmModule.forRoot(ormconfig),
     RegressionModule,
     AuthModule
   ],

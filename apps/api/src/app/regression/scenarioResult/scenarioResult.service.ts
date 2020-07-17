@@ -2,7 +2,7 @@
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { ScenarioResultDto } from '../../Models/scenarioResult';
+import { ScenarioResultDto } from '../../Models/scenarioResult.dto';
 
 @Injectable()
 export class ScenarioResultService extends TypeOrmCrudService<

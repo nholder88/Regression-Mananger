@@ -2,7 +2,7 @@
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@qa/api-interfaces';
-import { UserDto } from '../../Models/User.Dto';
+import { UserDto } from '../../Models/User.dto';
 
 @Injectable()
 export class UsersService extends TypeOrmCrudService<UserDto> {

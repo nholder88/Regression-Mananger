@@ -5,8 +5,8 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
 import { ScenarioResultService } from './scenarioResult.service';
-import { ScenarioResultDto } from '../../Models/scenarioResult';
-import { UserDto } from '../../Models/User.Dto';
+import { ScenarioResultDto } from '../../Models/scenarioResult.dto';
+import { UserDto } from '../../Models/User.dto';
 
 @Crud({
   model: {

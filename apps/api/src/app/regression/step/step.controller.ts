@@ -5,7 +5,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { StepDto } from '../../Models/step.dto';
 import { StepService } from './step.service';
-import { UserDto } from '../../Models/User.Dto';
+import { UserDto } from '../../Models/User.dto';
 
 @Crud({
   model: {
