@@ -20,9 +20,6 @@ import { ConnectionOptions, getMetadataArgsStorage } from 'typeorm';
      entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
   migrationsTableName: "migrations_log",
 
-  // We are using migrations, synchronize should be set to false.
-  synchronize: false,
-
   // Run migrations automatically,
   // you can disable this if you prefer running migration manually.
   migrationsRun: true,
