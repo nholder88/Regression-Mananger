@@ -5,7 +5,7 @@ import { IsBoolean, IsDate, IsString, IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
 import { Column, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { TestPassDto } from './testPass.dto';
-import { UserDto } from './User.Dto';
+import { UserDto } from './User.dto';
 
 @Entity()
 export class RegressionHeaderDto implements IRegressionHeader {

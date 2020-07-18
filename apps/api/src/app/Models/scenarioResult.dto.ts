@@ -1,17 +1,10 @@
 import { ScenarioDto } from './scenario.dto';
 import { TestPassDto } from './testPass.dto';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNumber, IsString, IsUUID } from 'class-validator';
 import { IScenarioResult } from '@qa/api-interfaces';
-import { UserDto } from './User.Dto';
+import { UserDto } from './User.dto';
 
 @Entity()
 export class ScenarioResultDto implements IScenarioResult {

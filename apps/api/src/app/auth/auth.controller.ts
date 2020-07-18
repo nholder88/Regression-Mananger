@@ -4,7 +4,7 @@ import { AuthService } from './services/auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
 
-import { UserDto } from '../Models/User.Dto';
+import { UserDto } from '../Models/User.dto';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

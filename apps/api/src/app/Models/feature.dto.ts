@@ -5,7 +5,7 @@ import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGenerat
 import { Column, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Entity } from 'typeorm/decorator/entity/Entity';
 import { ScenarioDto } from './scenario.dto';
-import { UserDto } from './User.Dto';
+import { UserDto } from './User.dto';
 
 @Entity()
 export class FeatureDto implements IFeatureScenarioContainer {

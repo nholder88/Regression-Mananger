@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Controller, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { UsersService } from './users.service';
-import { UserDto } from '../../Models/User.Dto';
+import { UserDto } from '../../Models/User.dto';
 
 @Crud({
   model: {

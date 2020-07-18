@@ -6,8 +6,8 @@ import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGenerat
 
 import { RegressionHeaderDto } from './regression-header.dto';
 import { FeatureDto } from './feature.dto';
-import { ScenarioResultDto } from './scenarioResult';
-import { UserDto } from './User.Dto';
+import { ScenarioResultDto } from './scenarioResult.dto';
+import { UserDto } from './User.dto';
 
 @Entity()
 export class TestPassDto implements ITestPass {
