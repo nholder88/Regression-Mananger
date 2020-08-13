@@ -42,7 +42,7 @@ steps:
   - task: PublishBuildArtifacts@1
 
     inputs:
-      PathtoPublish: 'dist/apps/api'
+      PathtoPublish: ''
       ArtifactName: 'api'
       publishLocation: 'Container'
     displayName: 'Publish API Artifacts'
