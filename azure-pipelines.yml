@@ -20,7 +20,7 @@ steps:
       npm install npx
       npm install
       npx ng build --prod
-      npx ng build api --prod
+
 
     displayName: 'Build'
 
@@ -39,11 +39,4 @@ steps:
       publishLocation: 'Container'
     displayName: 'Publish Web Artifacts'
 
-  - task: PublishBuildArtifacts@1
-
-    inputs:
-      PathtoPublish: ''
-      ArtifactName: 'api'
-      publishLocation: 'Container'
-    displayName: 'Publish API Artifacts'
 
