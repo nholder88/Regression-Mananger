@@ -9,7 +9,7 @@
     "typeorm:run": "npm run typeorm migration:run",
     "ng": "ng",
     "nx": "nx",
-    "start": "node main.js",
+    "start": "npm install && npm run typeorm:run &&  node main.js",
     "build": "ng build api --prod",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
