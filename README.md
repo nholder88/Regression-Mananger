@@ -6,7 +6,7 @@ This project was generated using [Nx](https://nx.dev).
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e8e825d4c8fb460696312a295f0a8e9d)](https://www.codacy.com?utm_source=github.com&utm_medium=referral&utm_content=nholder88/Regression-Mananger&utm_campaign=Badge_Grade)
 
-[![Build Status](https://dev.azure.com/nholder/Regression%20Manager/_apis/build/status/nholder88.Regression-Mananger?branchName=develop)](https://dev.azure.com/nholder/Regression%20Manager/_apis/build/status/nholder88.Regression-Mananger?branchName=develop)
+![Build and deploy Node.js app to Azure Web App - regqaappapi](https://github.com/nholder88/Regression-Mananger/workflows/Build%20and%20deploy%20Node.js%20app%20to%20Azure%20Web%20App%20-%20regqaappapi/badge.svg?branch=develop)
 
 ## Project Specific Quick Start
 
