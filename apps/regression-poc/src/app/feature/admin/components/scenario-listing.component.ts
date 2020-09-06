@@ -14,10 +14,11 @@ import { Scenario } from '@qa/api-interfaces';
               <div class="clr-row">
                 <div class="clr-col-md">
                   <clr-datagrid>
+                    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
                     <clr-dg-column [clrDgField]="'feature.name'"
                       >Feature</clr-dg-column
                     >
-                    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+
 
                     <clr-dg-column>Number of Steps</clr-dg-column>
                     <clr-dg-column></clr-dg-column>
@@ -26,13 +27,14 @@ import { Scenario } from '@qa/api-interfaces';
                     </clr-dg-placeholder
                     >
                     <clr-dg-row *ngFor="let scenario of scenarios$ | async">
+                      <clr-dg-cell>{{ scenario.name }}</clr-dg-cell>
                       <clr-dg-cell
                       >{{ scenario?.feature?.name }} ({{
                         scenario?.feature?.team
                         }})
                       </clr-dg-cell
                       >
-                      <clr-dg-cell>{{ scenario.name }}</clr-dg-cell>
+
                       <clr-dg-cell>{{ scenario.steps?.length }}</clr-dg-cell>
                       <clr-dg-cell>
                         <button
