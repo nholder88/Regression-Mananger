@@ -15,8 +15,8 @@ export class LoginService {
   constructor(
     private http: HttpClient,
     private jwtService: JwtService,
-    private router: Router,
-    private customtomerService: CustomerService
+    private router: Router
+
   ) {}
   IsLoggedInSubject = new BehaviorSubject<boolean>(false);
   LoggedOn$ = this.IsLoggedInSubject.asObservable();

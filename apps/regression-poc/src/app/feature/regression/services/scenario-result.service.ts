@@ -80,10 +80,10 @@ export class ScenarioResultService extends BaseModelService<ScenarioResult>{
 
   saveResults(data: ScenarioResult[]) {
     if (data.length > 0) {
-      this.http
+       this.http
         .post(`${this.rootUrl}/bulk`, { bulk: data })
         .pipe(catchError(err => this.errorHandler.handleError(err)))
-        .subscribe(x => console.log('save results', x));
+       .subscribe();
     }
   }
 

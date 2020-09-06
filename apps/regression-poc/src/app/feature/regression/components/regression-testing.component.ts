@@ -44,8 +44,10 @@ export class RegressionTestingComponent implements OnInit {
     });
   }
 
-  saveScenarioResults() {
+  saveScenarioResults(currentFeature=null) {
     this.scenarioResultService.saveResults(this.scenarioForm.value);
+    if(currentFeature){
+    this.scenarioResultService.selectedFeatureChanged(currentFeature);}
   }
 
   completeTestRun() {

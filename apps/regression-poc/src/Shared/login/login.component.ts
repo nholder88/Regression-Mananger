@@ -10,8 +10,8 @@ import { ActivatedRoute, Router } from '@angular/router';
       <form class="login" [formGroup]="loginForm" (ngSubmit)="login()">
         <section class="title">
           <h3 class="welcome">Welcome to</h3>
-          Company Product Name
-          <h5 class="hint">Use your Company ID to sign in or create one now</h5>
+          Regression Testing
+          <h5 class="hint">Use your employer provided login to begin</h5>
         </section>
         <div class="login-group">
           <clr-input-container>
