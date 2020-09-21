@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ScenarioResultService } from '../services/scenario-result.service';
 import { FormArray, FormBuilder } from '@angular/forms';
 import { ScenarioResult, Steps } from '@qa/api-interfaces';
+import { ClrLoadingState } from '@clr/angular';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'qa-regression-testing',
@@ -16,8 +18,9 @@ export class RegressionTestingComponent implements OnInit {
   scenarioResultData$ = this.scenarioResultService.scenarioResultForTestPass$;
   scenarioConfigForm;
   scenarioForm = new FormArray([]);
+  selectedFeature: string = '';
   currentTestPassId: string;
-
+  isSavingTestPass = ClrLoadingState.DEFAULT;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -39,15 +42,20 @@ export class RegressionTestingComponent implements OnInit {
   changeFeature(featureName) {
     this.scenarioResultService.selectedTestPassChanged(this.currentTestPassId);
     this.scenarioResultService.selectedFeatureChanged(featureName);
+    this.selectedFeature = featureName;
     this.scenarioResultData$.subscribe(x => {
       return (this.scenarioForm = x);
     });
   }
 
-  saveScenarioResults(currentFeature=null) {
-    this.scenarioResultService.saveResults(this.scenarioForm.value);
-    if(currentFeature){
-    this.scenarioResultService.selectedFeatureChanged(currentFeature);}
+  saveScenarioResults(currentFeature = null) {
+    this.isSavingTestPass = ClrLoadingState.LOADING;
+    this.scenarioResultService
+      .saveResults(this.scenarioForm.value)
+      .subscribe(x => {
+        this.changeFeature(this.selectedFeature);
+        this.isSavingTestPass = ClrLoadingState.DEFAULT;
+      });
   }
 
   completeTestRun() {

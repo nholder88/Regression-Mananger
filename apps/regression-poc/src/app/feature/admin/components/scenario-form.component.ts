@@ -62,7 +62,7 @@ import { map } from 'rxjs/operators';
                 >
                   <clr-stack-label [formGroupName]="i">
                     <clr-input-container>
-                      <label> Order {{i}}</label>
+                      <label> Step</label>
                       <input clrInput type="number" formControlName="order"/>
 
                       <clr-control-error *clrIfError="'required'"
