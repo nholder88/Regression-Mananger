@@ -19,7 +19,7 @@ import { FeatureScenarioContainer } from '@qa/api-interfaces';
                     <clr-dg-column>Number of Scenarios</clr-dg-column>
                     <clr-dg-column></clr-dg-column>
                     <clr-dg-placeholder
-                    >We couldn't find any Features!
+                      >We couldn't find any Features!
                     </clr-dg-placeholder>
                     <clr-dg-row *ngFor="let feature of features$ | async">
                       <clr-dg-cell>{{ feature.name }}</clr-dg-cell>
@@ -56,9 +56,8 @@ import { FeatureScenarioContainer } from '@qa/api-interfaces';
     </div>
   `
 })
-export class FeatureListingComponent {
-  constructor(private featureService: FeatureService) {
-  }
+export class FeatureListingComponent implements OnInit {
+  constructor(private featureService: FeatureService) {}
 
   features$ = this.featureService.modelWithDelete$;
 
@@ -68,5 +67,8 @@ export class FeatureListingComponent {
 
   selectFeature(feature: FeatureScenarioContainer) {
     this.featureService.selectedModelChanged(feature.id);
+  }
+  ngOnInit() {
+    this.featureService.selectedModelChanged(null);
   }
 }

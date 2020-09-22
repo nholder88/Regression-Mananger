@@ -19,21 +19,18 @@ import { Scenario } from '@qa/api-interfaces';
                       >Feature</clr-dg-column
                     >
 
-
                     <clr-dg-column>Number of Steps</clr-dg-column>
                     <clr-dg-column></clr-dg-column>
                     <clr-dg-placeholder
-                    >We couldn't find any scenarios!
-                    </clr-dg-placeholder
-                    >
+                      >We couldn't find any scenarios!
+                    </clr-dg-placeholder>
                     <clr-dg-row *ngFor="let scenario of scenarios$ | async">
                       <clr-dg-cell>{{ scenario.name }}</clr-dg-cell>
                       <clr-dg-cell
-                      >{{ scenario?.feature?.name }} ({{
-                        scenario?.feature?.team
+                        >{{ scenario?.feature?.name }} ({{
+                          scenario?.feature?.team
                         }})
-                      </clr-dg-cell
-                      >
+                      </clr-dg-cell>
 
                       <clr-dg-cell>{{ scenario.steps?.length }}</clr-dg-cell>
                       <clr-dg-cell>
@@ -41,7 +38,6 @@ import { Scenario } from '@qa/api-interfaces';
                           class="btn btn-sm btn-outline"
                           type="button"
                           (click)="selectScenario(scenario)"
-
                         >
                           <clr-icon shape="pencil"></clr-icon>
                           Edit
@@ -53,8 +49,7 @@ import { Scenario } from '@qa/api-interfaces';
                           <clr-icon shape="trash"></clr-icon>
                           Remove
                         </button>
-                      </clr-dg-cell
-                      >
+                      </clr-dg-cell>
                     </clr-dg-row>
                   </clr-datagrid>
                 </div>
@@ -66,11 +61,10 @@ import { Scenario } from '@qa/api-interfaces';
     </div>
   `
 })
-export class ScenarioListingComponent {
+export class ScenarioListingComponent implements OnInit {
   scenarios$ = this.scenarioService.modelWithDelete$;
 
-  constructor(private scenarioService: ScenarioService) {
-  }
+  constructor(private scenarioService: ScenarioService) {}
 
   deleteScenario(scenario: Scenario) {
     this.scenarioService.deleteModel(scenario.id);
@@ -78,6 +72,8 @@ export class ScenarioListingComponent {
 
   selectScenario(scenario: Scenario) {
     this.scenarioService.selectedModelChanged(scenario.id);
-
+  }
+  ngOnInit() {
+    this.scenarioService.selectedModelChanged(null);
   }
 }

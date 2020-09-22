@@ -33,26 +33,29 @@ import { UserService } from '../services/user.service';
                       </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let user of users$ | async">
-                      <td class="left">{{ user.username }}</td>
-                      <td class="left">
-                        <div>{{ user.email }}</div>
-                      </td>
-                      <td></td>
-                      <td>
-                        <button class="btn btn-sm" (click)="userSelected(user)">
-                          <clr-icon shape="pencil "></clr-icon>
-                          Edit
-                        </button>
-                        <button
-                          (click)="deleteUser(user)"
-                          class="btn btn-sm btn-outline-danger"
-                        >
-                          <clr-icon shape="trash"></clr-icon>
-                          Remove
-                        </button>
-                      </td>
-                    </tr>
+                      <tr *ngFor="let user of users$ | async">
+                        <td class="left">{{ user.username }}</td>
+                        <td class="left">
+                          <div>{{ user.email }}</div>
+                        </td>
+                        <td></td>
+                        <td>
+                          <button
+                            class="btn btn-sm"
+                            (click)="userSelected(user)"
+                          >
+                            <clr-icon shape="pencil "></clr-icon>
+                            Edit
+                          </button>
+                          <button
+                            (click)="deleteUser(user)"
+                            class="btn btn-sm btn-outline-danger"
+                          >
+                            <clr-icon shape="trash"></clr-icon>
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -65,8 +68,7 @@ import { UserService } from '../services/user.service';
   `
 })
 export class UserListingComponent implements OnInit {
-  constructor(private userService: UserService) {
-  }
+  constructor(private userService: UserService) {}
 
   users$: Observable<User[]> = this.userService.modelWithDelete$;
 
@@ -79,5 +81,6 @@ export class UserListingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userService.selectedModelChanged(null);
   }
 }
