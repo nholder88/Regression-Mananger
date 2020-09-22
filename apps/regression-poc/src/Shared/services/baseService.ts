@@ -1,10 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, scan } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  merge,
+  Observable,
+  Subject
+} from 'rxjs';
 import { BaseModel } from '@qa/api-interfaces';
 import { ErrorHandlingService } from './error-handling.service';
 import { environment } from '../../environments/environment';
-
 
 export class BaseModelService<T extends BaseModel> {
   rootUrl = `${environment.apiUrl}/${this.endpointName}`;
@@ -16,13 +21,13 @@ export class BaseModelService<T extends BaseModel> {
   modelWithAdd$ = merge(this.models$, this.modelSavedAction$).pipe(
     scan((acc: T[], value: T) => {
       if (acc.findIndex(x => x.id === value.id) > -1) {
-        acc.splice(acc.findIndex(x => x.id === value.id), 1, value);
-        return acc;
-      } else
-        return [
-          ...acc,
+        acc.splice(
+          acc.findIndex(x => x.id === value.id),
+          1,
           value
-        ];
+        );
+        return acc;
+      } else return [...acc, value];
     }),
     catchError(err => {
       return this.errorHandler.handleError(err);
@@ -34,20 +39,15 @@ export class BaseModelService<T extends BaseModel> {
     this.modelWithAdd$,
     this.deletedModelAction$
   ).pipe(
-    scan(
-      (
-        acc: T[],
-        value: string | T[]
-      ) => {
-        let result = [];
-        if (typeof value === 'string') {
-          result = [...acc].filter(x => x.id !== value);
-        } else {
-          result = [...value];
-        }
-        return result;
+    scan((acc: T[], value: string | T[]) => {
+      let result = [];
+      if (typeof value === 'string') {
+        result = [...acc].filter(x => x.id !== value);
+      } else {
+        result = [...value];
       }
-    ),
+      return result;
+    }),
     catchError(err => {
       return this.errorHandler.handleError(err);
     })
@@ -59,35 +59,26 @@ export class BaseModelService<T extends BaseModel> {
     this.modelSelectedAction$
   ]).pipe(
     map(([models, modelId]) => {
-        if (models?.length > 1) {
-          return models?.find(x => x.id === modelId);
-        } else return null;
-      }
-    )
+      if (models?.length > 0) {
+        return models?.find(x => x.id === modelId);
+      } else return null;
+    })
   );
-
 
   constructor(
     public http: HttpClient,
-    public  errorHandler: ErrorHandlingService,
-    public endpointName: string, public joinString: string
-  ) {
-
-  }
+    public errorHandler: ErrorHandlingService,
+    public endpointName: string,
+    public joinString: string
+  ) {}
 
   saveModel(model?: T) {
     if (!model.id) {
       delete model.id;
     }
     const saveObservable$ = model.id
-      ? this.http.patch<T>(
-        `${this.rootUrl}/${model.id}`,
-        model
-      )
-      : this.http.post<T>(
-        this.rootUrl,
-        model
-      );
+      ? this.http.patch<T>(`${this.rootUrl}/${model.id}`, model)
+      : this.http.post<T>(this.rootUrl, model);
 
     saveObservable$
       .pipe(catchError(err => this.errorHandler.handleError(err)))
@@ -100,8 +91,7 @@ export class BaseModelService<T extends BaseModel> {
       .subscribe(() => this.deleteModelSubject.next(id));
   }
 
-  selectedModelChanged
-  (id: string) {
+  selectedModelChanged(id: string) {
     this.modelSelectedSubject.next(id);
   }
 }
