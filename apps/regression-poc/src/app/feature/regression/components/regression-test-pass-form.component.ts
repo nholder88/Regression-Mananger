@@ -123,15 +123,8 @@ export class RegressionTestPassFormComponent implements OnInit {
     this.features$.subscribe(x => (this.features = x));
 
     this.testPassForm = this.formBuilder.group(
-      new TestPass(
-        [],
-        new Date(),
-        false,
-        false
-      )
+      new TestPass([], new Date(), false, false)
     );
-
-    console.log(this.testPassForm);
   }
 
   onFinish() {
