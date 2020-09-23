@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
-import { Roles } from '@qa/api-interfaces';
+import { Role } from '@qa/api-interfaces';
 
 @Component({
   selector: 'qa-user-form',
@@ -16,7 +16,6 @@ export class UserFormComponent {
   ) {}
 
   userForm$ = this.userService.selectedModel$.pipe(
-    tap(u => console.log(u)),
     map(user => {
       if (user) return this.formBuilder.group(user);
       else
@@ -25,13 +24,12 @@ export class UserFormComponent {
           email: ['', Validators.required, Validators.email],
           password: ['', Validators.required]
         });
-    }),
-    tap(u => console.log(u))
+    })
   );
 
   teams$ = this.userService.teams$;
   roles$ = this.userService.userRoles$;
-  selectedRoles = new Array<Roles>();
+  selectedRoles = new Array<Role>();
 
   onSubmit(userForm) {
     this.userService.saveModel(userForm.value);

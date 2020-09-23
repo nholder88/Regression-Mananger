@@ -2,8 +2,9 @@ import { User } from '@qa/api-interfaces';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsUUID } from 'class-validator';
 import { PrimaryGeneratedColumn } from 'typeorm/decorator/columns/PrimaryGeneratedColumn';
-import { BeforeInsert, Column, Entity } from 'typeorm';
+import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { UserRoleDto } from './userRole.dto';
 
 @Entity()
 export class UserDto implements User {
