@@ -45,10 +45,11 @@ export interface User {
   username: string;
   password: string;
   email: string;
+  //role: Role;
 }
 
-export interface Roles {
-  id: number;
+export interface Role {
+  id: string;
   name: string;
-  users: User[];
+  permissions: string[];
 }
