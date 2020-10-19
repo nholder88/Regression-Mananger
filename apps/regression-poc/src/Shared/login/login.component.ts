@@ -2,6 +2,9 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { LoginState } from './login.reducer';
+import { login } from './actions/login-page.actions';
 
 @Component({
   selector: 'qa-login',
@@ -56,7 +59,7 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute, private store:Store<LoginState>
   ) {}
 
   loginForm = this.fb.group({
@@ -67,6 +70,10 @@ export class LoginComponent implements OnInit {
   redirectUrl: string;
 
   login() {
+
+this.store.dispatch(login(this.loginForm.value));
+
+
     this.loginService.login(this.loginForm.value).subscribe(
       x => {
         if (x.isLoggedIn) {
