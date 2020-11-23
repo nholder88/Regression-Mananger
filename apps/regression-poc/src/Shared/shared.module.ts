@@ -7,6 +7,8 @@ import { AsyncFormModelDirective } from './directives/async-form-model.directive
 
 import * as fromLogin from './login/login.reducer';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { LoginEffects } from './login/login.effects';
 
 @NgModule({
   declarations: [LoginComponent, AsyncFormModelDirective],
@@ -15,7 +17,8 @@ import { StoreModule } from '@ngrx/store';
     CommonModule,
     ReactiveFormsModule,
     ClarityModule,
-    StoreModule.forFeature('Login', fromLogin.reducer)
+    StoreModule.forFeature('Login', fromLogin.reducer),
+    EffectsModule.forFeature([LoginEffects])
   ]
 })
 export class SharedModule {}

@@ -17,14 +17,14 @@ export const initialState: LoginState = {
 
 const loginReducer = createReducer(
   initialState,
-  on(loginActions.login, (state, updatedValue) => ({})),
-  on(loginActions.logout, state => initialState),
-  on(loginActions.loginFailure, state => ({
+  on(loginActions.LOGIN_FORM_SUBMITTED, (state, updatedValue) => ({})),
+  on(loginActions.LOGOUT, state => initialState),
+  on(loginActions.LOGIN_FAILURE, state => ({
     ...state
     // loginAttempts: state.loginAttempts + 1
   })),
 
-  on(loginActions.loginSuccessful, (state, updatedValue) => ({
+  on(loginActions.LOGIN_SUCCESSFUL, (state, updatedValue) => ({
     token: updatedValue.token,
     isLoggedIn: true,
     userName: updatedValue.userName,

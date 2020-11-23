@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LoginState } from './login.reducer';
-import { login } from './actions/login-page.actions';
+import { LOGIN_FORM_SUBMITTED } from './actions/login-page.actions';
 
 @Component({
   selector: 'qa-login',
@@ -70,25 +70,8 @@ export class LoginComponent implements OnInit {
   redirectUrl: string;
 
   login() {
+this.store.dispatch(LOGIN_FORM_SUBMITTED({ userName:this.loginForm.value.username, password:this.loginForm.value.password }));
 
-this.store.dispatch(login(this.loginForm.value));
-
-
-    this.loginService.login(this.loginForm.value).subscribe(
-      x => {
-        if (x.isLoggedIn) {
-          console.log(this.redirectUrl);
-          this.router.navigate([
-            { outlets: { primary: 'regression', login: null } }
-          ]);
-        } else {
-          this.loginError = true;
-        }
-        console.log(x);
-        this.isLoggedIn.emit(x.isLoggedIn);
-      },
-      () => (this.loginError = true)
-    );
   }
 
   ngOnInit(): void {
