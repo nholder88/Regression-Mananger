@@ -48,7 +48,7 @@
     "@clr/icons": "3.0.0",
     "@clr/ui": "3.0.0",
     "@nestjs/common": "^6.11.11",
-    "@nestjs/core": "^6.11.11",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/jwt": "^7.0.0",
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^6.11.11",
