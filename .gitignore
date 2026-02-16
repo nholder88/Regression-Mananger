@@ -329,3 +329,10 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder
 .mfractor/
 dist/
+
+.nx/cache
+.nx/workspace-data
+
+# Next.js
+.next
+out

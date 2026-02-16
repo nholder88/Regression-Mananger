@@ -1,5 +1,4 @@
 {
-  "npmScope": "qa",
   "implicitDependencies": {
     "angular.json": "*",
     "package.json": "*",
@@ -10,7 +9,9 @@
   "projects": {
     "regression-poc-e2e": {
       "tags": [],
-      "implicitDependencies": ["regression-poc"]
+      "implicitDependencies": [
+        "regression-poc"
+      ]
     },
     "regression-poc": {
       "tags": []
@@ -21,5 +22,16 @@
     "api-interfaces": {
       "tags": []
     }
-  }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/next/plugin",
+      "options": {
+        "startTargetName": "start",
+        "buildTargetName": "build",
+        "devTargetName": "dev",
+        "serveStaticTargetName": "serve-static"
+      }
+    }
+  ]
 }
