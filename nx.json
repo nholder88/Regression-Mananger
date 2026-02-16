@@ -9,9 +9,7 @@
   "projects": {
     "regression-poc-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "regression-poc"
-      ]
+      "implicitDependencies": ["regression-poc"]
     },
     "regression-poc": {
       "tags": []
@@ -32,6 +30,26 @@
         "devTargetName": "dev",
         "serveStaticTargetName": "serve-static"
       }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
     }
-  ]
+  ],
+  "generators": {
+    "@nx/next": {
+      "application": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    }
+  }
 }
