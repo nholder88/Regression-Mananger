@@ -2,33 +2,41 @@
 
 ## Architecture
 Nx monorepo with:
-- **regression-poc**: Angular SPA (main UI)
-- **api**: NestJS backend (REST API, TypeORM, SQL Server)
+- **regression-ui**: Next.js 14 SPA (new frontend, App Router)
+- **regression-poc**: Angular SPA (legacy frontend, to be removed)
+- **api**: NestJS backend (REST API, TypeORM, PostgreSQL)
 - **api-interfaces**: Shared TypeScript interfaces
 - **regression-poc-e2e**: Cypress E2E tests
 
 ## Key Technical Decisions
+- **Next.js App Router**: Route groups for authenticated vs public pages
+- **Skeleton UI + Tailwind CSS v4**: cerberus dark theme, utility-first styling
+- **Client-side auth**: JWT token in localStorage, API client auto-attaches Bearer header
 - **@nestjsx/crud**: CRUD endpoints generated from DTOs; controllers use `@Crud` decorator
-- **BaseModelService**: Angular service base class for HTTP CRUD with BehaviorSubjects for list/add/delete/selection
-- **JWT Auth**: Login returns `access_token`; JwtInterceptor attaches token to requests; AuthGuard protects routes
-- **Lazy-loaded feature modules**: Regression, Reporting (dashboard), Admin
+- **Typed API services**: Separate service files per domain (regression, admin) wrapping ApiClient
 
 ## Design Patterns
-- **Feature modules**: Regression, Reporting, Admin; each has containers, components, services
-- **Shared module**: Login, guards, interceptors, BaseModelService, ErrorHandlingService
-- **API path convention**: `environment.apiUrl + /{EndpointName}` (e.g., RegressionHeader, TestPass, Feature, Scenario, Step, ScenarioResult, User)
+- **Route groups**: `(authenticated)` group wraps pages in AppShell layout
+- **AppShell component**: Client component with header nav, sub-nav, user dropdown
+- **API client singleton**: Single `apiClient` instance with get/post/put/patch/delete, auto 401 handling
+- **Service layer**: Domain services (regressionService, userService, featureService, scenarioService) abstract API calls
+- **Inline CRUD forms**: Admin pages toggle between table view and inline edit form
 
 ## Component Relationships
 
 ```
-AppModule
-├── AppRoutingModule (lazy: regression, admin, dashboard)
-├── WelcomeComponent (login outlet)
-├── ApplicationHeaderComponent (nav: Dashboard, Regressions, Administration)
-└── Feature Modules
-    ├── RegressionModule (history, listing, continue/:id)
-    ├── ReportingModule (dashboard landing, bar graph, datatable)
-    └── AdminModule (landing, users, features, scenarios)
+RootLayout (data-theme="cerberus")
+├── /login → LoginPage (public)
+├── (authenticated)/layout → AppShell
+│   ├── /dashboard → DashboardPage
+│   ├── /regression
+│   │   ├── /listing → TestPassListingPage
+│   │   ├── /continue/[id] → RegressionTestingPage
+│   │   └── /history → RegressionHistoryPage
+│   └── /admin
+│       ├── /users → UsersPage
+│       ├── /features → FeaturesPage
+│       └── /scenarios → ScenariosPage
 ```
 
 ## API Structure

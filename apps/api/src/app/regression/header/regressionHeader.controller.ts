@@ -1,6 +1,6 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { RegressionHeaderService } from './regression-header.service';
-import { Crud, CrudAuth } from '@nestjsx/crud';
+import { Crud, CrudAuth } from '@dataui/crud';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RegressionHeaderDto } from '../../Models/regression-header.dto';

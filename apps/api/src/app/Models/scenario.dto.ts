@@ -27,7 +27,7 @@ export class ScenarioDto implements IScenario {
   @ApiProperty()
   @IsNumber()
   @Column({ default: 0 })
-  @Generated('rowid')
+  @Generated('increment')
   order: number;
 
   @ApiProperty()

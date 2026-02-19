@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as helmet from 'helmet';
-import * as rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
@@ -27,7 +27,7 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api', app, document);
 
-    const port = process.env.PORT || 3333;
+    const port = process.env.API_PORT || process.env.PORT || 3333;
 
     await app.listen(port, () => {
       console.log('Listening at http://localhost:' + port + '/' + globalPrefix);

@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { ApiTags } from '@nestjs/swagger/dist/decorators';
+import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('App')
 @Controller('App')

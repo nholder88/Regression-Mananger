@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  jwtConstants: { key: process.env.JWT_CONSTANTS_KEY },
+  jwtConstants: { key: process.env.JWT_SECRET },
   admin: {
-    username: process.env.ADMIN_TEST_USER,
-    password: process.env.ADMIN_TEST_USERPASS,
+    username: process.env.ADMIN_USER,
+    password: process.env.ADMIN_PASSWORD,
   },
 };

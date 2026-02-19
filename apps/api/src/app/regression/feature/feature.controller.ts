@@ -1,4 +1,4 @@
-﻿import { Crud, CrudAuth } from '@nestjsx/crud';
+import { Crud, CrudAuth } from '@dataui/crud';
 import { ApiTags } from '@nestjs/swagger';
 import { Controller, UseGuards } from '@nestjs/common';
 

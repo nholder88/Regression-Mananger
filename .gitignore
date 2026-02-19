@@ -336,3 +336,7 @@ dist/
 # Next.js
 .next
 out
+
+# Environment variables
+.env
+.env.local
