@@ -1,10 +1,46 @@
 {
-  "name": "qa-specs",
+  "name": "qa-regression-manager",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
-  "description": "Canonical specifications and Memory Bank for the QA Regression Manager ecosystem (web app, QA Agent CLI, multi-agent pipeline).",
+  "description": "QA Regression Manager - Web application and API for regression test management",
   "scripts": {
+    "build": "nx run-many -t build",
+    "build:api": "nx build api",
+    "build:web": "nx build web",
+    "serve": "nx run-many -t serve --parallel",
+    "serve:api": "nx serve api",
+    "serve:web": "nx serve web",
+    "dev": "nx run-many -t serve --parallel --projects=api,web",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:migrate": "nx run api:typeorm:migrate",
     "lint:docs": "echo \"linting docs (hook up markdownlint or similar if desired)\""
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.16",
+    "@nx/nest": "^19.8.4",
+    "@nx/next": "^19.8.4",
+    "nx": "^19.8.4"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.4.22",
+    "@nestjs/config": "^4.0.3",
+    "@nestjs/core": "^10.4.22",
+    "@nestjs/jwt": "^10.2.0",
+    "@nestjs/passport": "^10.0.3",
+    "@nestjs/platform-express": "^10.4.22",
+    "@nestjs/typeorm": "^10.0.2",
+    "bcrypt": "^6.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "helmet": "^8.1.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "pg": "^8.19.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "typeorm": "^0.3.28",
+    "uuid": "^13.0.0"
   }
 }
