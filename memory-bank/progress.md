@@ -1,6 +1,7 @@
 # Progress
 
 ## What Works
+- Comprehensive framework-agnostic application specification documented (`application-spec.md`)
 - Nx workspace upgraded to 19.8.4 with @nx/next plugin
 - Next.js 14 app (`regression-ui`) builds successfully with all routes
 - Skeleton UI + Tailwind CSS layout with cerberus dark theme

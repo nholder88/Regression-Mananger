@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Work Focus
-NestJS v10 upgrade completed. All NestJS packages aligned to v10, CRUD library replaced, middleware upgraded, Nx executors fixed, and API confirmed running.
+Comprehensive framework-agnostic application specification created in `application-spec.md`. NestJS v10 upgrade completed. All NestJS packages aligned to v10, CRUD library replaced, middleware upgraded, Nx executors fixed, and API confirmed running.
 
 ## Recent Changes
 - Upgraded all NestJS packages from v6/v9 mix to v10 (common, core, platform-express, jwt, passport, typeorm, schematics, testing)
@@ -19,12 +19,13 @@ NestJS v10 upgrade completed. All NestJS packages aligned to v10, CRUD library r
 - Switched dev scripts from `ng serve api` to `npx nx serve api`
 
 ## Next Steps
-1. Connect to live API and validate all CRUD operations end-to-end
-2. Add Chart.js + react-chartjs-2 for proper dashboard bar chart
-3. Create test pass wizard (multi-step form for feature/scenario selection)
-4. Add E2E tests targeting the new regression-ui app
-5. Remove Angular `regression-poc` app after full validation
-6. Test full containerized stack (`docker compose --profile full up`)
+1. Use `application-spec.md` as canonical reference for all future implementation work
+2. Connect to live API and validate all CRUD operations end-to-end
+3. Add Chart.js + react-chartjs-2 for proper dashboard bar chart
+4. Create test pass wizard (multi-step form for feature/scenario selection)
+5. Add E2E tests targeting the new regression-ui app
+6. Remove Angular `regression-poc` app after full validation
+7. Test full containerized stack (`docker compose --profile full up`)
 
 ## Active Decisions and Considerations
 - PostgreSQL chosen over MSSQL for lighter weight, free licensing, and strong TypeORM support

@@ -21,3 +21,6 @@ QA teams need a structured way to run regression test passes, record outcomes, a
 - Clear navigation: Dashboard, Regressions (Test Passes, Manage, History), Administration (Users, Teams, Features, Scenarios)
 - Clarity UI for consistent, accessible interface
 - Responsive forms for creating test passes (wizard) and recording scenario results
+
+## Detailed Specification
+See `application-spec.md` for the full framework-agnostic application specification including all pages, API endpoints, data models, and behavioral rules.

@@ -23,3 +23,6 @@ A QA regression testing management application that allows teams to track regres
 ## Scope
 - **In scope**: Regression management, test pass execution, reporting, auth, admin for users/features/scenarios
 - **Out of scope** (or future): Test Import for data seeding, E2E release validation, user roles with backend, teams management
+
+## Detailed Specification
+See `application-spec.md` for the full framework-agnostic application specification.
