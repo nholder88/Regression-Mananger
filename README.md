@@ -1,138 +1,73 @@
-# Qa Regression Manager
+# QA Regression Manager — Specifications
 
-This project was generated using [Nx](https://nx.dev).
+This repository is now the **canonical specification and Memory Bank** for the QA Regression Manager ecosystem and its three agents:
 
-## Code Checks
+- Web Application (QA Regression Manager UI + API)
+- QA Agent CLI (code analysis, test generation, sync, reports)
+- Multi-Agent Developer Toolchain (Ticket Refiner, Code Implementer, QA Agent)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e8e825d4c8fb460696312a295f0a8e9d)](https://www.codacy.com?utm_source=github.com&utm_medium=referral&utm_content=nholder88/Regression-Mananger&utm_campaign=Badge_Grade)
+All implementation code (NestJS API, Angular/Next.js frontends, Nx workspace, shared libs) has been removed or will live in **separate repositories**. This repo does **not** run an application; it describes how the applications and agents should behave.
 
-![Build and deploy Node.js app to Azure Web App - regqaappapi](https://github.com/nholder88/Regression-Mananger/workflows/Build%20and%20deploy%20Node.js%20app%20to%20Azure%20Web%20App%20-%20regqaappapi/badge.svg?branch=develop)
+---
 
-## Project Specific Quick Start
+## Repository Role
 
-### Prerequisites
+- **Source of truth for behavior**: The specs in `memory-bank/` define the required behavior, data model, and APIs for all components in the ecosystem.
+- **Framework-agnostic**: Specifications are written so the system can be re-implemented in any language or framework.
+- **Stable contract for agents**: All cross-agent contracts and tracker/pipeline behavior are defined here and should be updated before implementations change.
 
-- For use of SQL Server you may have to create a user called `root` and then create the `dev` database manually. 
-- You will also have to turn on the TCP/IP options in the protocols for your local instance of SQL server [See here](https://github.com/typeorm/typeorm/issues/2133) Or [here](http://127.0.0.1:63343/help/db-tutorial-connecting-to-ms-sql-server.html)
-- To use migrations for you will need to follow the directions [here](https://typeorm.io/#/using-cli/installing-cli)
+There is **no production code** in this repository. To build or run the system, use the implementation repositories described below.
 
-Run `cd qa; npm install; npm run dev;` to run the API and UI at the same time on first pull of Repo
+---
 
-## Database Instructions
+## Specification Files
 
-Using nest js and TypeOrm required a bit of massaging found this reasource to get this working [here](https://github.com/ambroiseRabier/typeorm-nestjs-migration-example)
+- `memory-bank/application-spec.md` — Web application (UI + API server) specification.
+- `memory-bank/agent-spec.md` — QA Agent CLI and LLM intelligence engine specification.
+- `memory-bank/ecosystem-spec.md` — Multi-agent pipeline and developer toolchain specification.
 
-Main Content From : https://raw.githubusercontent.com/ambroiseRabier/typeorm-nestjs-migration-example/master/README.md
+These three documents are designed to be framework-agnostic and versioned independently. They reference each other and the rest of the Memory Bank (`projectbrief`, `productContext`, `techContext`, `systemPatterns`, `activeContext`, `progress`).
 
-#### Usage
-1. `npm run typeorm:migrate <myEntity-migration>`
-2. Check your migration queries in `src/migrations`
-3. `npm run start:dev` or `npm run start:prod` or `npm run typeorm:run`
+---
 
-If everything went well, you have up to date entites and a `migrations` table listing applied migrations.
+## Memory Bank Structure
 
-#### Additional information
-- If you set `migrationsRun` to false in ormconfig.ts, you will have to use `npm run typeorm:run` to apply the migration, otherwise all migrations are applied automatically at application start.
-- If you do not set `--config` parameter typeorm seek a valid configuration file at the root of the project.
-- You do not want `ormconfig.ts` at the root of the project, otherwise it change /dist structure, you would have to change `start:prod: node dist/main.js` to `start:prod: node dist/src/main.js`.
+The `memory-bank/` directory contains persistent project context:
 
+- `projectbrief.md` — High-level goals and scope of the QA Regression Manager ecosystem.
+- `productContext.md` — Product vision, users, workflows, and UX goals.
+- `techContext.md` — Reference technology choices and environment assumptions (for one concrete stack).
+- `systemPatterns.md` — Architectural and design patterns observed or recommended for implementations.
+- `activeContext.md` — Current focus and active decisions for the **specs** themselves.
+- `progress.md` — What is already specified, what remains to design, known gaps.
+- `application-spec.md`, `agent-spec.md`, `ecosystem-spec.md` — Core specs described above.
 
-## Roadmap
+Agents and implementation repositories should treat these files as **read-only contracts** and update them when behavior changes, rather than diverging silently.
 
-### Phase I
+---
 
-- Create Regression Page - Done
-- Create Regression Test Pass Page - Done
-- Create Regression Test Pass Create Page - Done
-- Create Endpoints For UI - Done
-- Hook up Endpoints to UI - Done
-- Add authentication - Done
-- Add Test Import Page for Data Seeding
-- Add CI for UI - Done
-- Add CI for API - Done
-- Add E2E Testing for Release Validation
+## Related Repositories (Implementations)
 
-### Phase II
+The actual implementations are expected to live in separate repositories (names may change as they are created):
 
-- Create Reporting Page - Done
-- Create User Roles
-- Add Admin Pages for Managing Tests, Users, Regressions
+- `qa-regression-manager` — Web application implementation (UI + API + database).
+- `qa-agent` — QA Agent CLI implementation.
+- `code-implementer` — Code Implementer agent implementation.
+- `ticket-refiner` — Ticket Refiner agent implementation.
+- `llm-gateway` — LLM cost/proxy/guardrails service used by agents.
+- `dev-toolchain` — Optional orchestration repo (multi-root workspace, setup script, Docker Compose).
 
-🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
+Each implementation repo should maintain its own local Memory Bank (project-specific details) but rely on this repo for **shared specifications and contracts**.
 
-## Quick Start & Documentation
+---
 
-[Nx Documentation](https://nx.dev/angular)
+## How to Use This Repo
 
-[10-minute video showing all Nx features](https://nx.dev/angular/getting-started/what-is-nx)
+- **Design & architecture**: Start in `memory-bank/projectbrief.md` and `memory-bank/productContext.md` to understand the vision and scope.
+- **Implement the web app**: Follow `memory-bank/application-spec.md` for data model, API endpoints, and UI flows.
+- **Implement the QA Agent**: Follow `memory-bank/agent-spec.md` for CLI commands, analysis engine, test generation, sync protocol, and LLM features.
+- **Implement the pipeline**: Follow `memory-bank/ecosystem-spec.md` for the agent protocol, tracker integration, status mappings, and orchestration model.
+- **Coordinate changes**: When changing behavior in any implementation, update the relevant spec here first, then update the code to match.
 
-[Interactive Tutorial](https://nx.dev/angular/tutorial/01-create-application)
+This repository is intended to be opened alongside implementation repos in a multi-root workspace (e.g., a `dev-toolchain.code-workspace` file) so that specs are always in view while coding.
 
-## Adding capabilities to your workspace
-
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
-
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
-
-Below are some plugins which you can add to your workspace:
-
-- [Angular](https://angular.io)
-  - `ng add @nrwl/angular`
-- [React](https://reactjs.org)
-  - `ng add @nrwl/react`
-- Web (no framework frontends)
-  - `ng add @nrwl/web`
-- [Nest](https://nestjs.com)
-  - `ng add @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
-- [Node](https://nodejs.org)
-  - `ng add @nrwl/node`
-
-## Generate an application
-
-Run `ng g @nrwl/angular:app my-app` to generate an application.
-
-> You can use any of the plugins above to generate applications as well.
-
-When using Nx, you can create multiple applications and libraries in the same workspace.
-
-## Generate a library
-
-Run `ng g @nrwl/angular:lib my-lib` to generate a library.
-
-> You can also use any of the plugins above to generate libraries as well.
-
-Libraries are sharable across libraries and applications. They can be imported from `@qa/mylib`.
-
-## Development server
-
-Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng g component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `ng build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev/angular) to learn more.

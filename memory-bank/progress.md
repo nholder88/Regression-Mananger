@@ -1,44 +1,27 @@
 # Progress
 
 ## What Works
-- Full specification suite documented: `application-spec.md` (web app), `agent-spec.md` (CLI + AI engine), `ecosystem-spec.md` (3-agent pipeline)
-- Nx workspace upgraded to 19.8.4 with @nx/next plugin
-- Next.js 14 app (`regression-ui`) builds successfully with all routes
-- Skeleton UI + Tailwind CSS layout with cerberus dark theme
-- AppShell navigation: header, sub-nav, user dropdown, logout
-- Login page with JWT auth (POST /auth/login, token in localStorage)
-- API client with automatic JWT headers and 401 handling
-- Dashboard page with summary cards, CSS bar chart, results table
-- Regression listing page with test pass table and inline create form
-- Regression continue/[id] page with accordion, status dropdowns, save
-- Regression history page with headers table
-- Admin users page with CRUD inline form
-- Admin features page with CRUD inline form and enable toggle
-- Admin scenarios page with CRUD inline form and dynamic steps list
-- Typed API services (regression.service.ts, admin.service.ts)
-- NestJS 10 API running: all modules loaded, all CRUD routes mapped, Swagger at /api
-- @dataui/crud v5 replaces @nestjsx/crud v4 (maintained fork, same API)
-- Dev script updated: `npm run dev` auto-starts PostgreSQL + serves API + Next.js app
-- PostgreSQL 16 running via Docker Compose with healthcheck
-- TypeORM migrations run successfully against PostgreSQL
-- Centralized .env configuration at project root
-- Dockerfiles for API and UI (multi-stage builds) ready for full containerization
+- Full specification suite documented:
+  - `application-spec.md` (web app).
+  - `agent-spec.md` (CLI + AI engine).
+  - `ecosystem-spec.md` (3-agent pipeline).
+- Memory Bank structure established (`projectbrief`, `productContext`, `techContext`, `systemPatterns`, `activeContext`, `progress`).
+- This repository has been refactored into a **docs-only specs repo** (no production application code).
+- Cross-agent contracts (agent protocol, pipeline context, tracker status mappings) are defined and versioned here.
 
 ## What's Left to Build
-- Chart.js integration for dashboard (replace CSS placeholder bars)
-- Test pass create wizard (multi-step feature/scenario selection)
-- E2E tests for the new Next.js app
-- Full removal of Angular regression-poc app
-- Admin Teams route and management
-- Route for regression/manage
-- User roles backend (Phase II)
-- Test Import Page for Data Seeding
-- Test full containerized stack (docker compose --profile full up)
+- Stand up separate implementation repositories for:
+  - Web app (`qa-regression-manager`).
+  - QA Agent CLI (`qa-agent`).
+  - Code Implementer (`code-implementer`).
+  - Ticket Refiner (`ticket-refiner`).
+  - LLM gateway (`llm-gateway`).
+- Create a `dev-toolchain` repo with:
+  - Multi-root workspace referencing this specs repo and all implementation repos.
+  - Setup script for cloning/updating all repos.
+  - Docker Compose file for local orchestration.
+- Add per-repo Memory Bank/context files in each implementation repo that link back to this specs repo.
 
-## Known Issues
-- Project name is `regression-ui-regression-ui` due to Nx generator nesting
-- Angular app still present (dev:legacy script available)
-- RoleService/roles not yet ported (was mock data in Angular)
-- UserService endpoint case mismatch (User vs user) still applies to new services
-- Next.js middleware is passthrough (auth enforced client-side only)
-- Angular CLI updated to v18.2 (legacy Angular app may need attention before removal)
+## Known Issues / Open Questions
+- Implementation repos and their exact names/URLs are not finalized yet.
+- No automated tooling yet to keep per-repo docs in sync with these specs (future improvement).

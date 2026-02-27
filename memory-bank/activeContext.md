@@ -1,38 +1,33 @@
 # Active Context
 
 ## Current Work Focus
-Comprehensive framework-agnostic application specification created in `application-spec.md`. NestJS v10 upgrade completed. All NestJS packages aligned to v10, CRUD library replaced, middleware upgraded, Nx executors fixed, and API confirmed running.
+- Use this repository as the **specification hub** for the QA Regression Manager ecosystem.
+- Keep `application-spec.md`, `agent-spec.md`, and `ecosystem-spec.md` up to date with design decisions.
+- Keep the Memory Bank aligned with the fact that implementations now live in separate repositories.
 
 ## Recent Changes
-- Upgraded all NestJS packages from v6/v9 mix to v10 (common, core, platform-express, jwt, passport, typeorm, schematics, testing)
-- Upgraded @nestjs/swagger from v4 to v7, added @nestjs/mapped-types
-- Replaced unmaintained @nestjsx/crud v4 with @dataui/crud v5 (maintained fork)
-- Upgraded helmet v3->v7, express-rate-limit v5->v7, swagger-ui-express v4->v5
-- Upgraded RxJS from v6 to v7 (required by NestJS v10)
-- Updated Angular CLI from v9.1.0 to v18.2, @angular-devkit/build-angular to v18.2
-- Fixed Nx executors: build uses `@nx/webpack:webpack`, serve uses `@nx/js:node`
-- Added `@nx/webpack` and `@nx/node` to devDependencies
-- Created `apps/api/webpack.config.js` for Nx webpack executor
-- Migrated `nx.json` from deprecated `implicitDependencies` to `namedInputs`
-- Updated import style for helmet and express-rate-limit (default imports)
-- Fixed deep swagger import paths (`@nestjs/swagger/dist/decorators` -> `@nestjs/swagger`)
-- Switched dev scripts from `ng serve api` to `npx nx serve api`
+- Consolidated the specifications into three primary documents:
+  - `application-spec.md` — web application (UI + API server).
+  - `agent-spec.md` — QA Agent CLI and intelligence engine.
+  - `ecosystem-spec.md` — multi-agent developer toolchain.
+- Refactored this repo from an Nx implementation workspace into a **docs-only specs repo**.
+- Updated `README.md` to describe this repo as canonical specs and to point to implementation repos.
+- Updated `projectbrief.md`, `techContext.md`, and `systemPatterns.md` to be framework/repo-agnostic and reference the specs role.
 
 ## Next Steps
-1. Use `application-spec.md` as canonical reference for all future implementation work
-2. Connect to live API and validate all CRUD operations end-to-end
-3. Add Chart.js + react-chartjs-2 for proper dashboard bar chart
-4. Create test pass wizard (multi-step form for feature/scenario selection)
-5. Add E2E tests targeting the new regression-ui app
-6. Remove Angular `regression-poc` app after full validation
-7. Test full containerized stack (`docker compose --profile full up`)
+1. Stand up separate implementation repositories for:
+   - Web app (`qa-regression-manager`).
+   - QA Agent CLI (`qa-agent`).
+   - Code Implementer (`code-implementer`).
+   - Ticket Refiner (`ticket-refiner`).
+   - LLM gateway (`llm-gateway`).
+2. Create a `dev-toolchain` repo with:
+   - Multi-root workspace file including this specs repo and all implementation repos.
+   - Setup script to clone/update all repos side-by-side.
+   - Docker Compose file to run the full ecosystem locally.
+3. In each implementation repo, add a small Memory Bank / context file that links back to the relevant sections of these specs.
 
 ## Active Decisions and Considerations
-- PostgreSQL chosen over MSSQL for lighter weight, free licensing, and strong TypeORM support
-- Hybrid Docker approach: DB in container for dev, full stack containerization for CI/prod
-- `.env` at root is the single source of truth for all environment configuration
-- Docker Compose profiles separate dev (db only) from full stack (db + api + ui)
-- Old Angular app preserved at `apps/regression-poc/` with `dev:legacy` script for fallback
-- Auth uses localStorage for token/username (client-side only); middleware passes through
-- Project name in Nx is `regression-ui-regression-ui` (nested directory from generator)
-- @dataui/crud is a drop-in replacement for @nestjsx/crud (same API, different package name)
+- This repository is **code-agnostic**: it does not contain production application code.
+- All cross-agent contracts and shared behavior live here and must be updated first when behavior changes.
+- Implementation repos are free to choose languages and frameworks as long as they conform to these specifications.

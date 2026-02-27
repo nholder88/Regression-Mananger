@@ -1,16 +1,20 @@
 # Tech Context
 
-## Technologies
+## Technologies (Reference Stack)
+The specifications in this repo are **framework-agnostic**. However, one concrete reference implementation uses the following stack:
+
 - **Frontend (new)**: Next.js 14 (App Router), React 18, Skeleton UI, Tailwind CSS v4
 - **Frontend (legacy)**: Angular 9/11, Clarity UI (@clr/angular), ng2-charts, RxJS
 - **Backend**: NestJS 10, TypeORM 0.2, @dataui/crud, Passport/JWT, RxJS 7
 - **Database**: PostgreSQL 16 (pg driver); migrations via TypeORM CLI
 - **Containerization**: Docker Compose with profiles (db-only for dev, full stack for CI/prod)
 - **Testing**: Jest (unit), Cypress (e2e)
-- **Monorepo**: Nx 19.8.4
+- **Monorepo**: Nx 19.8.4 (in the original implementation repo, not in this specs repo)
 
-## Development Setup
-- `npm install --legacy-peer-deps` then `npm run dev` to run DB, API, and Next.js UI
+## Development Setup (Reference Only)
+The following commands describe how a **reference implementation** (in a separate repo) is wired today. They do **not** apply to this specs repository directly, but they influence the specs:
+
+- `npm install` then `npm run dev` to run DB, API, and Next.js UI
 - `npm run db:up` / `npm run db:down` to manage PostgreSQL container independently
 - `npm run docker:up` to run full containerized stack (DB + API + UI)
 - API: `npx nx serve api` (port 3333, prefix /api)
@@ -18,7 +22,9 @@
 - UI (legacy): `npm run dev:legacy` for Angular app
 - Migrations: `npm run typeorm:migrate <name>`, `npm run typeorm:run`
 
-## New Frontend Structure
+## New Frontend Structure (Reference Implementation)
+In the reference Next.js implementation, the UI follows this structure:
+
 ```
 apps/regression-ui/regression-ui/
   src/
@@ -51,23 +57,19 @@ apps/regression-ui/regression-ui/
     middleware.ts         - Route middleware
 ```
 
-## Environment
-- Centralized `.env` file at project root (`.env.example` committed as template)
-- `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`: DB connection
-- `API_PORT`: NestJS listen port (falls back to `PORT`, then 3333)
-- `JWT_SECRET`: JWT signing key (dev default: `devTesting`)
-- `ADMIN_USER` / `ADMIN_PASSWORD`: Seed admin credentials
-- `NEXT_PUBLIC_API_URL`: API base URL (default: `http://localhost:3333/api`)
+## Environment (Conceptual)
+- Centralized configuration file (e.g., `.env`) for database, API, JWT, and UI base URLs.
+- Database connection variables (host, port, user, password, db name).
+- API listen port and JWT signing key.
+- Admin seed credentials (for initial admin user).
 
-## Docker Setup
-- Root `docker-compose.yml` with PostgreSQL service and profile-gated `api`/`ui` services
-- `docker compose up db` starts only PostgreSQL (for local dev)
-- `docker compose --profile full up` starts DB + API + UI containers
-- Dockerfiles: `apps/api/Dockerfile` (NestJS multi-stage), `apps/regression-ui/Dockerfile` (Next.js standalone)
-- `.dockerignore` at root excludes node_modules, dist, .next, .git
+## Docker & Deployment (Conceptual)
+- Container-compatible web app and API with a shared database.
+- Optional Docker Compose setup for local development and CI.
+- Separation between dev-only services (e.g., db-only) and full stack profiles.
 
-## Technical Constraints
-- Nx project name is `regression-ui-regression-ui` (nested directory artifact)
-- Angular dependencies still in package.json for legacy app
-- TypeORM 0.2.x with NestJS migrations
-- Swagger at /api for API docs
+## Technical Constraints (Reference Implementation)
+- Nx project name `regression-ui-regression-ui` (nested directory artifact).
+- Angular dependencies in `package.json` for a legacy app.
+- TypeORM 0.2.x with NestJS migrations.
+- Swagger at `/api` for API docs.
