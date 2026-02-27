@@ -1,6 +1,6 @@
 # QA Agent — CLI & Intelligence Engine Specification
 
-> **Version**: 1.0
+> **Version**: 2.0
 > **Purpose**: Specification for the QA Agent command-line tool and LLM intelligence engine. The agent analyzes codebases, generates executable test files (unit + E2E + API), syncs test definitions with the web application, and provides AI-powered QA intelligence. This is **2 of 3** spec documents. For the web application, see `application-spec.md`. For the multi-agent pipeline, see `ecosystem-spec.md`.
 
 ---
@@ -683,10 +683,14 @@ These variables configure the QA Agent CLI. They can also be set in `.qa/config.
 |------------------|------------------------------------|----------------------------------|
 | QA_SERVER_URL    | Web application API URL            | http://localhost:3333/api        |
 | QA_TOKEN         | JWT token for API authentication   | (from `qa init` login)           |
-| LLM_PROVIDER     | LLM provider                       | openai                           |
-| LLM_API_KEY      | API key for LLM                    | (required for AI features)       |
+| LLM_PROVIDER     | LLM provider (or "gateway")        | openai                           |
+| LLM_API_KEY      | API key for LLM (or gateway key)   | (required for AI features)       |
 | LLM_MODEL        | Model name                         | gpt-4o                           |
+| LLM_GATEWAY_URL  | URL of the LLM Gateway/Proxy       | (optional, overrides LLM_PROVIDER if set) |
+| LLM_MAX_TOKENS   | Max tokens per LLM request         | (model default)                  |
+| LLM_BUDGET_LIMIT | Max spend per run in USD           | (no limit)                       |
 | QA_LOG_LEVEL     | Logging verbosity                  | info                             |
+| QA_IGNORE_FILE   | Path to privacy ignore file        | .qa/ignore                       |
 
 ---
 
@@ -703,14 +707,48 @@ Offline mode is useful for quick local development. Full features (sync, watch, 
 
 ---
 
-## 9. Security
+## 9. Security & Data Privacy
+
+### 9.1 Token & Credential Storage
 
 | Requirement | Detail |
 |-------------|--------|
 | Token storage | JWT stored in `.qa/config.yaml` (should be in `.gitignore`) |
-| LLM data | Source code sent to LLM for analysis. Users should be aware of data privacy implications. |
 | No secrets in tests | Generated tests never contain hardcoded credentials. Test fixtures use environment variables. |
 | `.qa/` in `.gitignore` | The `.qa/` directory contains tokens and should be added to `.gitignore`. Config template (without tokens) can be committed. |
+
+### 9.2 Data Privacy & Source Code Protection
+
+Source code is sent to LLM providers for analysis and test generation. This is a significant concern for enterprise and security-sensitive projects.
+
+**Privacy controls**:
+
+1. **`.qa/ignore` file**: Works like `.gitignore`. Files and directories listed here are never sent to the LLM. Applied during code analysis and test generation.
+   ```
+   # .qa/ignore
+   **/secrets/
+   **/credentials/
+   *.env
+   *.pem
+   *.key
+   internal-api/proprietary-algorithm.*
+   ```
+
+2. **`--no-llm` mode**: All commands support a `--no-llm` flag that disables LLM calls entirely. In this mode:
+   - `qa generate` produces structural scaffolds only (correct file paths, imports, describe/it blocks, placeholder assertions).
+   - `qa report` produces a statistical summary without LLM narrative.
+   - `qa run` is unaffected (it runs native test runners, no LLM involved).
+
+3. **Self-hosted LLM support**: The `LLM_PROVIDER` setting supports local/self-hosted models:
+   - `ollama` — local models via Ollama (no data leaves the machine)
+   - `azure_openai` — data stays within the Azure tenant
+   - `gateway` — routes through the LLM Gateway/Proxy (see Section 11)
+   - This allows teams with strict data residency requirements to keep source code on-premises.
+
+4. **Content sanitization**: Before sending source code to the LLM, the agent:
+   - Strips inline credentials and API keys detected via regex patterns
+   - Removes comment blocks marked with `@qa-private`
+   - Redacts file contents matched by `.qa/ignore`
 
 ---
 
@@ -738,3 +776,227 @@ Users can override default test templates by placing files in `.qa/templates/`:
 - `api.template` — custom API test template
 
 Templates use a simple placeholder syntax (`{{moduleName}}`, `{{imports}}`, `{{testCases}}`).
+
+---
+
+## 11. LLM Gateway / Proxy Integration
+
+### 11.1 Overview
+
+All LLM calls across the toolchain (QA Agent, Code Implementer, Ticket Refiner) can be routed through an external **LLM Gateway/Proxy** — a separate Python package that provides centralized cost tracking, rate limiting, model routing, and content guardrails.
+
+This is a separate project maintained by the same team. The QA Agent and other agents integrate with it as a drop-in replacement for direct LLM API calls.
+
+### 11.2 How It Works
+
+When `LLM_GATEWAY_URL` is set, the agent routes all LLM requests through the gateway instead of calling the LLM provider directly:
+
+```
+Without gateway:
+  Agent → OpenAI API / Anthropic API
+
+With gateway:
+  Agent → LLM Gateway/Proxy → OpenAI API / Anthropic API
+```
+
+The gateway exposes an OpenAI-compatible API, so agents do not need provider-specific code for routing. The agent sets `LLM_PROVIDER=gateway` and `LLM_API_KEY=<gateway-api-key>`, and the gateway handles upstream provider selection, key management, and billing.
+
+### 11.3 What the Gateway Provides
+
+| Capability | Detail |
+|------------|--------|
+| Cost tracking | Per-request token usage and cost logging, aggregated per project/agent/run |
+| Budget enforcement | Reject requests that exceed per-project or per-run spending limits |
+| Rate limiting | Manage upstream API rate limits across all agents |
+| Model routing | Route requests to different models/providers based on task type or cost tier |
+| Content guardrails | Block or redact sensitive content before it reaches the LLM provider |
+| Audit logging | Full request/response logging for compliance |
+| Fallback | Automatic failover to backup models/providers on errors |
+
+### 11.4 Agent-Side Configuration
+
+```yaml
+# .qa/config.yaml
+llm:
+  provider: gateway
+  gateway_url: http://llm-gateway:8000
+  api_key: gw-key-...
+  model: gpt-4o                    # hint to the gateway; gateway may override
+  budget_limit: 5.00               # max USD per run (gateway enforces)
+  project_tag: my-project          # used for cost aggregation
+```
+
+### 11.5 Cost Tracking on AgentRun
+
+Each AgentRun record (pushed to the web API) includes LLM usage metadata:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| llmTokensUsed | number | Total tokens consumed during the run |
+| llmCostUsd | number | Total cost in USD (reported by the gateway or estimated) |
+| llmRequestCount | number | Number of LLM API calls made |
+
+This data is surfaced on the Agent Runs page in the web UI and can be aggregated on the dashboard for cost visibility.
+
+---
+
+## 12. Context Window Management
+
+### 12.1 Problem
+
+Large codebases exceed LLM context windows. A project with 500 files and 50,000 lines of code cannot be sent to the LLM in a single request.
+
+### 12.2 Strategy
+
+The agent uses a tiered approach to fit relevant context into the available window:
+
+**Tier 1: Metadata only** (always fits)
+- ProjectProfile summary: language, framework, module list, route list, model list
+- File tree with sizes
+- Used for: initial analysis, regression scoping, coverage gap detection
+
+**Tier 2: Targeted source** (per-module)
+- Full source code of the specific module under test + its direct dependencies
+- Used for: unit test generation, LLM-enhanced test writing
+
+**Tier 3: Diff-scoped** (for pipeline/ticket work)
+- Only the changed files (from git diff) + their direct dependencies
+- Used for: targeted test generation after implementation, regression scoping
+
+**Tier 4: Chunked analysis** (for large modules)
+- If a single file exceeds ~2,000 lines, split it into logical chunks (by class/function)
+- Process chunks sequentially, accumulating test output
+- Used for: monolithic files that can't fit in one request
+
+### 12.3 Token Budget Per Request
+
+The agent estimates token count before sending and applies these rules:
+1. Reserve 25% of the context window for the response.
+2. Include the instruction/prompt (usually ~500-1,000 tokens).
+3. Fill remaining space with source code, prioritized by:
+   - The target module (always included)
+   - Direct imports/dependencies
+   - Type definitions and interfaces
+   - Related test files (for pattern reference)
+4. If still over budget, summarize dependency files instead of including full source.
+
+### 12.4 Model-Aware Limits
+
+| Model | Context Window | Effective Source Budget |
+|-------|---------------|----------------------|
+| GPT-4o | 128k tokens | ~90k tokens for source |
+| Claude 3.5 Sonnet | 200k tokens | ~140k tokens for source |
+| Local (Ollama) | 8k-32k tokens | ~5k-22k tokens for source |
+
+The agent reads the model's context limit from config and adjusts chunking accordingly.
+
+---
+
+## 13. Multi-Language Project Support
+
+### 13.1 Problem
+
+Many projects contain multiple languages: a TypeScript frontend with a Python backend, a Go API with a React frontend, or a monorepo with mixed languages.
+
+The current ProjectProfile detects a single `language` and `framework`. This is insufficient.
+
+### 13.2 Solution: Sub-Projects
+
+The Code Analysis Engine detects **sub-projects** within a repository:
+
+```
+ProjectProfile:
+  subProjects: [
+    {
+      name: "frontend"
+      rootPath: "apps/web"
+      language: "typescript"
+      framework: "nextjs"
+      testRunner: "jest"
+      sourceDirectory: "apps/web/src"
+      testDirectory: "apps/web/__tests__"
+    },
+    {
+      name: "api"
+      rootPath: "apps/api"
+      language: "python"
+      framework: "fastapi"
+      testRunner: "pytest"
+      sourceDirectory: "apps/api/src"
+      testDirectory: "apps/api/tests"
+    }
+  ]
+```
+
+**Detection heuristic**:
+1. Scan the root directory for multiple package manifests (`package.json`, `requirements.txt`, `go.mod`, etc.).
+2. Check for monorepo config files (`nx.json`, `turbo.json`, `pnpm-workspace.yaml`, `lerna.json`).
+3. If found, enumerate each workspace/app as a sub-project.
+4. If only one language is detected at root, fall back to the single-project model.
+
+### 13.3 CLI Behavior
+
+```bash
+# In a multi-language project, generate for all sub-projects
+npx qa-agent generate
+
+# Generate for a specific sub-project only
+npx qa-agent generate --project frontend
+npx qa-agent generate --project api
+
+# List detected sub-projects
+npx qa-agent projects
+```
+
+### 13.4 Web API Impact
+
+The `ProjectConfig` entity gains an optional `parentProjectId` field for sub-projects:
+- A monorepo registers as a parent ProjectConfig.
+- Each sub-project registers as a child ProjectConfig with `parentProjectId` set.
+- The web UI groups sub-projects under their parent on the Projects page.
+
+---
+
+## 14. Error Handling & Retry
+
+### 14.1 LLM Call Failures
+
+| Error Type | Retry Strategy | Max Retries |
+|------------|---------------|-------------|
+| Rate limit (429) | Exponential backoff starting at 5s | 5 |
+| Timeout | Retry with same request | 3 |
+| Malformed output (unparseable) | Retry with explicit format instruction appended | 2 |
+| Context too long (token limit) | Reduce context using Tier 4 chunking, then retry | 1 |
+| Auth error (401/403) | Fail immediately, log error | 0 |
+| Server error (500+) | Exponential backoff starting at 10s | 3 |
+
+### 14.2 Web API Failures
+
+| Error Type | Retry Strategy |
+|------------|---------------|
+| Server unreachable | Retry 3 times with 5s backoff. If still failing, cache results locally and prompt user to sync later. |
+| Auth expired (401) | Prompt user to re-authenticate (`qa init`) |
+| Conflict (409) | Log conflict details. For sync operations, surface as a sync conflict for user resolution. |
+
+### 14.3 External Tracker API Failures
+
+| Error Type | Retry Strategy |
+|------------|---------------|
+| Rate limit | Respect `Retry-After` header. If absent, exponential backoff. |
+| Auth error | Fail and suggest updating integration credentials. |
+| Timeout | Retry 3 times with increasing timeout. |
+
+### 14.4 Git Operation Failures
+
+| Error Type | Recovery |
+|------------|----------|
+| Merge conflict | Abort the operation, log the conflicting files, alert the user. Do not force-push. |
+| Auth failure | Fail and suggest configuring git credentials. |
+| Dirty working tree | Stash changes, run operation, pop stash. If stash fails, abort with warning. |
+
+### 14.5 Graceful Degradation
+
+When non-critical operations fail, the agent continues with reduced functionality:
+- LLM fails during `qa generate` → fall back to scaffold-only generation (no assertions).
+- Server sync fails during `qa run` → save results locally, print instructions to sync later.
+- Gateway budget exceeded → log warning, skip LLM-dependent features, continue with scaffold generation.

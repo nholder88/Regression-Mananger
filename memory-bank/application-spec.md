@@ -1,6 +1,6 @@
 # QA Regression Manager — Application Specification
 
-> **Version**: 4.0
+> **Version**: 5.0
 > **Purpose**: Framework-agnostic specification for the QA Regression Manager web application. This is **1 of 3** spec documents. It covers the web UI and API server. For the CLI/agent and AI engine, see `agent-spec.md`. For the multi-agent pipeline and ecosystem, see `ecosystem-spec.md`.
 
 ---
@@ -153,6 +153,7 @@ All primary keys are UUIDs, auto-generated. Entities that are part of the shared
 | status         | string   | enum: "pass", "fail", "blocked", "not_run" |
 | notes          | string   | default: empty string                 |
 | bugCreated     | boolean  | default: false                        |
+| bugTicketId    | string   | nullable (external tracker ticket ID) |
 | completedBy    | string   | default: empty string                 |
 | timestamp      | Date     | default: current timestamp            |
 | completedSteps | number[] | JSON column, default: empty array     |
@@ -161,6 +162,7 @@ All primary keys are UUIDs, auto-generated. Entities that are part of the shared
 | testPassId     | UUID     | FK → TestPass                         |
 
 - `completedSteps` stores the indices of steps the tester has checked off. Persisted as a JSON array so progress survives between sessions.
+- `bugTicketId` stores the external tracker ticket ID (e.g., "PROJ-202") when a bug is auto-created from a failing scenario. See `ecosystem-spec.md` Section 5.3.
 - **Unique constraint**: `(scenarioId, testPassId)` — one result per scenario per test pass.
 - **Relations**: belongs-to User (creator); belongs-to Scenario (cascade delete); belongs-to TestPass (cascade delete).
 
@@ -376,6 +378,7 @@ User
 | Date format     | ISO 8601                                          |
 | Pagination      | All list endpoints support `?page=1&limit=25` (default limit: 25, max: 100) |
 | Sorting         | `?sort=field,ASC` or `?sort=field,DESC`           |
+| API versioning  | All endpoints are under `/api/v1/` prefix. Breaking changes require a new version. CLI agents include `X-API-Version` header for compatibility checking. |
 
 ### 4.2 Authentication Endpoints
 
@@ -514,9 +517,9 @@ This endpoint is used by the Regression Testing page to load everything needed f
 | DELETE | /api/ScenarioResult/:id     | Delete             | —                          |                 |
 | POST   | /api/ScenarioResult/bulk    | Bulk create/update | —                          | Array of results |
 
-**Create/Update Body**: `{status, notes?, bugCreated?, completedBy?, completedSteps?, scenarioId, testPassId}`
+**Create/Update Body**: `{status, notes?, bugCreated?, bugTicketId?, completedBy?, completedSteps?, scenarioId, testPassId}`
 
-**Bulk Body**: `[{status, notes?, bugCreated?, completedBy?, completedSteps?, scenarioId, testPassId}, ...]`
+**Bulk Body**: `[{status, notes?, bugCreated?, bugTicketId?, completedBy?, completedSteps?, scenarioId, testPassId}, ...]`
 
 The bulk endpoint creates new results or updates existing ones (matched by the unique constraint on `scenarioId + testPassId`).
 
@@ -559,6 +562,7 @@ The bulk endpoint creates new results or updates existing ones (matched by the u
 | POST   | /api/Import/execute           | Execute import                 | Creates Features/Scenarios/Steps     |
 | GET    | /api/Import/sessions          | List import sessions (paginated) |               |
 | GET    | /api/Import/sessions/:id      | Get session details            |                 |
+| POST   | /api/Import/sessions/:id/undo | Undo an import session         | Deletes all entities created by the session |
 
 See Section 14 for full import workflow details.
 
@@ -1291,7 +1295,17 @@ When `autoGenerateSteps` is enabled, the server attempts to extract steps from t
 
 Steps are assigned sequential `order` values starting from 1.
 
-### 14.6 Provider-Specific Mapping
+### 14.6 Import Undo
+
+An import session can be undone via `POST /api/Import/sessions/:id/undo`:
+
+1. The server looks up all Features, Scenarios, and Steps created by that ImportSession (tracked via a `sourceSessionId` metadata field or a join table).
+2. Deletes all created entities in reverse order (Steps → Scenarios → Features).
+3. Updates the ImportSession status to `"undone"`.
+4. Returns a summary: `{deletedFeatures, deletedScenarios, deletedSteps}`.
+5. Undo is only available if the session status is `"completed"`. Already-undone or failed sessions cannot be undone.
+
+### 14.7 Provider-Specific Mapping
 
 #### Azure DevOps
 | ADO Field              | Maps To                |
@@ -1319,7 +1333,7 @@ Steps are assigned sequential `order` values starting from 1.
 | Labels                 | Feature.team (if a team label exists) |
 | Issue Number           | ImportSession tracking |
 
-### 14.7 Security Considerations
+### 14.8 Security Considerations
 
 - Auth tokens are encrypted at rest using `ENCRYPTION_KEY`.
 - All external API calls are made server-side only. The frontend never has access to integration credentials.
@@ -1501,3 +1515,5 @@ Content-Type: application/json
 10. **Secret protection**: Integration auth tokens and LLM API keys are encrypted at rest and never exposed to the frontend.
 11. **Agent API access**: The Project, TestFile, and AgentRun endpoints are primarily consumed by the QA Agent CLI, not the web UI. The web UI displays this data read-only.
 12. **Cross-spec references**: This spec covers the web application only. The QA Agent CLI is specified in `agent-spec.md`. The multi-agent pipeline is specified in `ecosystem-spec.md`.
+13. **Bug ticket tracking**: When `bugCreated` is true on a ScenarioResult, the `bugTicketId` field stores the external tracker ticket ID. This is populated by the ecosystem's auto-bug-creation flow (see `ecosystem-spec.md` Section 5.3).
+14. **Import undo**: Completed import sessions can be undone, deleting all entities created by that session. See Section 14.6.
