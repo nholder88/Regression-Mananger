@@ -23,4 +23,6 @@ QA teams need a structured way to run regression test passes, record outcomes, a
 - Responsive forms for creating test passes (wizard) and recording scenario results
 
 ## Detailed Specification
-See `application-spec.md` for the full framework-agnostic application specification including all pages, API endpoints, data models, and behavioral rules.
+- `application-spec.md` — web application (UI, API, data model, auth, tracker import)
+- `agent-spec.md` — QA Agent CLI and LLM intelligence engine (code analysis, test generation, sync)
+- `ecosystem-spec.md` — 3-agent developer toolchain (pipeline, orchestration, bidirectional tracker sync)

@@ -1,7 +1,7 @@
 # Progress
 
 ## What Works
-- Comprehensive framework-agnostic application specification documented (`application-spec.md`)
+- Full specification suite documented: `application-spec.md` (web app), `agent-spec.md` (CLI + AI engine), `ecosystem-spec.md` (3-agent pipeline)
 - Nx workspace upgraded to 19.8.4 with @nx/next plugin
 - Next.js 14 app (`regression-ui`) builds successfully with all routes
 - Skeleton UI + Tailwind CSS layout with cerberus dark theme

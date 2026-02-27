@@ -1,7 +1,7 @@
 # QA Regression Manager — Application Specification
 
-> **Version**: 3.0
-> **Purpose**: Framework-agnostic specification for the QA Regression Manager application. This document describes *what* the application does in sufficient detail that it can be recreated in any language or framework with the same feature set.
+> **Version**: 4.0
+> **Purpose**: Framework-agnostic specification for the QA Regression Manager web application. This is **1 of 3** spec documents. It covers the web UI and API server. For the CLI/agent and AI engine, see `agent-spec.md`. For the multi-agent pipeline and ecosystem, see `ecosystem-spec.md`.
 
 ---
 
@@ -11,12 +11,18 @@
 QA Regression Manager (also referred to as ICP Regression Manager)
 
 ### 1.2 Purpose
-A web application that enables QA teams to plan, execute, and report on regression testing. Teams define a library of **features**, **scenarios**, and **steps**; group them into **test passes** under **regression headers**; then execute test passes by recording per-scenario results. A dashboard provides visibility into pass/fail/blocked metrics. External issue trackers (Azure DevOps, Jira, GitHub) can be integrated to auto-generate test scenarios from tickets.
+The QA Regression Manager is the **web application and API server** at the center of a QA automation platform. It serves two audiences:
+
+- **Web UI users** (QA testers, leads, admins) — plan regressions, execute test passes, manage the test library, and review dashboards through a browser.
+- **The QA Agent CLI** (developers) — a command-line tool that analyzes codebases, generates executable test files, and syncs test definitions with this web application. See `agent-spec.md`.
+
+The web application is also one node in a **3-agent developer toolchain** (Ticket Refiner, Code Implementer, QA Agent). See `ecosystem-spec.md`.
 
 ### 1.3 Users
-- **QA Testers** — execute test passes and record results.
+- **QA Testers** — execute test passes and record results via the web UI.
 - **QA Leads / Managers** — create regression headers, define test passes, review dashboards.
-- **Administrators** — manage users, features, scenarios, integrations, and system configuration.
+- **Developers** — interact via the QA Agent CLI (`qa init`, `qa generate`, etc.) to auto-generate and sync tests. See `agent-spec.md`.
+- **Administrators** — manage users, features, scenarios, integrations, connected projects, and system configuration.
 - **Admin User** — a special seeded account created on first startup from environment variables.
 
 ### 1.4 Key Workflows
@@ -29,10 +35,12 @@ A web application that enables QA teams to plan, execute, and report on regressi
 1. Admin creates Features (with team assignment).
 2. Admin creates Scenarios under Features, including Steps inline.
 3. Alternatively, admin imports issues from an external tracker (ADO, Jira, GitHub) and converts them into Features/Scenarios/Steps (see Section 14).
+4. Alternatively, a developer runs `qa generate` against a codebase, which analyzes the project and pushes generated Features/Scenarios/Steps to the web API. See `agent-spec.md`.
 
 #### Workflow C: Plan a Regression
 1. Lead creates a Regression Header (release name, date range).
 2. Lead creates one or more Test Passes under it, selecting which Features to include.
+3. Alternatively, the LLM intelligence engine recommends a Test Pass composition based on code changes between releases. See `agent-spec.md` Section 5.
 
 #### Workflow D: Execute a Test Pass
 1. Tester opens a test pass.
@@ -45,6 +53,14 @@ A web application that enables QA teams to plan, execute, and report on regressi
 1. Dashboard is scoped to a specific Regression Header or Test Pass.
 2. Summary cards, charts, and data table display results within that scope.
 3. Drill-down from header to test passes to individual results.
+4. LLM can auto-generate a stakeholder-ready regression report. See `agent-spec.md` Section 5.
+
+#### Workflow F: Agent-Driven Testing (developer workflow)
+1. Developer runs `qa init` in their project directory. The agent detects the language/framework/test runner and registers the project with the web application.
+2. Developer runs `qa generate` — the agent analyzes the codebase, generates unit and E2E test files in the repo, and pushes corresponding test definitions to the web API.
+3. Developer runs `qa run` — the agent executes tests using the project's native test runner, collects results, and pushes them to the web API.
+4. Developer runs `qa sync` to reconcile any manual changes between repo test files and web UI test cases.
+5. See `agent-spec.md` for full CLI specification.
 
 ---
 
@@ -183,6 +199,60 @@ All primary keys are UUIDs, auto-generated. Entities that are part of the shared
 - Tracks each import operation for audit and debugging.
 - **Relations**: belongs-to User; belongs-to IntegrationConfig.
 
+#### ProjectConfig
+| Field          | Type   | Constraints / Defaults                  |
+|----------------|--------|-----------------------------------------|
+| id             | UUID   | PK, auto-generated                      |
+| name           | string | required (display name)                 |
+| repoUrl        | string | required (git remote URL)               |
+| language       | string | detected: "typescript", "python", "go", "java", "csharp", etc. |
+| framework      | string | detected: "nextjs", "express", "django", "spring", etc. |
+| testRunner     | string | detected: "jest", "vitest", "pytest", "junit", "playwright", etc. |
+| testDirectory  | string | detected path to test files             |
+| sourceDirectory| string | detected path to source files           |
+| lastAnalyzedAt | Date   | nullable, updated on each `qa generate` |
+| configHash     | string | hash of the `.qa/config.yaml` file for change detection |
+| userId         | UUID   | FK → User (who connected it)            |
+| createdAt      | Date   | default: current timestamp              |
+| updatedAt      | Date   | default: current timestamp              |
+
+- Stores the detected profile of a connected codebase project.
+- Created automatically when a developer runs `qa init` and the agent registers with the web API.
+- **Relations**: belongs-to User; has-many TestFile; has-many AgentRun.
+
+#### TestFile
+| Field        | Type   | Constraints / Defaults                  |
+|--------------|--------|-----------------------------------------|
+| id           | UUID   | PK, auto-generated                      |
+| projectId    | UUID   | FK → ProjectConfig                      |
+| scenarioId   | UUID   | FK → Scenario (nullable)                |
+| filePath     | string | required (relative path in repo)        |
+| testType     | string | enum: "unit", "e2e", "api"              |
+| generatedAt  | Date   | default: current timestamp              |
+| lastSyncedAt | Date   | nullable                                |
+| syncStatus   | string | enum: "synced", "modified_in_repo", "modified_in_ui", "conflict" |
+| contentHash  | string | hash of last known file content         |
+
+- Tracks each generated test file and its sync state with the web UI.
+- Links a file in the repo to a Scenario in the test library.
+- **Relations**: belongs-to ProjectConfig; belongs-to Scenario (optional).
+
+#### AgentRun
+| Field        | Type   | Constraints / Defaults              |
+|--------------|--------|-------------------------------------|
+| id           | UUID   | PK, auto-generated                  |
+| projectId    | UUID   | FK → ProjectConfig                  |
+| command      | string | enum: "init", "generate", "run", "sync", "report", "watch" |
+| status       | string | enum: "running", "completed", "failed" |
+| startedAt    | Date   | default: current timestamp          |
+| completedAt  | Date   | nullable                            |
+| summary      | string | human-readable result summary       |
+| errorMessage | string | nullable                            |
+| userId       | UUID   | FK → User (who triggered)           |
+
+- Logs each CLI agent execution for audit and debugging.
+- **Relations**: belongs-to ProjectConfig; belongs-to User.
+
 #### UserRole (placeholder — not fully implemented)
 | Field       | Type     | Notes                          |
 |-------------|----------|--------------------------------|
@@ -217,7 +287,15 @@ User (1)─────────────┬──── creates ───
                      │                        │
                      │                   tracks (1:*)
                      │                        │
-                     └──── triggers ──── ImportSession (*)
+                     ├──── triggers ──── ImportSession (*)
+                     │
+                     ├──── connects ──── ProjectConfig (*)
+                     │                    │
+                     │              tracks (1:*)
+                     │                    │
+                     │               ┌── TestFile (*) ──── links to ── Scenario
+                     │               │
+                     │               └── AgentRun (*)
 ```
 
 ### 2.3 Data Hierarchy Summary
@@ -236,6 +314,10 @@ User
 │
 ├── IntegrationConfig
 │   └── ImportSession(s)
+│
+├── ProjectConfig (connected codebase)
+│   ├── TestFile(s) → Scenario
+│   └── AgentRun(s)
 ```
 
 ---
@@ -480,6 +562,44 @@ The bulk endpoint creates new results or updates existing ones (matched by the u
 
 See Section 14 for full import workflow details.
 
+#### Projects — `/api/Project` (used by QA Agent CLI)
+
+| Method | Path                        | Description                | Notes                          |
+|--------|-----------------------------|----------------------------|--------------------------------|
+| GET    | /api/Project                | List all connected projects (paginated) |                   |
+| GET    | /api/Project/:id            | Get project by ID          | Includes latest agent run      |
+| POST   | /api/Project                | Register a project         | Called by `qa init`            |
+| PATCH  | /api/Project/:id            | Update project config      | Called by `qa init` on re-run  |
+| DELETE | /api/Project/:id            | Disconnect a project       | Cascades to TestFiles, AgentRuns |
+| GET    | /api/Project/:id/files      | List test files for project (paginated) |              |
+| GET    | /api/Project/:id/runs       | List agent runs for project (paginated) |              |
+
+**Create/Update Body**: `{name, repoUrl, language, framework, testRunner, testDirectory, sourceDirectory, configHash}`
+
+#### Test Files — `/api/TestFile` (used by QA Agent CLI)
+
+| Method | Path                  | Description                | Notes                          |
+|--------|-----------------------|----------------------------|--------------------------------|
+| GET    | /api/TestFile/:id     | Get test file by ID        |                                |
+| POST   | /api/TestFile         | Register a generated file  | Called by `qa generate`        |
+| PATCH  | /api/TestFile/:id     | Update sync status/hash    | Called by `qa sync`            |
+| DELETE | /api/TestFile/:id     | Remove file tracking       |                                |
+| POST   | /api/TestFile/bulk    | Bulk register files        | Called by `qa generate`        |
+
+**Create Body**: `{projectId, scenarioId?, filePath, testType, contentHash}`
+
+#### Agent Runs — `/api/AgentRun` (used by QA Agent CLI)
+
+| Method | Path                        | Description                | Notes                          |
+|--------|-----------------------------|----------------------------|--------------------------------|
+| GET    | /api/AgentRun               | List all runs (paginated)  | Filterable by `?projectId=`    |
+| GET    | /api/AgentRun/:id           | Get run by ID              |                                |
+| POST   | /api/AgentRun               | Start a run                | Called at start of any `qa` command |
+| PATCH  | /api/AgentRun/:id           | Update run status/summary  | Called on completion/failure    |
+
+**Create Body**: `{projectId, command}`
+**Update Body**: `{status, summary?, errorMessage?, completedAt?}`
+
 ---
 
 ## 5. Frontend Specification
@@ -490,7 +610,7 @@ See Section 14 for full import workflow details.
 ┌─────────────────────────────────────────────────────────┐
 │ [App Logo/Title]                                        │
 │                                                         │
-│ Dashboard | Regressions | Administration | Import [User ▾] │
+│ Dashboard | Regressions | Administration | Import | Projects [User ▾] │
 │                                                         │
 │ Context sub-nav:                                        │
 │   Regressions → Test Passes | History                   │
@@ -499,10 +619,11 @@ See Section 14 for full import workflow details.
 └─────────────────────────────────────────────────────────┘
 ```
 
-- **Top-level**: Dashboard, Regressions, Administration, Import
+- **Top-level**: Dashboard, Regressions, Administration, Import, Projects
 - **Regressions sub-nav**: Test Passes (listing), History
 - **Administration sub-nav**: Users, Features, Scenarios
 - **Import sub-nav**: Integrations (manage connections), Import Issues (fetch and convert)
+- **Projects sub-nav**: Connected Projects, Agent Runs
 - **User dropdown**: displays logged-in username; contains Logout action
 
 ### 5.2 Route Map
@@ -520,11 +641,15 @@ See Section 14 for full import workflow details.
 | /admin/scenarios           | ScenariosPage           | Yes           | CRUD for scenarios with steps        |
 | /import/integrations       | IntegrationsPage        | Yes           | Manage external tracker connections  |
 | /import/issues             | ImportIssuesPage        | Yes           | Fetch, preview, and import issues    |
+| /projects                  | ProjectsPage            | Yes           | List connected codebase projects     |
+| /projects/:id              | ProjectDetailPage       | Yes           | Project profile, test files, runs    |
+| /projects/:id/runs         | AgentRunsPage           | Yes           | Agent run history for a project      |
 
 - Root path (`/`) redirects to `/dashboard`.
 - `/regression` redirects to `/regression/listing`.
 - `/admin` shows a landing page with navigation cards.
 - `/import` redirects to `/import/integrations`.
+- `/projects` lists all connected projects.
 
 ### 5.3 Page Specifications
 
@@ -777,6 +902,42 @@ See Section 14 for full import workflow details.
 6. An ImportSession record is created for audit.
 7. User can navigate to Admin Features/Scenarios to review imported data.
 
+#### 5.3.13 Projects Page (`/projects`)
+
+**Purpose**: View all codebase projects connected via the QA Agent CLI.
+
+**UI Elements**:
+- **Table** with columns: Name, Repo URL, Language, Framework, Test Runner, Last Analyzed, Agent Run Count.
+- **Detail link** per row → navigates to `/projects/:id`.
+
+**Data Source**: GET `/api/Project`.
+
+**Behavior**:
+- Read-only from the web UI. Projects are registered by the CLI (`qa init`).
+- Clicking a row navigates to the project detail page.
+
+#### 5.3.14 Project Detail Page (`/projects/:id`)
+
+**Purpose**: View a connected project's profile, generated test files, and agent run history.
+
+**UI Elements**:
+- **Project Profile card**: Name, repo URL, language, framework, test runner, source directory, test directory, last analyzed timestamp.
+- **Test Files table**: File Path, Test Type (unit/e2e/api), Linked Scenario, Sync Status, Last Synced.
+- **Recent Agent Runs table**: Command, Status, Started, Completed, Summary.
+- **View All Runs link** → navigates to `/projects/:id/runs`.
+
+**Data Source**: GET `/api/Project/:id`, GET `/api/Project/:id/files`, GET `/api/Project/:id/runs`.
+
+#### 5.3.15 Agent Runs Page (`/projects/:id/runs`)
+
+**Purpose**: Full history of QA Agent CLI executions for a project.
+
+**UI Elements**:
+- **Table** with columns: Command, Status, Started At, Completed At, Summary, Error.
+- **Filter**: by command type (init, generate, run, sync, report, watch).
+
+**Data Source**: GET `/api/AgentRun?projectId=<id>`.
+
 ---
 
 ## 6. Frontend State Management
@@ -814,6 +975,9 @@ EntityService:
 | JwtService               | Token storage    | `getToken()`, `setToken(token)`, `clearToken()`   |
 | IntegrationService       | IntegrationConfig| `testConnection(id)` — POST /Integration/:id/test |
 | ImportService            | Import operations| `preview(integrationId, query)`, `execute(mappings)`, `fetchSessions()` |
+| ProjectService           | ProjectConfig    | Read-only from web UI; projects registered by CLI  |
+| TestFileService          | TestFile         | Read-only from web UI; files registered by CLI     |
+| AgentRunService          | AgentRun         | Read-only from web UI; runs logged by CLI          |
 | RoleService              | UserRole         | Returns mock/hardcoded data (future: real backend) |
 
 ### 6.3 API Client
@@ -883,19 +1047,29 @@ RootLayout
     │       └── ScenarioForm (inline or modal)
     │           └── StepsList (dynamic add/remove/reorder)
     │
-    └── /import
-        ├── /integrations → IntegrationsPage
-        │   ├── IntegrationsTable
-        │   └── IntegrationForm (modal or inline)
-        └── /issues → ImportIssuesPage
-            ├── IntegrationSelector
-            ├── QueryInput
-            ├── PreviewTable
-            │   └── IssueMappingRow (per issue)
-            │       ├── ImportAsDropdown
-            │       ├── TargetFeatureDropdown
-            │       └── AutoGenerateStepsToggle
-            └── ImportResultSummary
+    ├── /import
+    │   ├── /integrations → IntegrationsPage
+    │   │   ├── IntegrationsTable
+    │   │   └── IntegrationForm (modal or inline)
+    │   └── /issues → ImportIssuesPage
+    │       ├── IntegrationSelector
+    │       ├── QueryInput
+    │       ├── PreviewTable
+    │       │   └── IssueMappingRow (per issue)
+    │       │       ├── ImportAsDropdown
+    │       │       ├── TargetFeatureDropdown
+    │       │       └── AutoGenerateStepsToggle
+    │       └── ImportResultSummary
+    │
+    └── /projects
+        ├── / → ProjectsPage
+        │   └── ProjectsTable
+        └── /:id → ProjectDetailPage
+            ├── ProjectProfileCard
+            ├── TestFilesTable
+            ├── RecentAgentRunsTable
+            └── /runs → AgentRunsPage
+                └── AgentRunsTable
 ```
 
 ---
@@ -915,8 +1089,13 @@ RootLayout
 | ADMIN_PASSWORD       | Seeded admin password              | SuperSecret!                     |
 | FRONTEND_API_URL     | Frontend API base URL              | http://localhost:3333/api        |
 | ENCRYPTION_KEY       | Key for encrypting integration tokens | (required in production)      |
+| LLM_PROVIDER         | LLM provider for AI features       | openai                           |
+| LLM_API_KEY          | API key for LLM provider           | (required for AI features)       |
+| LLM_MODEL            | Model name for LLM calls           | gpt-4o                           |
 
 The application should use a centralized environment configuration file (e.g., `.env`) at the project root. All services read from this single source of truth.
+
+LLM-related variables are used by the QA Agent CLI and the server-side AI features. See `agent-spec.md` for details.
 
 ---
 
@@ -965,16 +1144,27 @@ The application should use a centralized environment configuration file (e.g., `
 
 ---
 
-## 12. Known Gaps & Future Features
+## 12. Roadmap & Known Gaps
+
+### Implementation Phases
+
+| Phase | Focus | Key Deliverables |
+|-------|-------|------------------|
+| 1     | Core Web App | Web UI + API server (this spec, Sections 1-11, 14) |
+| 2     | CLI Skeleton | `qa init`, `qa generate` for TypeScript/Jest. See `agent-spec.md` |
+| 3     | E2E + Sync | Playwright test generation, `qa run`, `qa sync`. See `agent-spec.md` |
+| 4     | LLM Intelligence | Regression scoping, risk scoring, report generation. See `agent-spec.md` |
+| 5     | Multi-Agent Pipeline | `qa watch`, bidirectional tracker sync. See `ecosystem-spec.md` |
+| 6     | Expansion | Additional languages, conversational authoring, Refiner + Implementer agents. See `ecosystem-spec.md` |
+
+### Known Gaps
 
 | # | Feature                         | Status        | Notes                                                  |
 |---|---------------------------------|---------------|--------------------------------------------------------|
-| 1 | E2E Testing for Release Validation | Not started | Only placeholder test specs exist                     |
-| 2 | User Roles with Backend         | Not started   | RoleService returns mock data; no backend enforcement  |
-| 3 | Teams / Organization Model      | Not started   | Multi-tenancy for isolating data between organizations |
-| 4 | Export/Reporting                 | Enhancement   | Export test results to CSV/PDF                         |
-| 5 | Webhook Notifications           | Enhancement   | Notify external systems on test pass completion        |
-| 6 | LLM-Assisted Test Generation    | Enhancement   | Use AI to suggest scenarios/steps from issue descriptions |
+| 1 | User Roles with Backend         | Not started   | RoleService returns mock data; no backend enforcement  |
+| 2 | Teams / Organization Model      | Not started   | Multi-tenancy for isolating data between organizations |
+| 3 | Export/Reporting                 | Enhancement   | Export test results to CSV/PDF                         |
+| 4 | Webhook Notifications           | Enhancement   | Notify external systems on test pass completion        |
 
 ---
 
@@ -991,6 +1181,10 @@ The application should use a centralized environment configuration file (e.g., `
 | Test Library      | The collection of all features, scenarios, and steps defined in the system         |
 | Integration       | A configured connection to an external issue tracker (ADO, Jira, GitHub)           |
 | Import Session    | A recorded instance of fetching issues from an external tracker and converting them |
+| Project Config    | A connected codebase project, detected and registered by the QA Agent CLI          |
+| Test File         | A generated test file in a repo, linked to a Scenario in the test library          |
+| Agent Run         | A single execution of a QA Agent CLI command, logged for audit                     |
+| QA Agent          | The CLI tool that analyzes codebases and generates tests. See `agent-spec.md`      |
 
 ---
 
@@ -1304,4 +1498,6 @@ Content-Type: application/json
 7. **Admin seeding**: On application startup, if no user exists with the configured admin username, one is created automatically with the configured password (bcrypt-hashed).
 8. **Nested step management**: When a Scenario is created or updated with a `steps` array, the server replaces all existing Steps for that Scenario atomically.
 9. **Unique results**: Only one ScenarioResult can exist per (scenarioId, testPassId) combination. The bulk endpoint upserts based on this constraint.
-10. **Secret protection**: Integration auth tokens are encrypted at rest and never exposed to the frontend.
+10. **Secret protection**: Integration auth tokens and LLM API keys are encrypted at rest and never exposed to the frontend.
+11. **Agent API access**: The Project, TestFile, and AgentRun endpoints are primarily consumed by the QA Agent CLI, not the web UI. The web UI displays this data read-only.
+12. **Cross-spec references**: This spec covers the web application only. The QA Agent CLI is specified in `agent-spec.md`. The multi-agent pipeline is specified in `ecosystem-spec.md`.

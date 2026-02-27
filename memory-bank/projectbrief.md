@@ -25,4 +25,6 @@ A QA regression testing management application that allows teams to track regres
 - **Out of scope** (or future): Test Import for data seeding, E2E release validation, user roles with backend, teams management
 
 ## Detailed Specification
-See `application-spec.md` for the full framework-agnostic application specification.
+- `application-spec.md` — web application spec
+- `agent-spec.md` — QA Agent CLI and AI engine spec
+- `ecosystem-spec.md` — 3-agent pipeline and ecosystem spec
